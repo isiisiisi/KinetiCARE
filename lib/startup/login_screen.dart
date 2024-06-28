@@ -63,7 +63,7 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 8.0),
                   MyTextField(
                     controller: passwordController,
-                    hintText: 'Enter your password',
+                    hintText: 'Enter your passwordda',
                     obscureText: true,
                     prefixIcon: const AssetImage(
                         'lib/assets/images/vectorPassword.png'),
