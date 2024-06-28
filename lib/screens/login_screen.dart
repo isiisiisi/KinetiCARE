@@ -69,6 +69,7 @@ class LoginScreen extends StatelessWidget {
               // LOGIN BUTTON
               MainButton(
                 onTap: signUserIn,
+                buttonText: "Login",
               ),
             ]),
           ),
