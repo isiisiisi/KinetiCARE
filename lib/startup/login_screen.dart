@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kineticare/components/my_textfield.dart';
 import 'package:kineticare/components/my_label.dart';
 import 'package:kineticare/components/main_button.dart';
-import 'package:kineticare/screens/role_based.dart';
+import 'package:kineticare/startup/role_based.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -12,10 +12,11 @@ class LoginScreen extends StatelessWidget {
 
   void signUserIn(BuildContext context) {
     Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => const RoleBased()),
-  );
+      context,
+      MaterialPageRoute(builder: (context) => const RoleBased()),
+    );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +26,7 @@ class LoginScreen extends StatelessWidget {
           child: Center(
             child: Column(children: [
               // LOGO
-              const SizedBox(height: 50),
+              const SizedBox(height: 55),
 
               SizedBox(
                 height: 270.0,
@@ -75,6 +76,7 @@ class LoginScreen extends StatelessWidget {
               //LOGIN BUTTON
               MainButton(
                 onTap: () => signUserIn(context),
+                buttonText: "Login",
               ),
             ]),
           ),
