@@ -13,12 +13,17 @@ class RoleBased extends StatelessWidget {
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset("lib/assets/images/backArrow.png"),
-                const Text('Choose your account',
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                const SizedBox(width: 30.0),
+                const Text(
+                  'Choose your account',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF333333)),
+                ),
               ],
             ),
             const SizedBox(height: 50),
