@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "145067539971",
+    "project_id": "kineticare-7cf80",
+    "storage_bucket": "kineticare-7cf80.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145067539971:android:80069b455ed9f8d5cc1836",
+        "android_client_info": {
+          "package_name": "com.example.kineticare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEYsDUW7iHC2-f7uHtQ7h_jgPRX9fkM4w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

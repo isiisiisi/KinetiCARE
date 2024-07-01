@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kineticare/Account/Registration.dart';
+import 'package:kineticare/startup/login_screen.dart';
 
 class RoleBased extends StatelessWidget {
   const RoleBased({super.key});
@@ -15,7 +17,15 @@ class RoleBased extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset("lib/assets/images/backArrow.png"),
+                GestureDetector(
+                  onTap: () {
+                     Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+        );
+                  },
+                child: Image.asset("lib/assets/images/backArrow.png"),
+                ),
                 const SizedBox(width: 30.0),
                 const Text(
                   'Choose your account',
@@ -53,7 +63,15 @@ class RoleBased extends StatelessWidget {
                                         fontSize: 30,
                                         fontWeight: FontWeight.bold)),
                                 ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              RegistrationForm(
+                                                  role: 'Patient')),
+                                    );
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     minimumSize: const Size(145, 43),
                                     shape: RoundedRectangleBorder(
@@ -99,7 +117,15 @@ class RoleBased extends StatelessWidget {
                                         fontSize: 30,
                                         fontWeight: FontWeight.bold)),
                                 ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              RegistrationForm(
+                                                  role: 'Therapist')),
+                                    );
+                                  },
                                   style: ElevatedButton.styleFrom(
                                       minimumSize: const Size(145, 43),
                                       shape: RoundedRectangleBorder(
