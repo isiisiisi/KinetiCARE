@@ -8,39 +8,40 @@ class PtHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(75.0),
+        preferredSize: const Size.fromHeight(70),
         child: AppBar(
           backgroundColor: Colors.white,
+          elevation: 5,
+          shadowColor: const Color(0xFF333333),
+          surfaceTintColor: Colors.white,
+          scrolledUnderElevation: 12,
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
+                padding: const EdgeInsets.only(top: 10, left: 10),
                 child: Image.asset(
-                  AppImages.logoWOname,
+                  AppImages.appName,
                   fit: BoxFit.contain,
-                  height: 75,
-                  width: 75,
+                  height: 175,
+                  width: 175,
                 ),
               ),
-              Image.asset(
-                AppImages.appName,
-                fit: BoxFit.contain,
-                height: 20,
-              ),
-              const SizedBox(width: 125),
+              const SizedBox(width: 100),
               Image.asset(
                 AppImages.bell,
                 fit: BoxFit.contain,
                 height: 35,
+                color: const Color(0xFF00BFA6),
               ),
-              const SizedBox(width: 10),
-              Image.asset(
-                AppImages.profile,
-                fit: BoxFit.contain,
-                height: 35,
-              ),
+              Container(
+                height: 40,
+                width: 40,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF00BFA6),
+                  shape: BoxShape.circle
+                ),
+              )
             ],
           ),
         ),
