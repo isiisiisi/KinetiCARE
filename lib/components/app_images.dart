@@ -17,6 +17,6 @@ class AppImages{
    static const String chat = "${assetsPath}chat.png";
    static const String exercise = "${assetsPath}exercise.png";
    static const String profile = "${assetsPath}profile.png";
-   static const String appName = "${assetsPath}appName.png";
+   static const String appName = "${assetsPath}appbar_logo.png";
    static const String bell = "${assetsPath}bell.png";
 }
