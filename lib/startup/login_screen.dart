@@ -4,13 +4,13 @@ import 'package:kineticare/Services/auth.dart';
 import 'package:kineticare/User/userhome.dart';
 import 'package:kineticare/Widget/button.dart';
 import 'package:kineticare/Widget/snackbar.dart';
+import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/components/my_textfield.dart';
 import 'package:kineticare/components/my_label.dart';
-import 'package:kineticare/components/main_button.dart';
 import 'package:kineticare/startup/role_based.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (res == "success") {
       setState(() {
-        isLoading = true;
+        isLoading = false;
       });
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   height: 270.0,
                   child: Image.asset(
-                    'lib/assets/images/logoWname.png',
+                    AppImages.logoWname,
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintText: 'Enter your email',
                       obscureText: false,
                       prefixIcon:
-                          const AssetImage('lib/assets/images/vectorEmail.png'),
+                          const AssetImage(AppImages.email),
                     ),
                   ],
                 ),
@@ -97,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintText: 'Enter your password',
                       obscureText: true,
                       prefixIcon: const AssetImage(
-                          'lib/assets/images/vectorPassword.png'),
+                          AppImages.password),
                     ),
                   ],
                 ),
@@ -109,11 +109,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ForgotPasswordScreen(),
+                          builder: (context) => const ForgotPasswordScreen(),
                         ),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'Forgot password?',
                       style: TextStyle(color: Colors.blue),
                     ),
@@ -121,23 +121,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 25),
                 isLoading
-                    ? CircularProgressIndicator()
+                    ? const CircularProgressIndicator()
                     : MyButton(onTab: loginUser, text: "Log In"),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('No account yet?'),
+                    const Text('No account yet?'),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => RoleBased(),
+                            builder: (context) => const RoleBased(),
                           ),
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         'Register',
                         style: TextStyle(color: Colors.blue),
                       ),
