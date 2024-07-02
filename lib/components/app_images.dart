@@ -19,4 +19,6 @@ class AppImages{
    static const String profile = "${assetsPath}profile.png";
    static const String appName = "${assetsPath}appName.png";
    static const String bell = "${assetsPath}bell.png";
+
+   static const String ptPrograms= "${assetsPath}exerprogram.png";
 }
