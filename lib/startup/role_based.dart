@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kineticare/Account/Registration.dart';
+import 'package:kineticare/Account/registration.dart';
+import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/startup/login_screen.dart';
 
 class RoleBased extends StatelessWidget {
@@ -21,10 +22,10 @@ class RoleBased extends StatelessWidget {
                   onTap: () {
                      Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => LoginScreen()),
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
         );
                   },
-                child: Image.asset("lib/assets/images/backArrow.png"),
+                child: Image.asset(AppImages.backArrow),
                 ),
                 const SizedBox(width: 30.0),
                 const Text(
@@ -52,7 +53,7 @@ class RoleBased extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Image.asset("lib/assets/images/patient_char.png"),
+                            Image.asset(AppImages.patient),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -68,7 +69,7 @@ class RoleBased extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              RegistrationForm(
+                                              const RegistrationForm(
                                                   role: 'Patient')),
                                     );
                                   },
@@ -106,7 +107,7 @@ class RoleBased extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Image.asset("lib/assets/images/pt_char.png"),
+                            Image.asset(AppImages.ptChar),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -122,7 +123,7 @@ class RoleBased extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              RegistrationForm(
+                                              const RegistrationForm(
                                                   role: 'Therapist')),
                                     );
                                   },

@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class RegistrationForm extends StatefulWidget {
   final String role;
 
-  RegistrationForm({required this.role});
+  const RegistrationForm({super.key, required this.role});
 
   @override
   _RegistrationFormState createState() => _RegistrationFormState();
@@ -34,31 +34,31 @@ class _RegistrationFormState extends State<RegistrationForm> {
           child: ListView(
             children: [
               TextFormField(
-                decoration: InputDecoration(labelText: 'Name'),
+                decoration: const InputDecoration(labelText: 'Name'),
                 validator: (value) => value!.isEmpty ? 'Enter your name' : null,
                 onSaved: (value) => _name = value,
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(labelText: 'Email'),
                 validator: (value) => value!.isEmpty ? 'Enter your email' : null,
                 onSaved: (value) => _email = value,
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: const InputDecoration(labelText: 'Password'),
                 obscureText: true,
                 validator: (value) => value!.length < 6 ? 'Password must be at least 6 characters' : null,
                 onSaved: (value) => _password = value,
               ),
               if (widget.role == 'Therapist')
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'License Number'),
+                  decoration: const InputDecoration(labelText: 'License Number'),
                   validator: (value) => value!.isEmpty ? 'Enter your license number' : null,
                   onSaved: (value) => _licenseNumber = value,
                 ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _register,
-                child: Text('Register'),
+                child: const Text('Register'),
               ),
             ],
           ),
@@ -85,7 +85,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
         });
 
         // Notify user about account creation
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Registration successful')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Registration successful')));
         Navigator.pop(context);
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to register: $e')));
