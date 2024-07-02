@@ -8,28 +8,26 @@ class UserHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(75.0),
+        preferredSize: const Size.fromHeight(70),
         child: AppBar(
           backgroundColor: Colors.white,
+          elevation: 5,
+          shadowColor: const Color(0xFF333333),
+          surfaceTintColor: Colors.white,
+          scrolledUnderElevation: 12,
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
+                padding: const EdgeInsets.only(top: 10, left: 10),
                 child: Image.asset(
-                  AppImages.logoWOname,
+                  AppImages.appName,
                   fit: BoxFit.contain,
-                  height: 75,
-                  width: 75,
+                  height: 175,
+                  width: 175,
                 ),
               ),
-              Image.asset(
-                AppImages.appName,
-                fit: BoxFit.contain,
-                height: 20,
-              ),
-              const SizedBox(width: 125),
+              const SizedBox(width: 100),
               Image.asset(
                 AppImages.bell,
                 fit: BoxFit.contain,
@@ -46,8 +44,17 @@ class UserHome extends StatelessWidget {
         ),
       ),
       body: const SafeArea(
-        child: Center(
-          child: Text('like'),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            children: [
+              Text('Hello, John',
+                  style: TextStyle(
+                    fontSize: 24, 
+                    fontWeight: FontWeight.bold)),
+              Text('Today is June')
+            ],
+          ),
         ),
       ),
     );
