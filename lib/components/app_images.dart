@@ -19,6 +19,17 @@ class AppImages{
    static const String profile = "${assetsPath}profile.png";
    static const String appName = "${assetsPath}appbar_logo.png";
    static const String bell = "${assetsPath}bell.png";
+   static const String neutral = "${assetsPath}Neutral.png";
+   static const String pinfo = "${assetsPath}info.png";
+   static const String medicInfo = "${assetsPath}medic.png";
+   static const String ptInfo = "${assetsPath}ptInfo.png";
+   static const String billing = "${assetsPath}billing.png";
+   static const String settings = "${assetsPath}settings.png";
+   static const String helpCenter = "${assetsPath}help.png";
+   static const String logout = "${assetsPath}logout.png";
+   static const String forArrow = "${assetsPath}forwardArrow.png";
 
+   //PT
    static const String ptPrograms= "${assetsPath}exerprogram.png";
+
 }

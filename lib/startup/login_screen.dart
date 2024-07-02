@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kineticare/Account/forgot_password.dart';
+import 'package:kineticare/PhysicalTherapist/pt_home.dart';
 import 'package:kineticare/Services/auth.dart';
 import 'package:kineticare/User/userhome.dart';
 import 'package:kineticare/Widget/button.dart';
@@ -38,15 +41,51 @@ class _LoginScreenState extends State<LoginScreen> {
       password: passwordController.text,
     );
 
+    if (!mounted) return;
+
     if (res == "success") {
-      setState(() {
-        isLoading = false;
-      });
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const UserHome(),
-        ),
-      );
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        var documentSnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
+            
+        if (!mounted) return;
+
+        if (documentSnapshot.exists) {
+          String role = documentSnapshot.get('role');
+          setState(() {
+            isLoading = false;
+          });
+
+          if (role == "Therapist") {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const PtHome(),
+              ),
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => UserHome(),
+              ),
+            );
+          }
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+          showSnackBar(context, "User document does not exist.");
+        }
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        showSnackBar(context, "No user is currently signed in.");
+      }
     } else {
       setState(() {
         isLoading = false;
@@ -81,8 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: emailController,
                       hintText: 'Enter your email',
                       obscureText: false,
-                      prefixIcon:
-                          const AssetImage(AppImages.email),
+                      prefixIcon: const AssetImage(AppImages.email),
                     ),
                   ],
                 ),
@@ -96,8 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: passwordController,
                       hintText: 'Enter your password',
                       obscureText: true,
-                      prefixIcon: const AssetImage(
-                          AppImages.password),
+                      prefixIcon: const AssetImage(AppImages.password),
                     ),
                   ],
                 ),
