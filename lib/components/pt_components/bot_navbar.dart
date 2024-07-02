@@ -45,27 +45,35 @@ class _BottomNavBarPtState extends State<BottomNavBarPt> {
   }
 
   Widget bottomNavigationBars() {
-    return BottomNavigationBar(
-      backgroundColor: Colors.white,
-      unselectedItemColor: const Color(0xFF00BFA6),
-      selectedIconTheme: const IconThemeData(
-        size: 40,
-        color: Colors.white,
+    return Container(
+      decoration: const BoxDecoration(boxShadow: <BoxShadow>[
+        BoxShadow(
+            color: Color(0xFF333333),
+            blurRadius: 15.0,
+            offset: Offset(0.0, 0.75))
+      ]),
+      child: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        unselectedItemColor: const Color(0xFF00BFA6),
+        selectedIconTheme: const IconThemeData(
+          size: 40,
+          color: Colors.white,
+        ),
+        unselectedIconTheme: const IconThemeData(
+          size: 40,
+        ),
+        type: BottomNavigationBarType.fixed,
+        currentIndex: AppImages.currentIndex.clamp(0, screenList.length - 1),
+        selectedItemColor: const Color(0xFF00BFA6),
+        onTap: onItemTapped,
+        items: <BottomNavigationBarItem>[
+          _buildBottomNavigationBarItem(AppImages.home, 0),
+          _buildBottomNavigationBarItem(AppImages.calendar, 1),
+          _buildBottomNavigationBarItem(AppImages.chat, 2),
+          _buildBottomNavigationBarItem(AppImages.ptPrograms, 3),
+          _buildBottomNavigationBarItem(AppImages.profile, 4),
+        ],
       ),
-      unselectedIconTheme: const IconThemeData(
-        size: 40,
-      ),
-      type: BottomNavigationBarType.fixed,
-      currentIndex: AppImages.currentIndex.clamp(0, screenList.length - 1),
-      selectedItemColor: const Color(0xFF00BFA6),
-      onTap: onItemTapped,
-      items: <BottomNavigationBarItem>[
-        _buildBottomNavigationBarItem(AppImages.home, 0),
-        _buildBottomNavigationBarItem(AppImages.calendar, 1),
-        _buildBottomNavigationBarItem(AppImages.chat, 2),
-        _buildBottomNavigationBarItem(AppImages.ptPrograms, 3),
-        _buildBottomNavigationBarItem(AppImages.profile, 4),
-      ],
     );
   }
 
@@ -82,7 +90,7 @@ class _BottomNavBarPtState extends State<BottomNavBarPt> {
               height: 60,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: const Color(0xFF5A8DEE).withOpacity(0.9),
+                color: const Color(0xFF00BFA6).withOpacity(0.9),
               ),
             ),
           ImageIcon(
