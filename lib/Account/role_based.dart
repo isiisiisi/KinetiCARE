@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kineticare/Account/registration.dart';
+import 'package:kineticare/account/registration.dart';
 import 'package:kineticare/components/app_images.dart';
-import 'package:kineticare/startup/login_screen.dart';
+import 'package:kineticare/account/login_screen.dart';
 
 class RoleBased extends StatelessWidget {
   const RoleBased({super.key});

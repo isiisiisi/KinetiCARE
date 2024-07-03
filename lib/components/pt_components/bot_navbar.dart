@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kineticare/PhysicalTherapist/pt_chat.dart';
-import 'package:kineticare/PhysicalTherapist/pt_exerprograms.dart';
-import 'package:kineticare/PhysicalTherapist/pt_home.dart';
-import 'package:kineticare/PhysicalTherapist/pt_profile.dart';
-import 'package:kineticare/PhysicalTherapist/pt_sched.dart';
+import 'package:kineticare/roles/physical_therapist/pt_chat.dart';
+import 'package:kineticare/roles/physical_therapist/pt_exerprograms.dart';
+import 'package:kineticare/roles/physical_therapist/pt_home.dart';
+import 'package:kineticare/roles/physical_therapist/pt_profile.dart';
+import 'package:kineticare/roles/physical_therapist/pt_sched.dart';
 import 'package:kineticare/components/app_images.dart';
 
 

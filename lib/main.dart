@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kineticare/components/bottom_navbar.dart';
 import 'package:kineticare/components/pt_components/bot_navbar.dart';
-import 'package:kineticare/startup/login_screen.dart';
+import 'package:kineticare/account/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -30,21 +30,31 @@ class MyApp extends StatelessWidget {
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-           if (snapshot.hasData  && snapshot.data != null) {
+          if (snapshot.hasData && snapshot.data != null) {
             return FutureBuilder<DocumentSnapshot>(
               future: FirebaseFirestore.instance
                   .collection('users')
                   .doc(snapshot.data!.uid)
                   .get(),
               builder: (context, snapshot) {
-               if (snapshot.hasError) {
+                if (snapshot.hasError) {
                   return const Center(child: Text('Error loading user data'));
-                } else if (snapshot.hasData) {
-                  var userData = snapshot.data!.data() as Map<String, dynamic>;
-                  if (userData['role'] == 'Therapist') {
-                    return const BottomNavBarPt();
+                } else if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasData &&
+                    snapshot.data != null &&
+                    snapshot.data!.exists) {
+                  var userData = snapshot.data!.data() as Map<String, dynamic>?;
+
+                  if (userData != null && userData['role'] != null) {
+                    if (userData['role'] == 'Therapist') {
+                      return const BottomNavBarPt();
+                    } else {
+                      return const BottomNavBar();
+                    }
                   } else {
-                    return const BottomNavBar();
+                    return const Center(child: Text('User data is incomplete'));
                   }
                 } else {
                   return const LoginScreen();

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kineticare/User/user_appoint.dart';
-import 'package:kineticare/User/user_chat.dart';
-import 'package:kineticare/User/user_exercise.dart';
-import 'package:kineticare/User/user_profile.dart';
-import 'package:kineticare/User/userhome.dart';
+import 'package:kineticare/roles/patient/patient_appoint.dart';
+import 'package:kineticare/roles/patient/patient_chat.dart';
+import 'package:kineticare/roles/patient/patient_exercise.dart';
+import 'package:kineticare/roles/patient/patient_profile.dart';
+import 'package:kineticare/roles/patient/patient_home.dart';
 import 'package:kineticare/components/app_images.dart';
 
 class BottomNavBar extends StatefulWidget {
