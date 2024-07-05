@@ -5,9 +5,9 @@ import 'package:kineticare/Account/forgot_password.dart';
 import 'package:kineticare/PhysicalTherapist/pt_home.dart';
 import 'package:kineticare/Services/auth.dart';
 import 'package:kineticare/User/userhome.dart';
-import 'package:kineticare/Widget/button.dart';
 import 'package:kineticare/Widget/snackbar.dart';
 import 'package:kineticare/components/app_images.dart';
+import 'package:kineticare/components/main_button.dart';
 import 'package:kineticare/components/my_textfield.dart';
 import 'package:kineticare/components/my_label.dart';
 import 'package:kineticare/startup/role_based.dart';
@@ -63,14 +63,14 @@ class _LoginScreenState extends State<LoginScreen> {
           if (role == "Therapist") {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const PtHome(),
+                builder: (context) => PtHome(),
               ),
             );
           } else {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => UserHome(),
+                builder: (context) => const UserHome(),
               ),
             );
           }
@@ -159,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 25),
                 isLoading
                     ? const CircularProgressIndicator()
-                    : MyButton(onTab: loginUser, text: "Log In"),
+                    : MainButton(onTap: loginUser, buttonText: "Log In"),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

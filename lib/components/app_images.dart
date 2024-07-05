@@ -28,8 +28,10 @@ class AppImages{
    static const String helpCenter = "${assetsPath}help.png";
    static const String logout = "${assetsPath}logout.png";
    static const String forArrow = "${assetsPath}forwardArrow.png";
-
-   //PT
+   static const String editProfile = "${assetsPath}editprofile.png";
+   static const String patientList = "${assetsPath}patientList.png";
+   static const String pending = "${assetsPath}pending.png";
+   static const String add = "${assetsPath}add.png";
    static const String ptPrograms= "${assetsPath}exerprogram.png";
 
 }

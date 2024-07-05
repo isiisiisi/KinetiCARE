@@ -45,6 +45,20 @@ class UserExercise extends StatelessWidget {
           ),
         ),
       ),
+      body: const SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 35, vertical: 35),
+            child: Text('Exercise Programs',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF333333)
+            ),
+            ),
+          )
+        ),
+      ),
     );
   }
 }

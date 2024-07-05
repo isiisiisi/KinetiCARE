@@ -15,7 +15,7 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   List<Widget> screenList = [
-    UserHome(),
+    const UserHome(),
     const UserAppoint(),
     const UserChat(),
     const UserExercise(),
@@ -48,7 +48,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       decoration: const BoxDecoration(boxShadow: <BoxShadow>[
         BoxShadow(
             color: Color(0xFF333333),
-            blurRadius: 15.0,
+            blurRadius: 10.0,
             offset: Offset(0.0, 0.75))
       ]),
       child: BottomNavigationBar(
