@@ -3,11 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kineticare/account/forgot_password.dart';
 import 'package:kineticare/roles/physical_therapist/pt_home.dart';
-import 'package:kineticare/services/auth.dart';
 import 'package:kineticare/roles/patient/patient_home.dart';
-import 'package:kineticare/widget/button.dart';
-import 'package:kineticare/widget/snackbar.dart';
+import 'package:kineticare/Services/auth.dart';
+import 'package:kineticare/Widget/snackbar.dart';
 import 'package:kineticare/components/app_images.dart';
+import 'package:kineticare/components/main_button.dart';
 import 'package:kineticare/components/my_textfield.dart';
 import 'package:kineticare/components/my_label.dart';
 import 'package:kineticare/account/role_based.dart';
@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
             .collection('users')
             .doc(user.uid)
             .get();
-            
+
         if (!mounted) return;
 
         if (documentSnapshot.exists) {
@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
           if (role == "Therapist") {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const PtHome(),
+                builder: (context) => PtHome(),
               ),
             );
           } else {
@@ -159,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 25),
                 isLoading
                     ? const CircularProgressIndicator()
-                    : MyButton(onTab: loginUser, text: "Log In"),
+                    : MainButton(onTap: loginUser, buttonText: "Log In"),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

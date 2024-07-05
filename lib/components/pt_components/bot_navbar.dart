@@ -16,7 +16,7 @@ class BottomNavBarPt extends StatefulWidget {
 
 class _BottomNavBarPtState extends State<BottomNavBarPt> {
   List<Widget> screenList = [
-    const PtHome(),
+    PtHome(),
     const Appointment(),
     const PtChat(),
     const PtExerprograms(),
