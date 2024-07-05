@@ -1,18 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kineticare/User/emergency_contact.dart';
+import 'package:kineticare/roles/patient/personal_info.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/components/my_textfield.dart';
 
-class EditEmergencyContact extends StatefulWidget {
-  const EditEmergencyContact({super.key});
+class EditPersonalInfo extends StatefulWidget {
+  const EditPersonalInfo({super.key});
 
   @override
-  State<EditEmergencyContact> createState() => _EditEmergencyContactState();
+  State<EditPersonalInfo> createState() => _EditPersonalInfoState();
 }
 
-class _EditEmergencyContactState extends State<EditEmergencyContact> {
+class _EditPersonalInfoState extends State<EditPersonalInfo> {
 final nameController = TextEditingController();
 final emailController = TextEditingController();
  late User user;
@@ -97,7 +97,7 @@ final emailController = TextEditingController();
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const EmergencyContact()));
+                              builder: (context) => const PersonalInfo()));
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(top: 35, left: 35),
@@ -105,11 +105,11 @@ final emailController = TextEditingController();
                           Image.asset(AppImages.backArrow, color: Colors.white),
                     ),
                   ),
-                  const SizedBox(width: 30),
+                  const SizedBox(width: 50),
                   const Padding(
                     padding: EdgeInsets.only(top: 35),
                     child: Text(
-                      'Editing Emergency Contact',
+                      'Editing Personal Info',
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -129,7 +129,7 @@ final emailController = TextEditingController();
               const SizedBox(height: 40),
               Container(
                 width: 460,
-                height: 920,
+                height: 1116,
                 decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
@@ -218,7 +218,7 @@ final emailController = TextEditingController();
                         padding: EdgeInsets.symmetric(horizontal: 25),
                         child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text('Relationship',
+                        child: Text('Sex',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -253,6 +253,143 @@ final emailController = TextEditingController();
                       obscureText: false,
                       prefixIcon: null,
                     ),
+                    const SizedBox(height: 20),
+                    const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 25),
+                        child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('Email Address',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF333333)
+                         ),
+                        ),
+                       ),
+                      ),
+                      MyTextField(
+                      controller: emailController,
+                      hintText: email,
+                      obscureText: false,
+                      prefixIcon: null,
+                    ),
+                    const SizedBox(height: 20),
+               const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Birthdate',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF333333)),
+                      )),
+                ),
+                Container(
+                  height: 97,
+                  width: 360,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: const Color(0xFFD8D8D8)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(top: 5),
+                            child: Text(
+                              'Month',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 70,
+                            height: 50,
+                            decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white
+                            ),
+                            child: TextField(
+                              textAlign: TextAlign.center,
+                              controller: nameController, 
+                              obscureText: false,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none
+                              ),
+                            ),  
+                          )
+                        ],
+                      ),
+                      const SizedBox(width: 25),
+                      Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(top: 5),
+                            child: Text(
+                              'Day',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 70,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white
+                            ),
+                            child: TextField(
+                              textAlign: TextAlign.center,
+                              controller: nameController, 
+                              obscureText: false,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none
+                              ),
+                            ),  
+                          )
+                        ],
+                      ),
+                      const SizedBox(width: 25),
+                      Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(top: 5),
+                            child: Text(
+                              'Year',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 82,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white
+                            ),
+                            child: TextField(
+                              textAlign: TextAlign.center,
+                              controller: nameController, 
+                              obscureText: false,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none
+                              ),
+                            ),  
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
                 const SizedBox(height: 35),
                 Container(
                   width: 320,
@@ -282,7 +419,7 @@ final emailController = TextEditingController();
                 GestureDetector(
                   onTap: () {
                     Navigator.pushReplacement(context, 
-                    MaterialPageRoute(builder: (context)=> const EmergencyContact())
+                    MaterialPageRoute(builder: (context)=> const PersonalInfo())
                     );
                   },
                   child: Container(

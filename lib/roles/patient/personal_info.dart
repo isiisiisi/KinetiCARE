@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kineticare/User/edit_personal_info.dart';
-import 'package:kineticare/User/emergency_contact.dart';
+import 'package:kineticare/roles/patient/edit_personal_info.dart';
+import 'package:kineticare/roles/patient/emergency_contact.dart';
 import 'package:kineticare/components/app_images.dart';
-import 'package:kineticare/components/bottom_navbar.dart';
+import 'package:kineticare/components/patient_components/patient_navbar.dart';
 
 class PersonalInfo extends StatefulWidget {
   const PersonalInfo({super.key});
@@ -345,9 +345,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 const SizedBox(height: 35),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushReplacement(context, 
-                    MaterialPageRoute(builder: (context) => const EmergencyContact())
-                    );
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const EmergencyContact()));
                   },
                   child: Container(
                     width: 300,

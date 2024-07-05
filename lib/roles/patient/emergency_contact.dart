@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kineticare/User/edit_emergency_contact.dart';
-import 'package:kineticare/User/personal_info.dart';
+import 'package:kineticare/roles/patient/edit_emergency_contact.dart';
+import 'package:kineticare/roles/patient/personal_info.dart';
 import 'package:kineticare/components/app_images.dart';
 
 class EmergencyContact extends StatefulWidget {

@@ -1,56 +1,24 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kineticare/User/medical_information.dart';
-import 'package:kineticare/User/personal_info.dart';
 import 'package:kineticare/components/app_images.dart';
-import 'package:kineticare/startup/login_screen.dart';
+import 'package:kineticare/account/login_screen.dart';
 
-class UserProfile extends StatefulWidget {
-  const UserProfile({super.key});
+class PtProfile extends StatefulWidget {
+  const PtProfile({super.key});
 
   @override
-  State<UserProfile> createState() => _UserProfileState();
+  State<PtProfile> createState() => _PtProfileState();
 }
 
-class _UserProfileState extends State<UserProfile> {
-  late User user;
-  String name = '';
-  String email = '';
-
-  @override
-  void initState() {
-    super.initState();
-    user = FirebaseAuth.instance.currentUser!;
-    fetchNameandEmail();
-  }
-
-  void fetchNameandEmail() async {
-    try {
-      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .get();
-
-      if (documentSnapshot.exists) {
-        setState(() {
-          name = documentSnapshot.get('name') ?? '';
-          email = documentSnapshot.get('email') ?? '';
-        });
-      } else {
-        print('Document does not exist');
-      }
-    } catch (e) {
-      print('Error fetching name and email: $e');
-    }
-  }
-
+class _PtProfileState extends State<PtProfile> {
   void signUserOut() async {
     await FirebaseAuth.instance.signOut();
     if (!mounted) return;
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => const LoginScreen()), // Replace with your login screen
+      MaterialPageRoute(
+          builder: (context) =>
+              const LoginScreen()), // Replace with your login screen
       (Route<dynamic> route) => false,
     );
   }
@@ -83,15 +51,14 @@ class _UserProfileState extends State<UserProfile> {
                   AppImages.bell,
                   fit: BoxFit.contain,
                   height: 35,
+                  color: const Color(0xFF00BFA6),
                 ),
                 Container(
                   height: 40,
                   width: 40,
                   decoration: const BoxDecoration(
-                    color: Color(0xFF5A8DEE),
-                    shape: BoxShape.circle,
-                  ),
-                ),
+                      color: Color(0xFF00BFA6), shape: BoxShape.circle),
+                )
               ],
             ),
           ),
@@ -118,23 +85,23 @@ class _UserProfileState extends State<UserProfile> {
                     height: 109,
                     width: 190,
                     decoration: const BoxDecoration(
-                      color: Color(0xFF5A8DEE),
+                      color: Color(0xFF00BFA6),
                       shape: BoxShape.circle,
                     ),
                   ),
                   const SizedBox(height: 15),
-                  Text(
-                    name,
-                    style: const TextStyle(
+                  const Text(
+                    '',
+                    style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
                       color: Color(0xFF333333),
                     ),
                   ),
                   const SizedBox(height: 5),
-                  Text(
-                    email,
-                    style: const TextStyle(
+                  const Text(
+                    '',
+                    style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.normal,
                       color: Color(0xFF333333),
@@ -151,22 +118,21 @@ class _UserProfileState extends State<UserProfile> {
                     ),
                   ),
                   const SizedBox(height: 25),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                            context, MaterialPageRoute(builder: (context)=>const PersonalInfo())
-                          );
-                      },
-                      child: profileOption(
-                          AppImages.pinfo, 'Personal Information')),
+                  // GestureDetector(
+                  //     onTap: () {
+                  //       Navigator.pushReplacement(
+                  //           context, MaterialPageRoute(builder: (context)=>const PersonalInfo())
+                  //         );
+                  //     },
+                  profileOption(AppImages.pinfo, 'Personal Information'),
                   const SizedBox(height: 20),
-                   GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                            context, MaterialPageRoute(builder: (context)=>const MedicalInformation())
-                          );
-                      },
-                  child: profileOption(AppImages.medicInfo, 'Medical Information')),
+                  //  GestureDetector(
+                  //     onTap: () {
+                  //       Navigator.pushReplacement(
+                  //           context, MaterialPageRoute(builder: (context)=>const MedicalInformation())
+                  //         );
+                  //     },
+                  profileOption(AppImages.medicInfo, 'Medical Information'),
                   const SizedBox(height: 20),
                   profileOption(AppImages.ptInfo, 'Therapist Information'),
                   const SizedBox(height: 20),

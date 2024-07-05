@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kineticare/Account/forgot_password.dart';
-import 'package:kineticare/PhysicalTherapist/pt_home.dart';
+import 'package:kineticare/account/forgot_password.dart';
+import 'package:kineticare/roles/physical_therapist/pt_home.dart';
+import 'package:kineticare/roles/patient/patient_home.dart';
 import 'package:kineticare/Services/auth.dart';
-import 'package:kineticare/User/userhome.dart';
 import 'package:kineticare/Widget/snackbar.dart';
 import 'package:kineticare/components/app_images.dart';
-import 'package:kineticare/components/main_button.dart';
+import 'package:kineticare/components/my_button.dart';
 import 'package:kineticare/components/my_textfield.dart';
 import 'package:kineticare/components/my_label.dart';
-import 'package:kineticare/startup/role_based.dart';
+import 'package:kineticare/account/role_based.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
             .collection('users')
             .doc(user.uid)
             .get();
-            
+
         if (!mounted) return;
 
         if (documentSnapshot.exists) {
@@ -135,6 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintText: 'Enter your password',
                       obscureText: true,
                       prefixIcon: const AssetImage(AppImages.password),
+                      
                     ),
                   ],
                 ),
@@ -159,7 +160,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 25),
                 isLoading
                     ? const CircularProgressIndicator()
-                    : MainButton(onTap: loginUser, buttonText: "Log In"),
+                    : MyButton(
+                        onTap: loginUser,
+                        buttonText: "Log In",
+                        padding: const EdgeInsets.all(22),
+                        margin: const EdgeInsets.symmetric(horizontal: 40.0),
+                        color: const Color(0xFF333333),
+                      ),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kineticare/components/app_images.dart';
-import 'package:kineticare/components/bottom_navbar.dart';
+import 'package:kineticare/components/patient_components/patient_navbar.dart';
 
 class MedicalInformation extends StatefulWidget {
   const MedicalInformation({super.key});
@@ -220,7 +220,7 @@ String? selectedCertification;
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: DropdownButton<String>(
                       isExpanded: true,
-                      icon: Icon(Icons.arrow_drop_down_outlined),
+                      icon: const Icon(Icons.arrow_drop_down_outlined),
                       hint: const Text(
                         'Certification',
                         style: TextStyle(

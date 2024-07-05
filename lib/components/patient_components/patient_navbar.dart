@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:kineticare/PhysicalTherapist/pt_chat.dart';
-import 'package:kineticare/PhysicalTherapist/pt_exerprograms.dart';
-import 'package:kineticare/PhysicalTherapist/pt_home.dart';
-import 'package:kineticare/PhysicalTherapist/pt_profile.dart';
-import 'package:kineticare/PhysicalTherapist/pt_sched.dart';
+import 'package:kineticare/roles/patient/patient_appoint.dart';
+import 'package:kineticare/roles/patient/patient_chat.dart';
+import 'package:kineticare/roles/patient/patient_exercise.dart';
+import 'package:kineticare/roles/patient/patient_profile.dart';
+import 'package:kineticare/roles/patient/patient_home.dart';
 import 'package:kineticare/components/app_images.dart';
 
-
-class BottomNavBarPt extends StatefulWidget {
-  const BottomNavBarPt({super.key});
+class BottomNavBar extends StatefulWidget {
+  const BottomNavBar({super.key});
 
   @override
-  State<BottomNavBarPt> createState() => _BottomNavBarPtState();
+  State<BottomNavBar> createState() => _BottomNavBarState();
 }
 
-class _BottomNavBarPtState extends State<BottomNavBarPt> {
+class _BottomNavBarState extends State<BottomNavBar> {
   List<Widget> screenList = [
-    PtHome(),
-    const Appointment(),
-    const PtChat(),
-    const PtExerprograms(),
-    const PtProfile()
+    const UserHome(),
+    const UserAppoint(),
+    const UserChat(),
+    const UserExercise(),
+    const UserProfile()
   ];
 
   void onItemTapped(int index) {
@@ -49,12 +48,13 @@ class _BottomNavBarPtState extends State<BottomNavBarPt> {
       decoration: const BoxDecoration(boxShadow: <BoxShadow>[
         BoxShadow(
             color: Color(0xFF333333),
-            blurRadius: 15.0,
+            blurRadius: 10.0,
             offset: Offset(0.0, 0.75))
       ]),
       child: BottomNavigationBar(
         backgroundColor: Colors.white,
-        unselectedItemColor: const Color(0xFF00BFA6),
+        elevation: 50,
+        unselectedItemColor: const Color(0xFF5A8DEE),
         selectedIconTheme: const IconThemeData(
           size: 40,
           color: Colors.white,
@@ -64,13 +64,13 @@ class _BottomNavBarPtState extends State<BottomNavBarPt> {
         ),
         type: BottomNavigationBarType.fixed,
         currentIndex: AppImages.currentIndex.clamp(0, screenList.length - 1),
-        selectedItemColor: const Color(0xFF00BFA6),
+        selectedItemColor: Colors.white,
         onTap: onItemTapped,
         items: <BottomNavigationBarItem>[
           _buildBottomNavigationBarItem(AppImages.home, 0),
           _buildBottomNavigationBarItem(AppImages.calendar, 1),
           _buildBottomNavigationBarItem(AppImages.chat, 2),
-          _buildBottomNavigationBarItem(AppImages.ptPrograms, 3),
+          _buildBottomNavigationBarItem(AppImages.exercise, 3),
           _buildBottomNavigationBarItem(AppImages.profile, 4),
         ],
       ),
@@ -90,7 +90,7 @@ class _BottomNavBarPtState extends State<BottomNavBarPt> {
               height: 60,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: const Color(0xFF00BFA6).withOpacity(0.9),
+                color: const Color(0xFF5A8DEE).withOpacity(0.9),
               ),
             ),
           ImageIcon(
