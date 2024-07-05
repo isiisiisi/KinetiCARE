@@ -1,4 +1,4 @@
-import 'package:kineticare/components/indi_bar.dart';
+import 'package:kineticare/components/patient_components/indi_bar.dart';
 
 class BarData {
   final double sunAmount;

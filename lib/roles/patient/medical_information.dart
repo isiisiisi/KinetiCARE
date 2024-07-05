@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kineticare/components/app_images.dart';
-import 'package:kineticare/components/bottom_navbar.dart';
+import 'package:kineticare/components/patient_components/patient_navbar.dart';
 
 class MedicalInformation extends StatefulWidget {
   const MedicalInformation({super.key});

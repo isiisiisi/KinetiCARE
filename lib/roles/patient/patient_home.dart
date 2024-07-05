@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kineticare/components/app_images.dart';
-import 'package:kineticare/components/bar_graph.dart';
-import 'package:kineticare/components/pie_chart.dart';
+import 'package:kineticare/components/patient_components/bar_graph.dart';
+import 'package:kineticare/components/patient_components/pie_chart.dart';
 
 class UserHome extends StatefulWidget {
   const UserHome({super.key});

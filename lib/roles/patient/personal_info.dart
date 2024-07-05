@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kineticare/roles/patient/edit_personal_info.dart';
 import 'package:kineticare/roles/patient/emergency_contact.dart';
 import 'package:kineticare/components/app_images.dart';
-import 'package:kineticare/components/bottom_navbar.dart';
+import 'package:kineticare/components/patient_components/patient_navbar.dart';
 
 class PersonalInfo extends StatefulWidget {
   const PersonalInfo({super.key});
