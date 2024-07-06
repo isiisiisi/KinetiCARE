@@ -36,14 +36,18 @@ class _LoginScreenState extends State<LoginScreen> {
       isLoading = true;
     });
 
-    String res = await AuthServices().loginUser(
+    bool success = await AuthService().loginUser(
       email: emailController.text,
       password: passwordController.text,
     );
 
     if (!mounted) return;
 
-    if (res == "success") {
+    setState(() {
+      isLoading = false;
+    });
+
+    if (success) {
       User? user = FirebaseAuth.instance.currentUser;
 
       if (user != null) {
@@ -51,46 +55,34 @@ class _LoginScreenState extends State<LoginScreen> {
             .collection('users')
             .doc(user.uid)
             .get();
-            
-        if (!mounted) return;
 
         if (documentSnapshot.exists) {
-          String role = documentSnapshot.get('role');
-          setState(() {
-            isLoading = false;
-          });
+          String accountType = documentSnapshot.get('accountType');
 
-          if (role == "Therapist") {
-            Navigator.of(context).push(
+          if (accountType == "therapist") {
+            Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => const PtHome(),
               ),
             );
           } else {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => UserHome(),
               ),
             );
           }
+
+          showSnackBar(context, "Login successful");
         } else {
-          setState(() {
-            isLoading = false;
-          });
           showSnackBar(context, "User document does not exist.");
         }
       } else {
-        setState(() {
-          isLoading = false;
-        });
         showSnackBar(context, "No user is currently signed in.");
       }
     } else {
-      setState(() {
-        isLoading = false;
-      });
-      showSnackBar(context, res);
+      showSnackBar(context, "Login failed. Please check your email and password.");
     }
   }
 
