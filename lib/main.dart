@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
                     if (userData['role'] == 'Therapist') {
                       return const BottomNavBarPt();
                     } else {
-                      return const BottomNavBar();
+                      return const BottomNavBarPatient();
                     }
                   } else {
                     return const Center(child: Text('User data is incomplete'));
