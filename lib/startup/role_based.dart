@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kineticare/Account/registration.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/startup/login_screen.dart';
+import 'package:kineticare/Account/patient_register_screen.dart';  
+import 'package:kineticare/Account/therapist_register_screen.dart';  
 
 class RoleBased extends StatelessWidget {
   const RoleBased({super.key});
@@ -20,12 +21,12 @@ class RoleBased extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                     Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
-        );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LoginScreen()),
+                    );
                   },
-                child: Image.asset(AppImages.backArrow),
+                  child: Image.asset(AppImages.backArrow),
                 ),
                 const SizedBox(width: 30.0),
                 const Text(
@@ -68,9 +69,7 @@ class RoleBased extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              const RegistrationForm(
-                                                  role: 'Patient')),
+                                          builder: (context) => const PatientRegisterScreen()),  // Navigate to PatientRegisterScreen
                                     );
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -122,9 +121,7 @@ class RoleBased extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              const RegistrationForm(
-                                                  role: 'Therapist')),
+                                          builder: (context) => const TherapistRegisterScreen()),  // Navigate to TherapistRegisterScreen
                                     );
                                   },
                                   style: ElevatedButton.styleFrom(
