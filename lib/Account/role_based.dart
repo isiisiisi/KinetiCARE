@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kineticare/components/app_images.dart';
-import 'package:kineticare/startup/login_screen.dart';
-import 'package:kineticare/Account/patient_register_screen.dart';  
-import 'package:kineticare/Account/therapist_register_screen.dart';  
+import 'package:kineticare/account/login_screen.dart';
+import 'package:kineticare/account/patient_register_screen.dart';
+import 'package:kineticare/account/therapist_register_screen.dart';
 
 class RoleBased extends StatelessWidget {
   const RoleBased({super.key});
@@ -23,7 +23,8 @@ class RoleBased extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const LoginScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()),
                     );
                   },
                   child: Image.asset(AppImages.backArrow),
@@ -69,7 +70,8 @@ class RoleBased extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const PatientRegisterScreen()),  // Navigate to PatientRegisterScreen
+                                          builder: (context) =>
+                                              const PatientRegisterScreen()), // Navigate to PatientRegisterScreen
                                     );
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -121,7 +123,8 @@ class RoleBased extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const TherapistRegisterScreen()),  // Navigate to TherapistRegisterScreen
+                                          builder: (context) =>
+                                              const TherapistRegisterScreen()), // Navigate to TherapistRegisterScreen
                                     );
                                   },
                                   style: ElevatedButton.styleFrom(

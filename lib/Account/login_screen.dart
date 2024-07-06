@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kineticare/account/forgot_password.dart';
 import 'package:kineticare/roles/physical_therapist/pt_home.dart';
 import 'package:kineticare/roles/patient/patient_home.dart';
-import 'package:kineticare/Services/auth.dart';
+import 'package:kineticare/services/auth.dart';
 import 'package:kineticare/Widget/snackbar.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/components/my_button.dart';
@@ -82,7 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
         showSnackBar(context, "No user is currently signed in.");
       }
     } else {
-      showSnackBar(context, "Login failed. Please check your email and password.");
+      showSnackBar(
+          context, "Login failed. Please check your email and password.");
     }
   }
 
@@ -127,7 +128,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintText: 'Enter your password',
                       obscureText: true,
                       prefixIcon: const AssetImage(AppImages.password),
-                      
                     ),
                   ],
                 ),
