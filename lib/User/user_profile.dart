@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kineticare/components/app_images.dart';
+import 'package:kineticare/components/initials_avatar.dart';
 import 'package:kineticare/startup/login_screen.dart';
 
 class UserProfile extends StatefulWidget {
@@ -15,15 +16,16 @@ class _UserProfileState extends State<UserProfile> {
   late User user;
   String name = '';
   String email = '';
+  String phone = '';
 
   @override
   void initState() {
     super.initState();
     user = FirebaseAuth.instance.currentUser!;
-    fetchNameandEmail();
+    fetchNameAndEmail();
   }
 
-  void fetchNameandEmail() async {
+  void fetchNameAndEmail() async {
     try {
       DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
           .collection('users')
@@ -32,19 +34,24 @@ class _UserProfileState extends State<UserProfile> {
 
       if (documentSnapshot.exists) {
         setState(() {
-          name = documentSnapshot.get('name') ?? '';
+          name = documentSnapshot.get('firstName') ?? '';
           email = documentSnapshot.get('email') ?? '';
+          phone = documentSnapshot.get('phone') ?? ''; // Fetching phone number
         });
       } else {
         print('Document does not exist');
       }
     } catch (e) {
-      print('Error fetching name and email: $e');
+      print('Error fetching name, email, and phone: $e');
     }
   }
 
   void signUserOut() {
     FirebaseAuth.instance.signOut();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+    );
   }
 
   @override
@@ -76,91 +83,77 @@ class _UserProfileState extends State<UserProfile> {
                 fit: BoxFit.contain,
                 height: 35,
               ),
-              Container(
-                height: 40,
-                width: 40,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF5A8DEE),
-                  shape: BoxShape.circle,
-                ),
-              ),
+              InitialsAvatar(firstName: name, radius: 20),
             ],
           ),
         ),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-          child: Column(
-            children: [
-              const Center(
-                child: Text(
-                  'My Profile',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            child: Column(
+              children: [
+                const Center(
+                  child: Text(
+                    'My Profile',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF333333),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                InitialsAvatar(firstName: name, radius: 50),
+                const SizedBox(height: 15),
+                Text(
+                  name,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
                     color: Color(0xFF333333),
                   ),
                 ),
-              ),
-              const SizedBox(height: 15),
-              Container(
-                height: 109,
-                width: 190,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF5A8DEE),
-                  shape: BoxShape.circle,
+                const SizedBox(height: 5),
+                Text(
+                  email,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.normal,
+                    color: Color(0xFF333333),
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 15),
-              Text(
-                name,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF333333),
+                const SizedBox(height: 5),
+                Text(
+                  phone, // Displaying phone number
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.normal,
+                    color: Color(0xFF333333),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                email,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.normal,
-                  color: Color(0xFF333333),
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-              const SizedBox(height: 5),
-              const Text(
-                '09234567891',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.normal,
-                  color: Color(0xFF333333),
-                ),
-              ),
-              const SizedBox(height: 25),
-              profileOption(AppImages.pinfo, 'Personal Information'),
-              const SizedBox(height: 20),
-              profileOption(AppImages.medicInfo, 'Medical Information'),
-              const SizedBox(height: 20),
-              profileOption(AppImages.ptInfo, 'Therapist Information'),
-              const SizedBox(height: 20),
-              profileOption(AppImages.billing, 'Payment and Billing'),
-              const SizedBox(height: 20),
-              profileOption(AppImages.settings, 'General Settings'),
-              const SizedBox(height: 20),
-              profileOption(AppImages.helpCenter, 'Help Center'),
-              const SizedBox(height: 20),
-              profileOption(AppImages.logout, 'Logout', isLogout: true),
-            ],
+                const SizedBox(height: 25),
+                profileOption(AppImages.pinfo, 'Personal Information'),
+                const SizedBox(height: 20),
+                profileOption(AppImages.medicInfo, 'Medical Information'),
+                const SizedBox(height: 20),
+                profileOption(AppImages.ptInfo, 'Therapist Information'),
+                const SizedBox(height: 20),
+                profileOption(AppImages.billing, 'Payment and Billing'),
+                const SizedBox(height: 20),
+                profileOption(AppImages.settings, 'General Settings'),
+                const SizedBox(height: 20),
+                profileOption(AppImages.helpCenter, 'Help Center'),
+                const SizedBox(height: 20),
+                profileOption(AppImages.logout, 'Logout', isLogout: true),
+              ],
+            ),
           ),
         ),
-       ),
-      )
+      ),
     );
   }
 
