@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kineticare/account/forgot_password.dart';
-import 'package:kineticare/roles/physical_therapist/pt_home.dart';
-import 'package:kineticare/roles/patient/patient_home.dart';
+import 'package:kineticare/components/patient_components/patient_navbar.dart';
+import 'package:kineticare/components/pt_components/pt_navbar.dart';
 import 'package:kineticare/services/auth.dart';
 import 'package:kineticare/Widget/snackbar.dart';
 import 'package:kineticare/components/app_images.dart';
@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void loginUser() async {
     setState(() {
-      isLoading = true;
+      isLoading = true; // Start loading
     });
 
     bool success = await AuthService().loginUser(
@@ -41,15 +41,10 @@ class _LoginScreenState extends State<LoginScreen> {
       password: passwordController.text,
     );
 
-    if (!mounted) return;
-
-    setState(() {
-      isLoading = false;
-    });
+    if (!mounted) return; // Check if the widget is still mounted
 
     if (success) {
       User? user = FirebaseAuth.instance.currentUser;
-
       if (user != null) {
         var documentSnapshot = await FirebaseFirestore.instance
             .collection('users')
@@ -60,17 +55,18 @@ class _LoginScreenState extends State<LoginScreen> {
           String accountType = documentSnapshot.get('accountType');
 
           if (accountType == "therapist") {
-            Navigator.of(context).pushReplacement(
+            Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
-                builder: (context) => PtHome(),
+                builder: (context) => const PtNavBar(),
               ),
+              (Route<dynamic> route) => false,
             );
           } else {
-            Navigator.pushReplacement(
-              context,
+            Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
-                builder: (context) => const UserHome(),
+                builder: (context) => const PatientNavBar(),
               ),
+              (Route<dynamic> route) => false,
             );
           }
 
@@ -85,35 +81,40 @@ class _LoginScreenState extends State<LoginScreen> {
       showSnackBar(
           context, "Login failed. Please check your email and password.");
     }
+
+    setState(() {
+      isLoading = false; // Stop loading
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Center(
             child: Column(
               children: [
-                const SizedBox(height: 55),
+                const SizedBox(height: 45),
                 SizedBox(
                   height: 270.0,
                   child: Image.asset(
                     AppImages.logoWname,
                   ),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const MyLabel(labelText: 'Email'),
-                    const SizedBox(height: 8.0),
+                    const SizedBox(height: 5.0),
                     MyTextField(
                       controller: emailController,
                       hintText: 'Enter your email',
                       obscureText: false,
                       prefixIcon: const AssetImage(AppImages.email),
+                      padding: const EdgeInsets.symmetric(horizontal: 35),
                     ),
                   ],
                 ),
@@ -122,18 +123,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const MyLabel(labelText: 'Password'),
-                    const SizedBox(height: 8.0),
+                    const SizedBox(height: 5.0),
                     MyTextField(
                       controller: passwordController,
                       hintText: 'Enter your password',
                       obscureText: true,
                       prefixIcon: const AssetImage(AppImages.password),
+                      padding: const EdgeInsets.symmetric(horizontal: 35),
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 Align(
-                  alignment: Alignment.centerRight,
+                  alignment: const Alignment(0.8, 0.0),
                   child: TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -145,18 +147,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     child: const Text(
                       'Forgot password?',
-                      style: TextStyle(color: Colors.blue),
+                      style: TextStyle(
+                          color: Color(0xFF707070),
+                          decoration: TextDecoration.underline,
+                          decorationThickness: 1.5),
                     ),
                   ),
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: 15),
                 isLoading
                     ? const CircularProgressIndicator()
                     : MyButton(
                         onTap: loginUser,
                         buttonText: "Log In",
                         padding: const EdgeInsets.all(22),
-                        margin: const EdgeInsets.symmetric(horizontal: 40.0),
+                        margin: const EdgeInsets.symmetric(horizontal: 35.0),
                         color: const Color(0xFF333333),
                       ),
                 const SizedBox(height: 20),
@@ -175,7 +180,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       child: const Text(
                         'Register',
-                        style: TextStyle(color: Colors.blue),
+                        style: TextStyle(
+                            color: Color(0xFF707070),
+                            decoration: TextDecoration.underline,
+                            decorationThickness: 1.5),
                       ),
                     ),
                   ],
