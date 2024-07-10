@@ -98,7 +98,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const BottomNavBar()));
+                                builder: (context) =>
+                                    const BottomNavBarPatient()));
                       },
                       child: Image.asset(AppImages.backArrow),
                     ),

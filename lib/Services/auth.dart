@@ -1,58 +1,46 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class AuthServices {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<String> signUpUser({
+  // Method to log in the user
+  Future<bool> loginUser({required String email, required String password}) async {
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // Method to register a user
+  Future<bool> registerUser({
     required String email,
     required String password,
-    required String name,
+    required String accountType,
+    Map<String, dynamic>? additionalDetails,
   }) async {
     try {
-      if (email.isEmpty || password.isEmpty || name.isEmpty) {
-        return "Please enter all the fields";
-      }
-
-      UserCredential credential = await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      await _firestore.collection("users").doc(credential.user!.uid).set({
-        "name": name,
-        "email": email,
-        'uid': credential.user!.uid,
-      });
+      User? user = userCredential.user;
 
-      return "Success";
-    } catch (e) {
-      return e.toString();
-    }
-  }
-
-  Future<String> loginUser({
-    required String email,
-    required String password,
-  }) async {
-    try {
-      if (email.isEmpty || password.isEmpty) {
-        return "Please enter all the fields";
+      if (user != null) {
+        // Store additional details in Firestore
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'email': email,
+          'accountType': accountType,
+          ...?additionalDetails, // Spread operator to add additional details if provided
+        });
       }
 
-      await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      return "Success";
+      return true;
     } catch (e) {
-      return e.toString();
+      return false;
     }
-  }
-
-  Future<void> signOut() async {
-    await _auth.signOut();
   }
 }
