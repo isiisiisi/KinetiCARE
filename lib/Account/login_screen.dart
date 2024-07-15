@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kineticare/account/forgot_password.dart';
-import 'package:kineticare/roles/physical_therapist/pt_home.dart';
-import 'package:kineticare/roles/patient/patient_home.dart';
+import 'package:kineticare/components/patient_components/patient_navbar.dart';
+import 'package:kineticare/components/pt_components/pt_navbar.dart';
 import 'package:kineticare/services/auth.dart';
 import 'package:kineticare/Widget/snackbar.dart';
 import 'package:kineticare/components/app_images.dart';
@@ -62,14 +62,14 @@ class _LoginScreenState extends State<LoginScreen> {
           if (accountType == "therapist") {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => PtHome(),
+                builder: (context) => const BottomNavBarPt(),
               ),
             );
           } else {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const UserHome(),
+                builder: (context) => const BottomNavBarPatient(),
               ),
             );
           }
@@ -86,6 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
           context, "Login failed. Please check your email and password.");
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

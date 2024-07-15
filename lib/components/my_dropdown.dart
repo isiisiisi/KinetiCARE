@@ -11,11 +11,13 @@ class MyDropdown extends FormField<String> {
   final BorderSide? focusedBorderSide;
   final ImageProvider? prefixIcon;
   final ValueChanged<String?>? onChanged;
+  final String? value;
 
   MyDropdown({
     super.key,
     required this.hintText,
     required this.items,
+    this.value,
     this.padding,
     this.contentPadding,
     this.fillColor,

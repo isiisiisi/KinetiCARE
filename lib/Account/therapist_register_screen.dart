@@ -3,7 +3,7 @@ import 'package:kineticare/Services/auth.dart';
 import 'package:kineticare/Widget/button.dart';
 import 'package:kineticare/Widget/snackbar.dart';
 import 'package:kineticare/components/my_textfield.dart';
-import 'package:kineticare/components/pt_components/bot_navbar.dart';
+import 'package:kineticare/components/pt_components/pt_navbar.dart';
 
 class TherapistRegisterScreen extends StatefulWidget {
   const TherapistRegisterScreen({super.key});
@@ -52,7 +52,6 @@ class _TherapistRegisterScreenState extends State<TherapistRegisterScreen> {
         'licenseNumber': licenseNumberController.text,
         'specialization': specializationController.text,
         'experience': experienceController.text,
-        // Add more fields as needed
       },
     );
 
@@ -66,7 +65,7 @@ class _TherapistRegisterScreenState extends State<TherapistRegisterScreen> {
       showSnackBar(context, "Registration successful");
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => BottomNavBarPt(),
+          builder: (context) => const BottomNavBarPt(),
         ),
       );
     } else {

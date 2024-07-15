@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/components/patient_components/bar_graph.dart';
+import 'package:kineticare/components/patient_components/patient_appbar.dart';
 import 'package:kineticare/components/patient_components/pie_chart.dart';
 
 class UserHome extends StatefulWidget {
@@ -50,64 +51,32 @@ class _UserHomeState extends State<UserHome> {
   Widget build(BuildContext context) {
     List<double> weeklySummary = [0, 0, 2, 0, 0, 0, 0];
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(70),
-          child: AppBar(
-            backgroundColor: Colors.white,
-            elevation: 5,
-            shadowColor: const Color(0xFF333333),
-            surfaceTintColor: Colors.white,
-            scrolledUnderElevation: 12,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(70),
+        child: PatientAppbar(),
+      ),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 35),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 10),
-                  child: Image.asset(
-                    AppImages.appName,
-                    fit: BoxFit.contain,
-                    height: 175,
-                    width: 175,
-                  ),
-                ),
-                const SizedBox(width: 100),
-                Image.asset(
-                  AppImages.bell,
-                  fit: BoxFit.contain,
-                  height: 35,
-                ),
-                Container(
-                  height: 40,
-                  width: 40,
-                  decoration: const BoxDecoration(
-                      color: Color(0xFF5A8DEE), shape: BoxShape.circle),
-                )
-              ],
-            ),
-          ),
-        ),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 35),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          Text('Hello, $firstName!',
-                              style: const TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.bold)),
-                          Text('Today is $formattedDate',
-                              style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xFFA0A0A0))),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        Text('Hello, $firstName!',
+                          style: const TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.bold)),
+                        Text('Today is $formattedDate',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFFA0A0A0))),
                         ],
                       ),
                       Container(

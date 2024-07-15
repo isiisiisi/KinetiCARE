@@ -11,6 +11,7 @@ class MyTextField extends FormField<String> {
   final TextStyle? hintStyle;
   final BorderSide? enabledBorderSide;
   final BorderSide? focusedBorderSide;
+  final ImageProvider? suffixIcon;
 
   MyTextField({
     super.key,
@@ -18,6 +19,7 @@ class MyTextField extends FormField<String> {
     required this.hintText,
     required this.obscureText,
     this.prefixIcon,
+    this.suffixIcon,
     this.padding,
     this.contentPadding,
     this.fillColor,
@@ -45,7 +47,7 @@ class MyTextField extends FormField<String> {
                       const TextStyle(color: Color.fromRGBO(158, 158, 158, 1)),
                   contentPadding: contentPadding ??
                       const EdgeInsets.symmetric(
-                          vertical: 25.0, horizontal: 25),
+                          vertical: 25, horizontal: 25),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0),
                     borderSide: enabledBorderSide ??
@@ -61,6 +63,9 @@ class MyTextField extends FormField<String> {
                       ? Opacity(opacity: 0.5, child: Image(image: prefixIcon))
                       : null,
                   errorText: state.errorText,
+                  suffixIcon: suffixIcon != null
+                      ? Opacity(opacity: 0.5, child: Image(image: suffixIcon))
+                      : null,
                 ),
               ),
             );

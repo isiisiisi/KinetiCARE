@@ -4,29 +4,34 @@ import 'package:kineticare/components/app_images.dart';
 class MyBackButtonRow extends StatelessWidget {
   final String buttonText;
   final Function() onTap;
+  final double space;
+  final Color? color;
 
   const MyBackButtonRow({
     super.key,
     required this.buttonText,
     required this.onTap,
+    required this.space,
+    this.color,
   });
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         GestureDetector(
           onTap: onTap,
-          child: Image.asset(AppImages.backArrow),
+          child: Image.asset(AppImages.backArrow,
+          color: color),
         ),
-        const SizedBox(width: 30.0),
+        SizedBox(width: space),
         Text(
           buttonText,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Color(0xFF333333),
+            color: color,
           ),
         ),
       ],
