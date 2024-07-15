@@ -7,42 +7,46 @@ import 'package:kineticare/roles/patient/personal_info.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/account/login_screen.dart';
 
-class UserProfile extends StatefulWidget {
-  const UserProfile({super.key});
+class PatientProfile extends StatefulWidget {
+  const PatientProfile({super.key});
 
   @override
-  State<UserProfile> createState() => _UserProfileState();
+  State<PatientProfile> createState() => _PatientProfileState();
 }
 
-class _UserProfileState extends State<UserProfile> {
-  late User user;
-  String name = '';
+class _PatientProfileState extends State<PatientProfile> {
+  late User users;
+  String firstName = '';
+  String lastName = '';
   String email = '';
+  String phone = '';
 
   @override
   void initState() {
     super.initState();
-    user = FirebaseAuth.instance.currentUser!;
-    fetchNameandEmail();
+    users = FirebaseAuth.instance.currentUser!;
+    fetchUserDetails();
   }
 
-  void fetchNameandEmail() async {
+  void fetchUserDetails() async {
     try {
       DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
           .collection('users')
-          .doc(user.uid)
+          .doc(users.uid)
           .get();
 
       if (documentSnapshot.exists) {
         setState(() {
-          name = documentSnapshot.get('name') ?? '';
+          firstName = documentSnapshot.get('firstName') ?? '';
+          lastName = documentSnapshot.get('lastName') ?? '';
           email = documentSnapshot.get('email') ?? '';
+          phone = documentSnapshot.get('phone') ?? '';
         });
       } else {
         print('Document does not exist');
       }
     } catch (e) {
-      print('Error fetching name and email: $e');
+      print('Error fetching user details: $e');
     }
   }
 
@@ -88,98 +92,130 @@ class _UserProfileState extends State<UserProfile> {
                       color: Color(0xFF5A8DEE),
                       shape: BoxShape.circle,
                     ),
-                  ),
-                  const SizedBox(height: 15),
-                  Text(
-                    name,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF333333),
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    email,
-                    style: const TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.normal,
-                      color: Color(0xFF333333),
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  const Text(
-                    '09234567891',
+                    body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            child: Column(
+              children: [
+                const Center(
+                  child: Text(
+                    'My Profile',
                     style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.normal,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
                       color: Color(0xFF333333),
                     ),
                   ),
-                  const SizedBox(height: 25),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const PersonalInfo()));
-                      },
-                      child: profileOption(
-                          AppImages.pinfo, 'Personal Information')),
-                  const SizedBox(height: 20),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const MedicalInformation()));
-                      },
-                      child: profileOption(
-                          AppImages.medicInfo, 'Medical Information')),
-                  const SizedBox(height: 20),
-                  profileOption(AppImages.ptInfo, 'Therapist Information'),
-                  const SizedBox(height: 20),
-                  profileOption(AppImages.billing, 'Payment and Billing'),
-                  const SizedBox(height: 20),
-                  profileOption(AppImages.settings, 'General Settings'),
-                  const SizedBox(height: 20),
-                  profileOption(AppImages.helpCenter, 'Help Center'),
-                  const SizedBox(height: 20),
-                  profileOption(AppImages.logout, 'Logout', isLogout: true),
-                ],
-              ),
+                ),
+                const SizedBox(height: 15),
+                Container(
+                  height: 109,
+                  width: 190,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF5A8DEE),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Text(
+                  '$firstName $lastName',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFF333333),
+
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  email,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.normal,
+                    color: Color(0xFF333333),
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  phone,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.normal,
+                    color: Color(0xFF333333),
+                  ),
+                ),
+                const SizedBox(height: 25),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PersonalInfo()));
+                    },
+                    child:
+                        profileOption(AppImages.pinfo, 'Personal Information')),
+                const SizedBox(height: 10),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const MedicalInformation()));
+                    },
+                    child: profileOption(
+                        AppImages.medicInfo, 'Medical Information')),
+                const SizedBox(height: 10),
+                profileOption(AppImages.ptInfo, 'Therapist Information'),
+                const SizedBox(height: 10),
+                profileOption(AppImages.billing, 'Payment and Billing'),
+                const SizedBox(height: 10),
+                profileOption(AppImages.settings, 'General Settings'),
+                const SizedBox(height: 10),
+                profileOption(AppImages.helpCenter, 'Help Center'),
+                const SizedBox(height: 10),
+                profileOption(AppImages.logout, 'Logout', isLogout: true),
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget profileOption(String imagePath, String title,
       {bool isLogout = false}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Image.asset(imagePath),
-            const SizedBox(width: 10),
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
+    return Padding(
+      padding: const EdgeInsets.only(left: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Image.asset(imagePath),
+              const SizedBox(width: 10),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-          ],
-        ),
-        isLogout
-            ? IconButton(
-                onPressed: signUserOut,
-                icon: Image.asset(AppImages.forArrow),
-              )
-            : Image.asset(AppImages.forArrow),
-      ],
+            ],
+          ),
+          isLogout
+              ? IconButton(
+                  onPressed: () {
+                    signUserOut();
+                  },
+                  icon: Image.asset(AppImages.forArrow))
+              : IconButton(
+                  onPressed: () {}, icon: Image.asset(AppImages.forArrow)),
+        ],
+      ),
     );
   }
 }
