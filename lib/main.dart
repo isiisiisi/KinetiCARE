@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kineticare/Services/firebase_api.dart';
 import 'package:kineticare/components/patient_components/patient_navbar.dart';
 import 'package:kineticare/components/pt_components/pt_navbar.dart';
 import 'package:kineticare/account/login_screen.dart';
@@ -16,6 +17,7 @@ void main() async {
       //   projectId: "kineticare-7cf80",
       // ),
       );
+  await FirebaseApi().initNotifications();
 
   runApp(const MyApp());
 }

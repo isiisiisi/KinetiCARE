@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kineticare/Services/auth.dart';
 import 'package:kineticare/Widget/button.dart';
 import 'package:kineticare/Widget/snackbar.dart';
-import 'package:kineticare/components/bottom_navbar.dart';
 import 'package:kineticare/components/my_textfield.dart';
+import 'package:kineticare/components/patient_components/patient_navbar.dart';
 
 class PatientRegisterScreen extends StatefulWidget {
   const PatientRegisterScreen({super.key});
@@ -66,7 +66,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
       showSnackBar(context, "Registration successful");
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => BottomNavBar(),
+          builder: (context) =>const BottomNavBarPatient(),
         ),
       );
     } else {

@@ -25,10 +25,10 @@ class MyButton extends StatelessWidget {
             MaterialPageRoute(builder: (context) => const RoleBased()));
       },
       child: Container(
-        padding: padding ?? const EdgeInsets.all(8.0), // Default padding if not provided
-        margin: margin ?? const EdgeInsets.symmetric(horizontal: 40.0), // Default margin if not provided
+        padding: padding ?? const EdgeInsets.all(8.0), 
+        margin: margin ?? const EdgeInsets.symmetric(horizontal: 40.0), 
         decoration: BoxDecoration(
-          color: color ?? const Color(0xFF333333), // Default color if not provided
+          color: color ?? const Color(0xFF333333), 
           borderRadius: BorderRadius.circular(20),
         ),
         child: Center(

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kineticare/components/patient_components/patient_appbar.dart';
 import 'package:kineticare/roles/patient/edit_personal_info.dart';
 import 'package:kineticare/roles/patient/emergency_contact.dart';
 import 'package:kineticare/components/app_images.dart';
@@ -48,42 +49,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(70),
-          child: AppBar(
-            backgroundColor: Colors.white,
-            elevation: 5,
-            shadowColor: const Color(0xFF333333),
-            surfaceTintColor: Colors.white,
-            scrolledUnderElevation: 12,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 10),
-                  child: Image.asset(
-                    AppImages.appName,
-                    fit: BoxFit.contain,
-                    height: 175,
-                    width: 175,
-                  ),
-                ),
-                const SizedBox(width: 100),
-                Image.asset(
-                  AppImages.bell,
-                  fit: BoxFit.contain,
-                  height: 35,
-                ),
-                Container(
-                  height: 40,
-                  width: 40,
-                  decoration: const BoxDecoration(
-                      color: Color(0xFF5A8DEE), shape: BoxShape.circle),
-                )
-              ],
-            ),
-          ),
-        ),
+       appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(70),
+        child: PatientAppbar(),
+      ),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: SafeArea(

@@ -6,10 +6,7 @@ class PatientAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(70),
-        child: AppBar(
+    return AppBar(
           backgroundColor: Colors.white,
           elevation: 5,
           shadowColor: const Color(0xFF333333),
@@ -34,14 +31,12 @@ class PatientAppbar extends StatelessWidget {
                 height: 35,
               ),
               Container(
-                height: 40,
-                width: 40,
-                decoration: const BoxDecoration(
-                    color: Color(0xFF5A8DEE), shape: BoxShape.circle),
-              )
-            ],
-          ),
-        ),
+            height: 40,
+            width: 40,
+            decoration: const BoxDecoration(
+            color: Color(0xFF5A8DEE), shape: BoxShape.circle),
+          )
+        ],
       ),
     );
   }
