@@ -6,6 +6,7 @@ import 'package:kineticare/roles/patient/medical_information.dart';
 import 'package:kineticare/roles/patient/personal_info.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/account/login_screen.dart';
+import 'package:kineticare/components/patient_components/patient_appbar.dart';
 
 class PatientProfile extends StatefulWidget {
   const PatientProfile({super.key});
@@ -63,6 +64,7 @@ class _PatientProfileState extends State<PatientProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< Updated upstream
         appBar: const PreferredSize(
         preferredSize: Size.fromHeight(70),
         child: PatientAppbar(),
@@ -93,6 +95,11 @@ class _PatientProfileState extends State<PatientProfile> {
                       shape: BoxShape.circle,
                     ),
                     body: SingleChildScrollView(
+=======
+      appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(70), child: PatientAppbar()),
+      body: SingleChildScrollView(
+>>>>>>> Stashed changes
         scrollDirection: Axis.vertical,
         child: SafeArea(
           child: Padding(

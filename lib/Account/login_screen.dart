@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void loginUser() async {
     setState(() {
-      isLoading = true; // Start loading
+      isLoading = true;
     });
 
     bool success = await AuthService().loginUser(
@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
       password: passwordController.text,
     );
 
-    if (!mounted) return; // Check if the widget is still mounted
+    if (!mounted) return;
 
     if (success) {
       User? user = FirebaseAuth.instance.currentUser;
@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     setState(() {
-      isLoading = false; // Stop loading
+      isLoading = false;
     });
   }
 
@@ -91,13 +91,12 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Center(
             child: Column(
               children: [
-                const SizedBox(height: 45),
+                const SizedBox(height: 70),
                 SizedBox(
                   height: 270.0,
                   child: Image.asset(
@@ -119,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 23),
+                const SizedBox(height: 15),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -134,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 3),
                 Align(
                   alignment: const Alignment(0.8, 0.0),
                   child: TextButton(
@@ -155,14 +154,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 10),
                 isLoading
                     ? const CircularProgressIndicator()
                     : MyButton(
                         onTap: loginUser,
                         buttonText: "Log In",
                         padding: const EdgeInsets.all(22),
-                        margin: const EdgeInsets.symmetric(horizontal: 35.0),
+                        margin: const EdgeInsets.symmetric(horizontal: 60.0),
                         color: const Color(0xFF333333),
                       ),
                 const SizedBox(height: 20),

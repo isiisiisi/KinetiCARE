@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kineticare/Services/auth.dart';
-import 'package:kineticare/Widget/button.dart';
+import 'package:kineticare/account/role_based.dart';
+import 'package:kineticare/components/my_backbutton.dart';
+import 'package:kineticare/components/my_dropdown.dart';
+import 'package:kineticare/components/my_label.dart';
+import 'package:kineticare/services/auth.dart';
+import 'package:kineticare/components/my_button.dart';
 import 'package:kineticare/Widget/snackbar.dart';
 import 'package:kineticare/components/my_textfield.dart';
 import 'package:kineticare/components/pt_components/pt_navbar.dart';
@@ -9,10 +13,10 @@ class TherapistRegisterScreen extends StatefulWidget {
   const TherapistRegisterScreen({super.key});
 
   @override
-  _TherapistRegisterScreenState createState() => _TherapistRegisterScreenState();
+  TherapistRegisterScreenState createState() => TherapistRegisterScreenState();
 }
 
-class _TherapistRegisterScreenState extends State<TherapistRegisterScreen> {
+class TherapistRegisterScreenState extends State<TherapistRegisterScreen> {
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final emailController = TextEditingController();
@@ -21,6 +25,7 @@ class _TherapistRegisterScreenState extends State<TherapistRegisterScreen> {
   final licenseNumberController = TextEditingController();
   final specializationController = TextEditingController();
   final experienceController = TextEditingController();
+  String? _selectedGender;
   bool isLoading = false;
 
   @override
@@ -52,6 +57,10 @@ class _TherapistRegisterScreenState extends State<TherapistRegisterScreen> {
         'licenseNumber': licenseNumberController.text,
         'specialization': specializationController.text,
         'experience': experienceController.text,
+<<<<<<< Updated upstream
+=======
+        'gender': _selectedGender,
+>>>>>>> Stashed changes
       },
     );
 
@@ -63,10 +72,15 @@ class _TherapistRegisterScreenState extends State<TherapistRegisterScreen> {
 
     if (success) {
       showSnackBar(context, "Registration successful");
-      Navigator.of(context).pushReplacement(
+      Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
+<<<<<<< Updated upstream
           builder: (context) => const BottomNavBarPt(),
+=======
+          builder: (context) => const PtNavBar(),
+>>>>>>> Stashed changes
         ),
+        (Route<dynamic> route) => false,
       );
     } else {
       showSnackBar(context, "Registration failed. Please try again.");
@@ -76,58 +90,226 @@ class _TherapistRegisterScreenState extends State<TherapistRegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Therapist Registration'),
-      ),
-      body: SingleChildScrollView(
+      backgroundColor: const Color(0xFF00BFA6),
+      body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
+          padding: const EdgeInsets.only(top: 50),
+          child: Stack(
             children: [
-              MyTextField(
-                controller: firstNameController,
-                hintText: 'Enter your first name',
-                obscureText: false,
+              const SizedBox(height: 40),
+              MyBackButtonRow(
+                buttonText: 'Create an account',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const RoleBased()),
+                  );
+                },
+                color: Colors.white,
               ),
-              MyTextField(
-                controller: lastNameController,
-                hintText: 'Enter your last name',
-                obscureText: false,
+              Container(
+                margin: const EdgeInsets.only(top: 30),
+                padding: const EdgeInsets.all(35.0),
+                child: const Text(
+                  'Please fill in your details. Your data is necessary for communicating with your patient. Rest assured that your data will be protected and secured.',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
               ),
-              MyTextField(
-                controller: emailController,
-                hintText: 'Enter your email',
-                obscureText: false,
+              Container(
+                margin: const EdgeInsets.only(top: 150),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25),
+                  ),
+                ),
+                padding: const EdgeInsets.all(16.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Align(
+                            alignment: Alignment(-1.2, 0.0),
+                            child: MyLabel(
+                              labelText: 'First Name',
+                            ),
+                          ),
+                          const SizedBox(height: 5.0),
+                          MyTextField(
+                            controller: firstNameController,
+                            hintText: 'Enter your first name',
+                            obscureText: false,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Align(
+                            alignment: Alignment(-1.2, 0.0),
+                            child: MyLabel(
+                              labelText: 'Last Name',
+                            ),
+                          ),
+                          const SizedBox(height: 5.0),
+                          MyTextField(
+                            controller: lastNameController,
+                            hintText: 'Enter your last name',
+                            obscureText: false,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Align(
+                            alignment: Alignment(-1.2, 0.0),
+                            child: MyLabel(
+                              labelText: 'Gender',
+                            ),
+                          ),
+                          MyDropdown(
+                            hintText: 'Select your gender',
+                            hintStyle: const TextStyle(
+                                color: Color.fromRGBO(158, 158, 158, 1)),
+                            items: const ['Male', 'Female'],
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedGender = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Align(
+                            alignment: Alignment(-1.2, 0.0),
+                            child: MyLabel(
+                              labelText: 'Email',
+                            ),
+                          ),
+                          const SizedBox(height: 5.0),
+                          MyTextField(
+                            controller: emailController,
+                            hintText: 'Enter your email',
+                            obscureText: false,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Align(
+                            alignment: Alignment(-1.2, 0.0),
+                            child: MyLabel(
+                              labelText: 'Password',
+                            ),
+                          ),
+                          const SizedBox(height: 5.0),
+                          MyTextField(
+                            controller: passwordController,
+                            hintText: 'Enter your password',
+                            obscureText: true,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Align(
+                            alignment: Alignment(-1.2, 0.0),
+                            child: MyLabel(
+                              labelText: 'Phone Number',
+                            ),
+                          ),
+                          const SizedBox(height: 5.0),
+                          MyTextField(
+                            controller: phoneController,
+                            hintText: 'Enter your phone number',
+                            obscureText: false,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Align(
+                            alignment: Alignment(-1.2, 0.0),
+                            child: MyLabel(
+                              labelText: 'License Number',
+                            ),
+                          ),
+                          MyTextField(
+                            controller: licenseNumberController,
+                            hintText: 'Enter your license number',
+                            obscureText: false,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Align(
+                            alignment: Alignment(-1.2, 0.0),
+                            child: MyLabel(
+                              labelText: 'Specialization',
+                            ),
+                          ),
+                          MyTextField(
+                            controller: specializationController,
+                            hintText: 'Enter your specialization',
+                            obscureText: false,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Align(
+                            alignment: Alignment(-1.2, 0.0),
+                            child: MyLabel(
+                              labelText: 'Years of Experience',
+                            ),
+                          ),
+                          MyTextField(
+                            controller: experienceController,
+                            hintText: 'Enter your years of experience',
+                            obscureText: false,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 50),
+                      isLoading
+                          ? const CircularProgressIndicator()
+                          : MyButton(
+                              onTap: registerUser,
+                              buttonText: "Register",
+                              padding: const EdgeInsets.all(22),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 35.0),
+                              color: const Color(0xFF00BFA6),
+                            ),
+                    ],
+                  ),
+                ),
               ),
-              MyTextField(
-                controller: passwordController,
-                hintText: 'Enter your password',
-                obscureText: true,
-              ),
-              MyTextField(
-                controller: phoneController,
-                hintText: 'Enter your phone number',
-                obscureText: false,
-              ),
-              MyTextField(
-                controller: licenseNumberController,
-                hintText: 'Enter your license number',
-                obscureText: false,
-              ),
-              MyTextField(
-                controller: specializationController,
-                hintText: 'Enter your specialization',
-                obscureText: false,
-              ),
-              MyTextField(
-                controller: experienceController,
-                hintText: 'Enter your years of experience',
-                obscureText: false,
-              ),
-              const SizedBox(height: 20),
-              isLoading
-                  ? const CircularProgressIndicator()
-                  : MyButton(onTab: registerUser, text: "Register"),
             ],
           ),
         ),

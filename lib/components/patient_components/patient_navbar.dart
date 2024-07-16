@@ -6,20 +6,20 @@ import 'package:kineticare/roles/patient/patient_profile.dart';
 import 'package:kineticare/roles/patient/patient_home.dart';
 import 'package:kineticare/components/app_images.dart';
 
-class BottomNavBarPatient extends StatefulWidget {
-  const BottomNavBarPatient({super.key});
+class PatientNavBar extends StatefulWidget {
+  const PatientNavBar({super.key});
 
   @override
-  State<BottomNavBarPatient> createState() => _BottomNavBarPatientState();
+  State<PatientNavBar> createState() => _PatientNavBarState();
 }
 
-class _BottomNavBarPatientState extends State<BottomNavBarPatient> {
+class _PatientNavBarState extends State<PatientNavBar> {
   List<Widget> screenList = [
-    const UserHome(),
-    const UserAppoint(),
-    const UserChat(),
-    const UserExercise(),
-    const UserProfile()
+    const PatientHome(),
+    PatientAppoint(),
+    const PatientChat(),
+    const PatientExercise(),
+    const PatientProfile()
   ];
 
   void onItemTapped(int index) {

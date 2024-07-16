@@ -66,6 +66,7 @@ class _PtHomeState extends State<PtHome> {
         ),
       ),
       body: SingleChildScrollView(
+<<<<<<< Updated upstream
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 35),
@@ -119,6 +120,79 @@ class _PtHomeState extends State<PtHome> {
                         color: Color(0xFF333333),
                         blurRadius: 4.0,
                         offset: Offset(0.0, 0.55),
+=======
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 35),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('Hello, Juan!',
+                          style: TextStyle(
+                              fontSize: 24, 
+                              fontWeight: FontWeight.bold)),
+                      Text('Today is $formattedDate',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xFFA0A0A0)
+                      )),
+                    ],
+                  ),
+                  Container(
+                    height: 60,
+                    width: 60,
+                    decoration: const BoxDecoration(
+                        shape: BoxShape.circle, color: Color(0xFF00BFA6)),
+                  )
+                ],
+              ),
+              const SizedBox(height: 55),
+              const Text('Number of active patients: ',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFF333333)
+              ),
+              ),
+              const SizedBox(height: 15),
+              Container(
+                height: 71,
+                width: 399,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: const Color(0xFF00BFA6),
+                  boxShadow: const <BoxShadow>[
+                  BoxShadow(
+                    color: Color(0xFF333333),
+                    blurRadius: 4.0,
+                    offset: Offset(0.0, 0.55))
+                  ]
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Row(
+                    children: [
+                      Image.asset(AppImages.patientList),
+                      const SizedBox(width: 20),
+                      const Text('Patient List',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white
+                      ),
+                      ),
+                      const SizedBox(width: 150),
+                      Image.asset(AppImages.forArrow,
+                      color: Colors.white,
+>>>>>>> Stashed changes
                       )
                     ],
                   ),
@@ -141,10 +215,35 @@ class _PtHomeState extends State<PtHome> {
                     ),
                   ),
                 ),
+<<<<<<< Updated upstream
                 const SizedBox(height: 20),
                 const Text(
                   'Number of pending requests: ',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Color(0xFF333333)),
+=======
+              ),
+              const SizedBox(height: 20),
+              const Text('Number of pending request: ',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFF333333)
+              ),
+              ),
+              const SizedBox(height: 15),
+              Container(
+                height: 71,
+                width: 399,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: const Color(0xFF00BFA6),
+                  boxShadow: const <BoxShadow>[
+                  BoxShadow(
+                    color: Color(0xFF333333),
+                    blurRadius: 4.0,
+                    offset: Offset(0.0, 0.55))
+                  ]
+>>>>>>> Stashed changes
                 ),
                 const SizedBox(height: 15),
                 Container(

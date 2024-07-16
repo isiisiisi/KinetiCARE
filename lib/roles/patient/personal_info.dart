@@ -68,7 +68,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const BottomNavBarPatient()));
+                                    const PatientNavBar()));
                       },
                       child: Image.asset(AppImages.backArrow),
                     ),

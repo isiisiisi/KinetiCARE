@@ -78,7 +78,8 @@ class MyDropdown extends FormField<String> {
                         child: Text(value),
                       );
                     }).toList(),
-                    hint: Text(hintText),
+                    hint: Text(hintText,
+                        style: hintStyle), // Apply hintStyle here
                   ),
                 ),
               ),

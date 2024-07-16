@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
 
-class UserExercise extends StatelessWidget {
-  const UserExercise({super.key});
+class PatientExercise extends StatelessWidget {
+  const PatientExercise({super.key});
 
   @override
   Widget build(BuildContext context) {
