@@ -57,14 +57,14 @@ class _LoginScreenState extends State<LoginScreen> {
           if (accountType == "therapist") {
             Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
-                builder: (context) => const BottomNavBarPt(),
+                builder: (context) => const PtNavBar(),
               ),
               (Route<dynamic> route) => false,
             );
           } else {
             Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
-                builder: (context) => const BottomNavBarPatient(),
+                builder: (context) => const PatientNavBar(),
               ),
               (Route<dynamic> route) => false,
             );
@@ -86,7 +86,6 @@ class _LoginScreenState extends State<LoginScreen> {
       isLoading = false;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {

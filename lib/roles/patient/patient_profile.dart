@@ -6,7 +6,7 @@ import 'package:kineticare/roles/patient/medical_information.dart';
 import 'package:kineticare/roles/patient/personal_info.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/account/login_screen.dart';
-import 'package:kineticare/components/patient_components/patient_appbar.dart';
+
 
 class PatientProfile extends StatefulWidget {
   const PatientProfile({super.key});
@@ -64,42 +64,9 @@ class _PatientProfileState extends State<PatientProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< Updated upstream
-        appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(70),
-        child: PatientAppbar(),
-      ),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-              child: Column(
-                children: [
-                  const Center(
-                    child: Text(
-                      'My Profile',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF333333),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  Container(
-                    height: 109,
-                    width: 190,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF5A8DEE),
-                      shape: BoxShape.circle,
-                    ),
-                    body: SingleChildScrollView(
-=======
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(70), child: PatientAppbar()),
       body: SingleChildScrollView(
->>>>>>> Stashed changes
         scrollDirection: Axis.vertical,
         child: SafeArea(
           child: Padding(
@@ -132,7 +99,6 @@ class _PatientProfileState extends State<PatientProfile> {
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                     color: Color(0xFF333333),
-
                   ),
                 ),
                 const SizedBox(height: 5),

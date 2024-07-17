@@ -16,7 +16,7 @@ class PatientNavBar extends StatefulWidget {
 class _PatientNavBarState extends State<PatientNavBar> {
   List<Widget> screenList = [
     const PatientHome(),
-    PatientAppoint(),
+    const UserAppoint(),
     const PatientChat(),
     const PatientExercise(),
     const PatientProfile()

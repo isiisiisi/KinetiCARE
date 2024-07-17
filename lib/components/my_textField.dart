@@ -46,8 +46,7 @@ class MyTextField extends FormField<String> {
                   hintStyle: hintStyle ??
                       const TextStyle(color: Color.fromRGBO(158, 158, 158, 1)),
                   contentPadding: contentPadding ??
-                      const EdgeInsets.symmetric(
-                          vertical: 25, horizontal: 25),
+                      const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0),
                     borderSide: enabledBorderSide ??

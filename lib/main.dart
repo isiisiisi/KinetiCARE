@@ -65,10 +65,10 @@
 //   }
 // }
 import 'package:flutter/material.dart';
-import 'package:kineticare/components/patient_components/patient_navbar.dart';
-import 'package:kineticare/components/pt_components/pt_navbar.dart';
-import 'package:kineticare/account/login_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:kineticare/components/patient_components/patient_navbar.dart';
+// import 'package:kineticare/components/pt_components/pt_navbar.dart';
+// import 'package:kineticare/account/login_screen.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:kineticare/account/splash_screen.dart';
 

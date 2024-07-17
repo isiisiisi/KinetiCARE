@@ -55,13 +55,7 @@ class _PtProfileState extends State<PtProfile> {
     if (!mounted) return;
     Navigator.pushAndRemoveUntil(
       context,
-<<<<<<< Updated upstream
-      MaterialPageRoute(
-          builder: (context) =>
-              const LoginScreen()), 
-=======
       MaterialPageRoute(builder: (context) => const LoginScreen()),
->>>>>>> Stashed changes
       (Route<dynamic> route) => false,
     );
   }

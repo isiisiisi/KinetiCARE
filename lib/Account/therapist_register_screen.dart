@@ -57,10 +57,7 @@ class TherapistRegisterScreenState extends State<TherapistRegisterScreen> {
         'licenseNumber': licenseNumberController.text,
         'specialization': specializationController.text,
         'experience': experienceController.text,
-<<<<<<< Updated upstream
-=======
         'gender': _selectedGender,
->>>>>>> Stashed changes
       },
     );
 
@@ -74,11 +71,7 @@ class TherapistRegisterScreenState extends State<TherapistRegisterScreen> {
       showSnackBar(context, "Registration successful");
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-<<<<<<< Updated upstream
-          builder: (context) => const BottomNavBarPt(),
-=======
           builder: (context) => const PtNavBar(),
->>>>>>> Stashed changes
         ),
         (Route<dynamic> route) => false,
       );
@@ -96,16 +89,20 @@ class TherapistRegisterScreenState extends State<TherapistRegisterScreen> {
           padding: const EdgeInsets.only(top: 50),
           child: Stack(
             children: [
-              const SizedBox(height: 40),
-              MyBackButtonRow(
-                buttonText: 'Create an account',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const RoleBased()),
-                  );
-                },
-                color: Colors.white,
+              Positioned(
+                top: 0,
+                left: 80,
+                child: MyBackButtonRow(
+                    buttonText: 'Create an account',
+                    space: 40,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RoleBased()),
+                      );
+                    },
+                    color: Colors.white),
               ),
               Container(
                 margin: const EdgeInsets.only(top: 30),
@@ -179,6 +176,7 @@ class TherapistRegisterScreenState extends State<TherapistRegisterScreen> {
                           ),
                           MyDropdown(
                             hintText: 'Select your gender',
+                            labelText: 'Gender',
                             hintStyle: const TextStyle(
                                 color: Color.fromRGBO(158, 158, 158, 1)),
                             items: const ['Male', 'Female'],

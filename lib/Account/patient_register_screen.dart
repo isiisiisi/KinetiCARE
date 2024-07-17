@@ -1,11 +1,4 @@
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
-import 'package:kineticare/Services/auth.dart';
-import 'package:kineticare/Widget/button.dart';
-import 'package:kineticare/Widget/snackbar.dart';
-import 'package:kineticare/components/my_textfield.dart';
-import 'package:kineticare/components/patient_components/patient_navbar.dart';
-=======
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/components/my_datefield.dart';
 import 'package:kineticare/services/auth.dart';
@@ -17,7 +10,6 @@ import 'package:kineticare/account/role_based.dart';
 import 'package:kineticare/components/my_label.dart';
 import 'package:kineticare/components/my_button.dart';
 import 'package:kineticare/components/my_dropdown.dart';
->>>>>>> Stashed changes
 
 class PatientRegisterScreen extends StatefulWidget {
   const PatientRegisterScreen({super.key});
@@ -99,11 +91,7 @@ class PatientRegisterScreenState extends State<PatientRegisterScreen> {
       showSnackBar(context, "Registration successful");
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-<<<<<<< Updated upstream
-          builder: (context) =>const BottomNavBarPatient(),
-=======
           builder: (context) => const PatientNavBar(),
->>>>>>> Stashed changes
         ),
         (Route<dynamic> route) => false,
       );
@@ -126,21 +114,21 @@ class PatientRegisterScreenState extends State<PatientRegisterScreen> {
     }
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
+  // Future<void> _selectDate(BuildContext context) async {
+  //   final DateTime? picked = await showDatePicker(
+  //     context: context,
+  //     initialDate: DateTime.now(),
+  //     firstDate: DateTime(1900),
+  //     lastDate: DateTime.now(),
+  //   );
 
-    if (picked != null) {
-      setState(() {
-        birthDateController.text =
-            "${picked.month}/${picked.day}/${picked.year}";
-      });
-    }
-  }
+  //   if (picked != null) {
+  //     setState(() {
+  //       birthDateController.text =
+  //           "${picked.month}/${picked.day}/${picked.year}";
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -151,12 +139,6 @@ class PatientRegisterScreenState extends State<PatientRegisterScreen> {
           padding: const EdgeInsets.only(top: 50),
           child: Stack(
             children: [
-              const SizedBox(height: 40),
-              MyBackButtonRow(
-                buttonText: 'Create an account',
-                onTap: onBackButtonPressed,
-                color: Colors.white,
-              ),
               Container(
                 margin: const EdgeInsets.only(top: 30),
                 padding: const EdgeInsets.all(35.0),
@@ -202,6 +184,16 @@ class PatientRegisterScreenState extends State<PatientRegisterScreen> {
                   ],
                 ),
               ),
+              Positioned(
+                top: 0,
+                left: 80,
+                child: MyBackButtonRow(
+                  buttonText: 'Patient Registration',
+                  onTap: onBackButtonPressed,
+                  color: Colors.white,
+                  space: 40,
+                ),
+              ),
             ],
           ),
         ),
@@ -234,7 +226,19 @@ class PatientRegisterScreenState extends State<PatientRegisterScreen> {
           _buildTextField(
               'Last Name', 'Enter your last name', lastNameController),
           const SizedBox(height: 15),
-          _buildDropdown('Gender', ['Male', 'Female']),
+          MyDropdown(
+              hintText: 'Select Gender',
+              labelText: 'Gender',
+              items: const ['Female', 'Male'],
+              value: _selectedGender,
+              onChanged: (value) {
+                setState(() {
+                  _selectedGender = value;
+                });
+              }),
+          const SizedBox(height: 15),
+          _buildTextField(
+              'Phone Number', 'Enter your phone number', phoneController),
           const SizedBox(height: 15),
           MyDateField(
             controller: birthDateController,
@@ -304,8 +308,16 @@ class PatientRegisterScreenState extends State<PatientRegisterScreen> {
           _buildTextField('Contact Last Name', 'Enter contact last name',
               contactLastNameController),
           const SizedBox(height: 15),
-          _buildDropdown(
-              'Relationship', ['Sibling', 'Mother', 'Father', 'Other']),
+          MyDropdown(
+              hintText: 'Select Relationship',
+              labelText: 'Relationship',
+              items: const ['Sibling', 'Parent', 'Other'],
+              value: _selectedRelationship,
+              onChanged: (value) {
+                setState(() {
+                  _selectedRelationship = value;
+                });
+              }),
           const SizedBox(height: 15),
           _buildTextField(
               'Contact Phone', 'Enter contact phone', contactPhoneController),
@@ -389,29 +401,29 @@ class PatientRegisterScreenState extends State<PatientRegisterScreen> {
     );
   }
 
-  Widget _buildDropdown(String labelText, List<String> items) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Align(
-          alignment: const Alignment(-1.2, 0.0),
-          child: MyLabel(
-            labelText: labelText,
-          ),
-        ),
-        MyDropdown(
-          hintText: 'Select your $labelText',
-          hintStyle: const TextStyle(color: Color.fromRGBO(158, 158, 158, 1)),
-          items: items,
-          onChanged: (value) {
-            setState(() {
-              _selectedGender = value;
-            });
-          },
-        ),
-      ],
-    );
-  }
+//   Widget _buildDropdown(String labelText, List<String> items) {
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         Align(
+//           alignment: const Alignment(-1.2, 0.0),
+//           child: MyLabel(
+//             labelText: labelText,
+//           ),
+//         ),
+//         MyDropdown(
+//           hintText: 'Select your $labelText',
+//           hintStyle: const TextStyle(color: Color.fromRGBO(158, 158, 158, 1)),
+//           items: items,
+//           onChanged: (value) {
+//             setState(() {
+//               _selectedGender = value;
+//             });
+//           },
+//         ),
+//       ],
+//     );
+//   }
 }
 
 class RoundedRectanglePageIndicator extends StatelessWidget {

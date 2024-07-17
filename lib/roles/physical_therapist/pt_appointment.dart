@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/components/my_backbutton.dart';
-import 'package:kineticare/components/my_textField.dart';
+import 'package:kineticare/components/my_textfield.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
 import 'package:kineticare/components/pt_components/pt_navbar.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -114,89 +114,91 @@ class _PtAppointmentState extends State<PtAppointment> {
   }
 
   Future<void> _selectTime(
-    BuildContext context, TextEditingController controller) async {
-  final timeSlotsSnapshot = await FirebaseFirestore.instance
-      .collection('timeSlots')
-      .where('date', isEqualTo: DateFormat('yyyy-MM-dd').format(_selectedDay))
-      .get();
+      BuildContext context, TextEditingController controller) async {
+    final timeSlotsSnapshot = await FirebaseFirestore.instance
+        .collection('timeSlots')
+        .where('date', isEqualTo: DateFormat('yyyy-MM-dd').format(_selectedDay))
+        .get();
 
-  if (timeSlotsSnapshot.docs.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('No available time slots for selected date'),
-      ),
-    );
-    return;
-  }
-
-  List<String> allTimeSlots = timeSlotsSnapshot.docs
-      .map<String>((doc) => '${doc['startTime']} - ${doc['endTime']}')
-      .toList();
-
-  final appointmentsSnapshot = await FirebaseFirestore.instance
-      .collection('appointments')
-      .where('date', isEqualTo: DateFormat('yyyy-MM-dd').format(_selectedDay))
-      .get();
-
-  final patientAppointmentsSnapshot = await FirebaseFirestore.instance
-      .collection('patientAppointments')
-      .where('date', isEqualTo: DateFormat('yyyy-MM-dd').format(_selectedDay))
-      .get();
-
-  List<String> bookedTimeSlots = [
-    ...appointmentsSnapshot.docs.map((doc) => doc['time_slot'] as String),
-    ...patientAppointmentsSnapshot.docs.map((doc) => doc['time_slot'] as String)
-  ];
-
-  List<String> availableTimeSlots =
-      allTimeSlots.where((slot) => !bookedTimeSlots.contains(slot)).toList();
-
-  if (availableTimeSlots.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('No available time slots for selected date'),
-      ),
-    );
-    return;
-  }
-
-  final selectedTimeSlot = await showDialog<String>(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text('Select Time Slot'),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: availableTimeSlots
-                .map((slot) => RadioListTile<String>(
-                      title: Text(slot),
-                      value: slot,
-                      groupValue: controller.text,
-                      onChanged: (value) {
-                        Navigator.of(context).pop(value);
-                      },
-                    ))
-                .toList(),
-          ),
+    if (timeSlotsSnapshot.docs.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('No available time slots for selected date'),
         ),
-        actions: <Widget>[
-          TextButton(
-            child: const Text('Cancel'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
       );
-    },
-  );
+      return;
+    }
 
-  if (selectedTimeSlot != null) {
-    setState(() {
-      controller.text = selectedTimeSlot;
-    });
+    List<String> allTimeSlots = timeSlotsSnapshot.docs
+        .map<String>((doc) => '${doc['startTime']} - ${doc['endTime']}')
+        .toList();
+
+    final appointmentsSnapshot = await FirebaseFirestore.instance
+        .collection('appointments')
+        .where('date', isEqualTo: DateFormat('yyyy-MM-dd').format(_selectedDay))
+        .get();
+
+    final patientAppointmentsSnapshot = await FirebaseFirestore.instance
+        .collection('patientAppointments')
+        .where('date', isEqualTo: DateFormat('yyyy-MM-dd').format(_selectedDay))
+        .get();
+
+    List<String> bookedTimeSlots = [
+      ...appointmentsSnapshot.docs.map((doc) => doc['time_slot'] as String),
+      ...patientAppointmentsSnapshot.docs
+          .map((doc) => doc['time_slot'] as String)
+    ];
+
+    List<String> availableTimeSlots =
+        allTimeSlots.where((slot) => !bookedTimeSlots.contains(slot)).toList();
+
+    if (availableTimeSlots.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('No available time slots for selected date'),
+        ),
+      );
+      return;
+    }
+
+    final selectedTimeSlot = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Select Time Slot'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: availableTimeSlots
+                  .map((slot) => RadioListTile<String>(
+                        title: Text(slot),
+                        value: slot,
+                        groupValue: controller.text,
+                        onChanged: (value) {
+                          Navigator.of(context).pop(value);
+                        },
+                      ))
+                  .toList(),
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    if (selectedTimeSlot != null) {
+      setState(() {
+        controller.text = selectedTimeSlot;
+      });
+    }
   }
-}
+
   Future<void> _bookAppointment() async {
     final String title = titleController.text;
     final String description = descriptionController.text;
@@ -242,7 +244,7 @@ class _PtAppointmentState extends State<PtAppointment> {
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const BottomNavBarPt()),
+      MaterialPageRoute(builder: (context) => const PtNavBar()),
     );
   }
 
@@ -409,7 +411,7 @@ class _PtAppointmentState extends State<PtAppointment> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const BottomNavBarPt(),
+                          builder: (context) => const PtNavBar(),
                         ),
                       );
                     },
@@ -450,8 +452,7 @@ class _PtAppointmentState extends State<PtAppointment> {
           ),
           SafeArea(
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 35, vertical: 35),
+              padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 35),
               child: Column(
                 children: [
                   MyBackButtonRow(
@@ -461,7 +462,7 @@ class _PtAppointmentState extends State<PtAppointment> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const BottomNavBarPt()));
+                              builder: (context) => const PtNavBar()));
                     },
                     space: 40,
                   ),

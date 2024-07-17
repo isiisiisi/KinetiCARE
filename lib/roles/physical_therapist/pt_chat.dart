@@ -43,9 +43,7 @@ class _PtChatState extends State<PtChat> {
                 height: 40,
                 width: 40,
                 decoration: const BoxDecoration(
-                  color: Color(0xFF00BFA6),
-                  shape: BoxShape.circle
-                ),
+                    color: Color(0xFF00BFA6), shape: BoxShape.circle),
               )
             ],
           ),
