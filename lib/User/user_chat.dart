@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kineticare/ChatSystem/chatpreview.dart';
+import 'package:kineticare/ChatSystem/onboarding_referral.dart';
 import 'package:kineticare/components/app_images.dart';
 
 class UserChat extends StatelessWidget {
@@ -37,12 +39,50 @@ class UserChat extends StatelessWidget {
                 height: 40,
                 width: 40,
                 decoration: const BoxDecoration(
-                  color: Color(0xFF5A8DEE),
-                  shape: BoxShape.circle
-                ),
+                    color: Color(0xFF5A8DEE), shape: BoxShape.circle),
               )
             ],
           ),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 20),
+            Text(
+              'Chat',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Chat with your personal physical therapist.',
+              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+            ),
+            SizedBox(height: 20),
+            Card(
+              elevation: 2,
+              child: ListTile(
+                leading: Icon(Icons.link, color: Color(0xFF5A8DEE)),
+                title: Text('Connect with a PT'),
+                trailing: Icon(Icons.chevron_right),
+                onTap: () {
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OnboardingScreens(),
+                  ),
+                  
+                );
+                
+                },
+              ),
+            ),
+            Expanded(
+              child: ChatPreviewList(),
+            ),
+          ],
         ),
       ),
     );
