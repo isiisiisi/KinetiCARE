@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,11 +21,16 @@ class _BookAppointmentState extends State<BookAppointment> {
   final descriptionController = TextEditingController();
   final dateController = TextEditingController();
   final selectedTimeSlotController = TextEditingController();
+  final ptController = TextEditingController();
   late DateTime _focusedDay;
   late DateTime _firstDay;
   late DateTime _lastDay;
   late DateTime _selectedDay;
   double _scaleCancel = 1.0;
+  late User users;
+  String firstName = '';
+  String lastName = '';
+  String specialization = '';
 
   @override
   void initState() {
@@ -33,6 +39,8 @@ class _BookAppointmentState extends State<BookAppointment> {
     _firstDay = DateTime.now().subtract(const Duration(days: 1000));
     _lastDay = DateTime.now().add(const Duration(days: 1000));
     _selectedDay = DateTime.now();
+    users = FirebaseAuth.instance.currentUser!;
+    fetchUserDetails();
   }
 
   void _onLeftArrowTap() {
@@ -111,6 +119,27 @@ class _BookAppointmentState extends State<BookAppointment> {
         );
       },
     );
+  }
+
+  void fetchUserDetails() async {
+    try {
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(users.uid)
+          .get();
+
+      if (documentSnapshot.exists) {
+        setState(() {
+          firstName = documentSnapshot.get('firstName') ?? '';
+          lastName = documentSnapshot.get('lastName') ?? '';
+          specialization = documentSnapshot.get('specialization') ?? '';
+        });
+      } else {
+        print('Document does not exist');
+      }
+    } catch (e) {
+      print('Error fetching user details: $e');
+    }
   }
 
   Future<void> _selectTime(
@@ -198,11 +227,13 @@ class _BookAppointmentState extends State<BookAppointment> {
     final String description = descriptionController.text;
     final String date = dateController.text;
     final String selectedTimeSlot = selectedTimeSlotController.text;
+    final String physicalTherapist = ptController.text;
 
     if (title.isEmpty ||
         description.isEmpty ||
         date.isEmpty ||
-        selectedTimeSlot.isEmpty) {
+        selectedTimeSlot.isEmpty ||
+        physicalTherapist.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Please fill in all fields'),
@@ -216,6 +247,7 @@ class _BookAppointmentState extends State<BookAppointment> {
       'description': description,
       'date': date,
       'time_slot': selectedTimeSlot,
+      'physiical_therapist': physicalTherapist,
     });
 
     Navigator.pushReplacement(
@@ -257,62 +289,62 @@ class _BookAppointmentState extends State<BookAppointment> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 20),
-                  const Center(
-                    child: Text(
-                      'Your Physical Therapist',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF333333)),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 45, vertical: 20),
-                    child: Container(
-                      width: 336,
-                      height: 123,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: const <BoxShadow>[
-                          BoxShadow(
-                            color: Color(0xFF333333),
-                            blurRadius: 2,
-                            offset: Offset(0.0, 0.55),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          const SizedBox(width: 10),
-                          Container(
-                            width: 92,
-                            height: 92,
-                            decoration: const BoxDecoration(
-                                color: Color(0xFFFFEB3B),
-                                shape: BoxShape.circle),
-                          ),
-                          const SizedBox(width: 10),
-                          const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('Juan S. Dela Cruz',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600)),
-                              Text('Knee Rehabilitation',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal)),
-                            ],
-                          ),
-                          const SizedBox(width: 40),
-                          Image.asset(AppImages.forArrow)
-                        ],
-                      ),
-                    ),
-                  ),
+                  // const Center(
+                  //   child: Text(
+                  //     'Your Physical Therapist',
+                  //     style: TextStyle(
+                  //         fontSize: 20,
+                  //         fontWeight: FontWeight.w500,
+                  //         color: Color(0xFF333333)),
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(
+                  //       horizontal: 45, vertical: 20),
+                  // child: Container(
+                  //   width: 336,
+                  //   height: 123,
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.white,
+                  //     borderRadius: BorderRadius.circular(15),
+                  //     boxShadow: const <BoxShadow>[
+                  //       BoxShadow(
+                  //         color: Color(0xFF333333),
+                  //         blurRadius: 2,
+                  //         offset: Offset(0.0, 0.55),
+                  //       ),
+                  //     ],
+                  //   ),
+                  //   child: Row(
+                  //     children: [
+                  //       const SizedBox(width: 10),
+                  //       Container(
+                  //         width: 92,
+                  //         height: 92,
+                  //         decoration: const BoxDecoration(
+                  //             color: Color(0xFFFFEB3B),
+                  //             shape: BoxShape.circle),
+                  //       ),
+                  //       const SizedBox(width: 10),
+                  //       Column(
+                  //         mainAxisAlignment: MainAxisAlignment.center,
+                  //         children: [
+                  //           Text('$firstName $lastName',
+                  //               style: const TextStyle(
+                  //                   fontSize: 16,
+                  //                   fontWeight: FontWeight.w600)),
+                  //           Text(specialization,
+                  //               style: const TextStyle(
+                  //                   fontSize: 14,
+                  //                   fontWeight: FontWeight.normal)),
+                  //         ],
+                  //       ),
+                  //       const SizedBox(width: 40),
+                  //       Image.asset(AppImages.forArrow)
+                  //     ],
+                  //   ),
+                  // ),
+                  // ),
                   const SizedBox(height: 20),
                   const Center(
                     child: Text(
@@ -354,6 +386,23 @@ class _BookAppointmentState extends State<BookAppointment> {
                   MyTextField(
                     controller: descriptionController,
                     hintText: 'Provide brief description',
+                    obscureText: false,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 20, left: 20),
+                    child: Text(
+                      'Physical Therapist',
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF333333),
+                      ),
+                    ),
+                  ),
+                  MyTextField(
+                    controller: ptController,
+                    hintText: 'Physical Therapist Name',
                     obscureText: false,
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                   ),

@@ -168,24 +168,16 @@ class TherapistRegisterScreenState extends State<TherapistRegisterScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Align(
-                            alignment: Alignment(-1.2, 0.0),
-                            child: MyLabel(
-                              labelText: 'Gender',
-                            ),
-                          ),
                           MyDropdown(
-                            hintText: 'Select your gender',
-                            labelText: 'Gender',
-                            hintStyle: const TextStyle(
-                                color: Color.fromRGBO(158, 158, 158, 1)),
-                            items: const ['Male', 'Female'],
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedGender = value;
-                              });
-                            },
-                          ),
+                              hintText: 'Select Gender',
+                              labelText: 'Gender',
+                              items: const ['Female', 'Male'],
+                              value: _selectedGender,
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedGender = value;
+                                });
+                              }),
                         ],
                       ),
                       const SizedBox(height: 15),
