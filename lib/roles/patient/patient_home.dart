@@ -7,14 +7,14 @@ import 'package:kineticare/components/patient_components/bar_graph.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
 import 'package:kineticare/components/patient_components/pie_chart.dart';
 
-class UserHome extends StatefulWidget {
-  const UserHome({super.key});
+class PatientHome extends StatefulWidget {
+  const PatientHome({super.key});
 
   @override
-  State<UserHome> createState() => _UserHomeState();
+  State<PatientHome> createState() => _PatientHomeState();
 }
 
-class _UserHomeState extends State<UserHome> {
+class _PatientHomeState extends State<PatientHome> {
   final String formattedDate =
       DateFormat('MMMM dd, yyyy').format(DateTime.now());
 
@@ -68,6 +68,7 @@ class _UserHomeState extends State<UserHome> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Hello, $firstName!',
                           style: const TextStyle(

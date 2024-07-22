@@ -14,6 +14,7 @@ class AppImages {
   static const String password = "${assetsPath}vectorPassword.png";
   static const String home = "${assetsPath}home.png";
   static const String calendar = "${assetsPath}calendar.png";
+  static const String calendarIcon = "${assetsPath}calendarIcon.png";
   static const String chat = "${assetsPath}chat.png";
   static const String exercise = "${assetsPath}exercise.png";
   static const String profile = "${assetsPath}profile.png";

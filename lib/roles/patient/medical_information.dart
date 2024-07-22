@@ -72,7 +72,7 @@ String? selectedCertification;
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const BottomNavBarPatient()));
+                                builder: (context) => const PatientNavBar()));
                       },
                       child: Image.asset(AppImages.backArrow),
                     ),

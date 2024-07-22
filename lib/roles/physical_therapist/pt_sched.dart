@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,7 +11,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Appointment extends StatefulWidget {
-  const Appointment({Key? key}) : super(key: key);
+  const Appointment({super.key});
 
   @override
   State<Appointment> createState() => _AppointmentState();

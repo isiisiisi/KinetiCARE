@@ -7,16 +7,16 @@ import 'package:kineticare/roles/physical_therapist/pt_sched.dart';
 import 'package:kineticare/components/app_images.dart';
 
 
-class BottomNavBarPt extends StatefulWidget {
-  const BottomNavBarPt({super.key});
+class PtNavBar extends StatefulWidget {
+  const PtNavBar({super.key});
 
   @override
-  State<BottomNavBarPt> createState() => _BottomNavBarPtState();
+  State<PtNavBar> createState() => _PtNavBarState();
 }
 
-class _BottomNavBarPtState extends State<BottomNavBarPt> {
+class _PtNavBarState extends State<PtNavBar> {
   List<Widget> screenList = [
-    PtHome(),
+    const PtHome(),
     const Appointment(),
     const PtChat(),
     const PtExerprograms(),

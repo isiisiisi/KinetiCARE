@@ -4,17 +4,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Method to log in the user
-  Future<bool> loginUser({required String email, required String password}) async {
+  Future<bool> loginUser({
+    required String email,
+    required String password,
+  }) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       return true;
     } catch (e) {
+      print('Error logging in user: $e'); 
       return false;
     }
   }
 
-  // Method to register a user
   Future<bool> registerUser({
     required String email,
     required String password,
@@ -22,7 +24,8 @@ class AuthService {
     Map<String, dynamic>? additionalDetails,
   }) async {
     try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -30,17 +33,18 @@ class AuthService {
       User? user = userCredential.user;
 
       if (user != null) {
-        // Store additional details in Firestore
         await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
           'email': email,
           'accountType': accountType,
-          ...?additionalDetails, // Spread operator to add additional details if provided
+          ...?additionalDetails,
         });
       }
 
       return true;
     } catch (e) {
+      print('Error registering user: $e'); 
       return false;
     }
   }
 }
+

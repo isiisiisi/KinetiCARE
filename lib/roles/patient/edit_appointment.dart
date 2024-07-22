@@ -3,25 +3,31 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kineticare/components/app_images.dart';
 //import 'package:kineticare/components/my_dropdown.dart';
-import 'package:kineticare/components/my_textField.dart';
+import 'package:kineticare/components/my_textfield.dart';
 import 'package:kineticare/roles/patient/patient_appoint.dart';
 
 void showBookAppointmentDialog(BuildContext context,
-    {DocumentSnapshot? patientAppointmentSnapshot, required void Function() refreshAppointments}) {
-  final TextEditingController titleController =
-      TextEditingController(text: patientAppointmentSnapshot?.get('title') ?? '');
+    {DocumentSnapshot? patientAppointmentSnapshot,
+    required void Function() refreshAppointments}) {
+  final TextEditingController titleController = TextEditingController(
+      text: patientAppointmentSnapshot?.get('title') ?? '');
   final TextEditingController descriptionController = TextEditingController(
       text: patientAppointmentSnapshot?.get('description') ?? '');
   final TextEditingController selectedTimeSlotController =
-      TextEditingController(text: patientAppointmentSnapshot?.get('time_slot') ?? '');
- final TextEditingController dateController = TextEditingController(
-  text: patientAppointmentSnapshot != null
-    ? patientAppointmentSnapshot.get('date') is String
-        ? patientAppointmentSnapshot.get('date') 
-        : patientAppointmentSnapshot.get('date') is Timestamp
-            ? DateFormat('yyyy-MM-dd').format((patientAppointmentSnapshot.get('date') as Timestamp).toDate()) // Format Timestamp to string
-            : '' 
-    : '', 
+      TextEditingController(
+          text: patientAppointmentSnapshot?.get('time_slot') ?? '');
+  final TextEditingController ptController = TextEditingController(
+      text: patientAppointmentSnapshot?.get('physiical_therapist') ?? '');
+  final TextEditingController dateController = TextEditingController(
+    text: patientAppointmentSnapshot != null
+        ? patientAppointmentSnapshot.get('date') is String
+            ? patientAppointmentSnapshot.get('date')
+            : patientAppointmentSnapshot.get('date') is Timestamp
+                ? DateFormat('yyyy-MM-dd').format(
+                    (patientAppointmentSnapshot.get('date') as Timestamp)
+                        .toDate()) // Format Timestamp to string
+                : ''
+        : '',
   );
 
   // List<String> patients = [];
@@ -32,17 +38,17 @@ void showBookAppointmentDialog(BuildContext context,
       'title': titleController.text,
       'description': descriptionController.text,
       'time_slot': selectedTimeSlotController.text,
-      'date': dateController.text
+      'date': dateController.text,
+      'physical_therapist': ptController.text
     };
 
     if (patientAppointmentSnapshot != null) {
       patientAppointmentSnapshot.reference.update(patientAppointmentData);
     }
 
-    refreshAppointments(); 
-    Navigator.pushReplacement(context, 
-    MaterialPageRoute(builder: (context) => const UserAppoint())
-    );
+    refreshAppointments();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const UserAppoint()));
   }
 
   void deletepatientAppointment() {
@@ -65,7 +71,9 @@ void showBookAppointmentDialog(BuildContext context,
   }
 
   Future<void> selectTime(
-      BuildContext context, TextEditingController controller, void Function(void Function()) setState) async {
+      BuildContext context,
+      TextEditingController controller,
+      void Function(void Function()) setState) async {
     final timeSlotsSnapshot = await FirebaseFirestore.instance
         .collection('timeSlots')
         .where('date', isEqualTo: dateController.text)
@@ -134,7 +142,8 @@ void showBookAppointmentDialog(BuildContext context,
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -200,29 +209,26 @@ void showBookAppointmentDialog(BuildContext context,
                         ],
                       ),
                       const SizedBox(height: 15),
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // const Text(
-                          //   'Physical Therapist',
-                          //   style: TextStyle(
-                          //       fontSize: 15,
-                          //       fontWeight: FontWeight.w500,
-                          //       color: Color(0xFF333333)),
-                          // ),
-                          // MyTextField(
-                          //   controller: patientController,
-                          //     hintText: '',
-                          //     hintStyle: const TextStyle(color: Color(0xFF9E9E9E)),
-                          //     obscureText: false,
-                          //     items: patients,
-                          //     value: selectedPatient,
-                          //     onChanged: (value) {
-                          //      setState(() {
-                          //        selectedPatient = value;
-                          //        });
-                          //     }
-                          // ),
+                          const Text(
+                            'Physical Therapist',
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF333333)),
+                          ),
+                          MyTextField(
+                            controller: ptController,
+                            hintText: '',
+                            hintStyle:
+                                const TextStyle(color: Color(0xFF9E9E9E)),
+                            obscureText: false,
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 7),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 15),
@@ -245,7 +251,8 @@ void showBookAppointmentDialog(BuildContext context,
                                 controller: dateController,
                                 hintText: '',
                                 obscureText: false,
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 contentPadding: const EdgeInsets.symmetric(
                                     vertical: 5, horizontal: 7),
                                 suffixIcon: const AssetImage(AppImages.date),
@@ -267,7 +274,8 @@ void showBookAppointmentDialog(BuildContext context,
                           ),
                           GestureDetector(
                             onTap: () {
-                              selectTime(context, selectedTimeSlotController, setState);
+                              selectTime(context, selectedTimeSlotController,
+                                  setState);
                             },
                             child: Row(
                               children: [
@@ -276,11 +284,12 @@ void showBookAppointmentDialog(BuildContext context,
                                     controller: selectedTimeSlotController,
                                     hintText: '',
                                     obscureText: false,
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
                                     contentPadding: const EdgeInsets.symmetric(
                                         vertical: 5, horizontal: 7),
-                                    suffixIcon: const AssetImage(AppImages.time),
+                                    suffixIcon:
+                                        const AssetImage(AppImages.time),
                                   ),
                                 ),
                               ],

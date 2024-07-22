@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
 
-class UserChat extends StatelessWidget {
-  const UserChat({super.key});
+class PatientChat extends StatelessWidget {
+  const PatientChat({super.key});
 
   @override
   Widget build(BuildContext context) {

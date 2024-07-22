@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/components/my_backbutton.dart';
-import 'package:kineticare/components/my_textField.dart';
+import 'package:kineticare/components/my_textfield.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
 import 'package:kineticare/components/pt_components/pt_navbar.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -85,38 +85,35 @@ class _TimeSlotState extends State<TimeSlot> {
   }
 
   String getCurrentTherapistEmail() {
-  return FirebaseAuth.instance.currentUser!.email!;
-}
-
-
-  Future<void> _addTimeSlot() async {
-  final String startTime = startTimeController.text;
-  final String endTime = endTimeController.text;
-  final String therapistEmail = getCurrentTherapistEmail(); 
-
-  if (startTime.isEmpty || endTime.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Please fill in all fields'),
-      ),
-    );
-    return;
+    return FirebaseAuth.instance.currentUser!.email!;
   }
 
-  await FirebaseFirestore.instance.collection('timeSlots').add({
-    'startTime': startTime,
-    'endTime': endTime,
-    'date': DateFormat('yyyy-MM-dd').format(_selectedDay),
-    'therapistEmail': therapistEmail, // Add therapist email here
-  });
+  Future<void> _addTimeSlot() async {
+    final String startTime = startTimeController.text;
+    final String endTime = endTimeController.text;
+    final String therapistEmail = getCurrentTherapistEmail();
 
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(builder: (context) => const TimeSlot()),
-  );
-}
+    if (startTime.isEmpty || endTime.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please fill in all fields'),
+        ),
+      );
+      return;
+    }
 
+    await FirebaseFirestore.instance.collection('timeSlots').add({
+      'startTime': startTime,
+      'endTime': endTime,
+      'date': DateFormat('yyyy-MM-dd').format(_selectedDay),
+      'therapistEmail': therapistEmail, // Add therapist email here
+    });
 
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const TimeSlot()),
+    );
+  }
 
   Future<void> _deleteTimeSlot(String id) async {
     await FirebaseFirestore.instance.collection('timeSlots').doc(id).delete();
@@ -136,7 +133,8 @@ class _TimeSlotState extends State<TimeSlot> {
             margin: const EdgeInsets.only(top: 190),
             decoration: const BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
               boxShadow: <BoxShadow>[
                 BoxShadow(
                   color: Color(0xFF333333),
@@ -149,7 +147,8 @@ class _TimeSlotState extends State<TimeSlot> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
                   child: TableCalendar(
                     calendarFormat: CalendarFormat.week,
                     firstDay: _firstDay,
@@ -196,13 +195,16 @@ class _TimeSlotState extends State<TimeSlot> {
                   ),
                 ),
                 const SizedBox(height: 10),
-               Expanded(
+                Expanded(
                   child: StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance
-                      .collection('timeSlots')
-                      .where('date', isEqualTo: DateFormat('yyyy-MM-dd').format(_selectedDay))
-                      .where('therapistEmail', isEqualTo: getCurrentTherapistEmail())
-                      .snapshots(),
+                        .collection('timeSlots')
+                        .where('date',
+                            isEqualTo:
+                                DateFormat('yyyy-MM-dd').format(_selectedDay))
+                        .where('therapistEmail',
+                            isEqualTo: getCurrentTherapistEmail())
+                        .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
                         return const Center(child: CircularProgressIndicator());
@@ -226,13 +228,15 @@ class _TimeSlotState extends State<TimeSlot> {
                         itemCount: timeSlots.length,
                         itemBuilder: (context, index) {
                           final timeSlot = timeSlots[index];
-                          final timeSlotData = timeSlot.data() as Map<String, dynamic>;
+                          final timeSlotData =
+                              timeSlot.data() as Map<String, dynamic>;
                           final startTime = timeSlotData['startTime'];
                           final endTime = timeSlotData['endTime'];
                           final formattedTimeSlot = '$startTime to $endTime';
 
                           return Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
                             padding: const EdgeInsets.all(15),
                             decoration: BoxDecoration(
                               color: const Color(0xFFE9E9EB),
@@ -309,8 +313,8 @@ class _TimeSlotState extends State<TimeSlot> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 50, vertical: 20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                   child: GestureDetector(
                     onTap: _addTimeSlot,
                     child: Container(
@@ -353,7 +357,7 @@ class _TimeSlotState extends State<TimeSlot> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const BottomNavBarPt()),
+                            builder: (context) => const PtNavBar()),
                       );
                     },
                     space: 40,

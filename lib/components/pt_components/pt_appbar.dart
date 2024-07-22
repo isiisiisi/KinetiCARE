@@ -9,9 +9,9 @@ class PtAppbar extends StatelessWidget {
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 5,
-      shadowColor: const Color(0xFF333333),
+      shadowColor: const Color.fromARGB(255, 212, 212, 212),
       surfaceTintColor: Colors.white,
-      scrolledUnderElevation: 12,
+      scrolledUnderElevation: 10,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

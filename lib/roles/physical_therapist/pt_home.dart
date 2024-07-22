@@ -5,7 +5,7 @@ import 'package:kineticare/components/app_images.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PtHome extends StatefulWidget {
-  const PtHome({Key? key}) : super(key: key);
+  const PtHome({super.key});
 
   @override
   _PtHomeState createState() => _PtHomeState();
@@ -77,6 +77,7 @@ class _PtHomeState extends State<PtHome> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
                           'Hello, Juan!',
