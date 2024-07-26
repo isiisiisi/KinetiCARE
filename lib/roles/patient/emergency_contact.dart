@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kineticare/components/initials_avatar.dart';
 import 'package:kineticare/roles/patient/edit_emergency_contact.dart';
 import 'package:kineticare/roles/patient/personal_info.dart';
 import 'package:kineticare/components/app_images.dart';
@@ -11,11 +12,11 @@ class EmergencyContact extends StatefulWidget {
   @override
   State<EmergencyContact> createState() => _EmergencyContactState();
 }
-
 class _EmergencyContactState extends State<EmergencyContact> {
   late User user;
-  String name = '';
-  String email = '';
+   String contactFirstName = '', contactLastName = '', contactMiddleName = '';
+  String contactPhone = '';
+  String relationship = '';
 
   @override
   void initState() {
@@ -33,8 +34,11 @@ class _EmergencyContactState extends State<EmergencyContact> {
 
       if (documentSnapshot.exists) {
         setState(() {
-          name = documentSnapshot.get('name') ?? '';
-          email = documentSnapshot.get('email') ?? '';
+          contactFirstName = documentSnapshot.get('contactFirstName') ?? '';
+          contactLastName = documentSnapshot.get('contactLastName') ?? '';
+          contactMiddleName = documentSnapshot.get('contactMiddleName') ?? '';
+          contactPhone = documentSnapshot.get('contactPhone') ?? '';
+          relationship = documentSnapshot.get('relationship') ?? '';
         });
       } else {
         print('Document does not exist');
@@ -112,11 +116,11 @@ class _EmergencyContactState extends State<EmergencyContact> {
                   ],
                 ),
                 const SizedBox(height: 25),
-                Container(
-                  height: 107.14,
-                  width: 109,
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle, color: Color(0xFF5A8DEE)),
+                 InitialsAvatar(
+                  firstName: contactFirstName,
+                  radius: 30,
+                  backgroundColor: Colors.blue,
+                  textColor: Colors.white,
                 ),
                 const SizedBox(height: 30),
                 const Align(
@@ -141,7 +145,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 15),
                     child: Text(
-                      name,
+                      '$contactFirstName $contactLastName $contactMiddleName',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.normal,
@@ -172,7 +176,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 15),
                     child: Text(
-                      name,
+                      relationship,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.normal,
@@ -203,7 +207,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 15),
                     child: Text(
-                      name,
+                      contactPhone,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.normal,

@@ -1,12 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kineticare/components/initials_avatar.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
 import 'package:kineticare/roles/patient/medical_information.dart';
 import 'package:kineticare/roles/patient/personal_info.dart';
+import 'package:kineticare/roles/patient/therapist_info.dart';  
+import 'package:kineticare/roles/patient/payment_and_billing.dart';  
+import 'package:kineticare/roles/patient/general_settings.dart';  
+import 'package:kineticare/roles/patient/help_center.dart'; 
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/account/login_screen.dart';
-
 
 class PatientProfile extends StatefulWidget {
   const PatientProfile({super.key});
@@ -84,14 +88,12 @@ class _PatientProfileState extends State<PatientProfile> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                Container(
-                  height: 109,
-                  width: 190,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF5A8DEE),
-                    shape: BoxShape.circle,
-                  ),
-                ),
+                InitialsAvatar(
+          firstName: firstName, // Display user's first name initials
+          radius: 30, // Customize the radius of the avatar
+          backgroundColor: Colors.blue, // Customize the background color
+          textColor: Colors.white, // Customize the text color
+        ),
                 const SizedBox(height: 15),
                 Text(
                   '$firstName $lastName',
@@ -121,34 +123,17 @@ class _PatientProfileState extends State<PatientProfile> {
                   ),
                 ),
                 const SizedBox(height: 25),
-                GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const PersonalInfo()));
-                    },
-                    child:
-                        profileOption(AppImages.pinfo, 'Personal Information')),
+                profileOption(AppImages.pinfo, 'Personal Information', isPersonalInfo: true),
                 const SizedBox(height: 10),
-                GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const MedicalInformation()));
-                    },
-                    child: profileOption(
-                        AppImages.medicInfo, 'Medical Information')),
+                profileOption(AppImages.medicInfo, 'Medical Information', isMedInfo: true),
                 const SizedBox(height: 10),
-                profileOption(AppImages.ptInfo, 'Therapist Information'),
+                profileOption(AppImages.ptInfo, 'Therapist Information', isTherapistInfo: true),
                 const SizedBox(height: 10),
-                profileOption(AppImages.billing, 'Payment and Billing'),
+                profileOption(AppImages.billing, 'Payment and Billing', isPayAndBill: true),
                 const SizedBox(height: 10),
-                profileOption(AppImages.settings, 'General Settings'),
+                profileOption(AppImages.settings, 'General Settings', isGenSettings: true),
                 const SizedBox(height: 10),
-                profileOption(AppImages.helpCenter, 'Help Center'),
+                profileOption(AppImages.helpCenter, 'Help Center', isHelpCenter: true),
                 const SizedBox(height: 10),
                 profileOption(AppImages.logout, 'Logout', isLogout: true),
               ],
@@ -160,7 +145,13 @@ class _PatientProfileState extends State<PatientProfile> {
   }
 
   Widget profileOption(String imagePath, String title,
-      {bool isLogout = false}) {
+      {bool isLogout = false, 
+      bool isPersonalInfo = false, 
+      bool isMedInfo = false,
+      bool isTherapistInfo = false,
+      bool isPayAndBill = false,
+      bool isGenSettings = false,
+      bool isHelpCenter = false}) {
     return Padding(
       padding: const EdgeInsets.only(left: 20),
       child: Row(
@@ -179,14 +170,81 @@ class _PatientProfileState extends State<PatientProfile> {
               ),
             ],
           ),
-          isLogout
-              ? IconButton(
+          Row(
+            children: [
+              if (isPersonalInfo)
+                IconButton(
                   onPressed: () {
-                    signUserOut();
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PersonalInfo()),
+                    );
                   },
-                  icon: Image.asset(AppImages.forArrow))
-              : IconButton(
-                  onPressed: () {}, icon: Image.asset(AppImages.forArrow)),
+                  icon: Image.asset(AppImages.forArrow),
+                ),
+              if (isMedInfo)
+                IconButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MedicalInformation()),
+                    );
+                  },
+                  icon: Image.asset(AppImages.forArrow),
+                ),
+              if (isTherapistInfo)
+                IconButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const TherapistInfo()),  // Replace with the actual widget for Therapist Info
+                    );
+                  },
+                  icon: Image.asset(AppImages.forArrow),
+                ),
+              if (isPayAndBill)
+                IconButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PaymentAndBilling()),  // Replace with the actual widget for Payment and Billing
+                    );
+                  },
+                  icon: Image.asset(AppImages.forArrow),
+                ),
+              if (isGenSettings)
+                IconButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const GeneralSettings()),  // Replace with the actual widget for General Settings
+                    );
+                  },
+                  icon: Image.asset(AppImages.forArrow),
+                ),
+              if (isHelpCenter)
+                IconButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HelpCenter()),  // Replace with the actual widget for Help Center
+                    );
+                  },
+                  icon: Image.asset(AppImages.forArrow),
+                ),
+              if (!isLogout && !isPersonalInfo && !isMedInfo && !isTherapistInfo && !isPayAndBill && !isGenSettings && !isHelpCenter)
+                IconButton(
+                  onPressed: () {},
+                  icon: Image.asset(AppImages.forArrow),
+                ),
+            ],
+          ),
         ],
       ),
     );
