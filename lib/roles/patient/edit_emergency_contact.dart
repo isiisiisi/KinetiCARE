@@ -13,20 +13,21 @@ class EditEmergencyContact extends StatefulWidget {
 }
 
 class _EditEmergencyContactState extends State<EditEmergencyContact> {
-final nameController = TextEditingController();
-final emailController = TextEditingController();
- late User user;
-  String name = '';
-  String email = '';
+  final firstNameController = TextEditingController();
+  final middleNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final relationshipController = TextEditingController();
+  final contactNumberController = TextEditingController();
+  late User user;
 
   @override
   void initState() {
     super.initState();
     user = FirebaseAuth.instance.currentUser!;
-    fetchNameandEmail();
+    fetchUserProfile();
   }
 
-  void fetchNameandEmail() async {
+  void fetchUserProfile() async {
     try {
       DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
           .collection('users')
@@ -35,16 +36,58 @@ final emailController = TextEditingController();
 
       if (documentSnapshot.exists) {
         setState(() {
-          name = documentSnapshot.get('name') ?? '';
-          email = documentSnapshot.get('email') ?? '';
+          firstNameController.text = documentSnapshot.get('contactFirstName') ?? '';
+          middleNameController.text = documentSnapshot.get('contactMiddleName') ?? '';
+          lastNameController.text = documentSnapshot.get('contactLastName') ?? '';
+          relationshipController.text = documentSnapshot.get('relationship') ?? '';
+          contactNumberController.text = documentSnapshot.get('contactPhone') ?? '';
         });
       } else {
         print('Document does not exist');
       }
     } catch (e) {
-      print('Error fetching name and email: $e');
+      print('Error fetching user profile: $e');
     }
   }
+
+void updateUserProfile() async {
+  try {
+    await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+      'contactFirstName': firstNameController.text,
+      'contactMiddleName': middleNameController.text,
+      'contactLastName': lastNameController.text,
+      'relationship': relationshipController.text,
+      'contactPhone': contactNumberController.text,
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('User profile updated successfully'),
+        backgroundColor: Colors.green,
+        duration: const Duration(seconds: 3),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
+
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const EmergencyContact()));
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Error updating user profile: $e'),
+        backgroundColor: Colors.red,
+        duration: const Duration(seconds: 3),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -157,169 +200,170 @@ final emailController = TextEditingController();
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 25),
                         child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('First Name',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF333333)
-                         ),
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'First Name',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF333333)),
+                          ),
                         ),
-                       ),
                       ),
                       MyTextField(
-                      controller: nameController,
-                      hintText: name,
-                      obscureText: false,
-                      prefixIcon: null,
-                    ),
-                    const SizedBox(height: 20),
-                    const Padding(
+                        controller: firstNameController,
+                        hintText: 'First Name',
+                        obscureText: false,
+                        prefixIcon: null,
+                      ),
+                      const SizedBox(height: 20),
+                      const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 25),
                         child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('Middle Name',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF333333)
-                         ),
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Middle Name',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF333333)),
+                          ),
                         ),
-                       ),
                       ),
                       MyTextField(
-                      controller: nameController,
-                      hintText: name,
-                      obscureText: false,
-                      prefixIcon: null,
-                    ),
-                    const SizedBox(height: 20),
-                    const Padding(
+                        controller: middleNameController,
+                        hintText: 'Middle Name',
+                        obscureText: false,
+                        prefixIcon: null,
+                      ),
+                      const SizedBox(height: 20),
+                      const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 25),
                         child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('Last Name',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF333333)
-                         ),
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Last Name',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF333333)),
+                          ),
                         ),
-                       ),
                       ),
                       MyTextField(
-                      controller: nameController,
-                      hintText: name,
-                      obscureText: false,
-                      prefixIcon: null,
-                    ),
-                    const SizedBox(height: 20),
-                    const Padding(
+                        controller: lastNameController,
+                        hintText: 'Last Name',
+                        obscureText: false,
+                        prefixIcon: null,
+                      ),
+                      const SizedBox(height: 20),
+                      const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 25),
                         child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('Relationship',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF333333)
-                         ),
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Relationship',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF333333)),
+                          ),
                         ),
-                       ),
                       ),
                       MyTextField(
-                      controller: nameController,
-                      hintText: name,
-                      obscureText: false,
-                      prefixIcon: null,
-                    ),
-                    const SizedBox(height: 20),
-                    const Padding(
+                        controller: relationshipController,
+                        hintText: 'Relationship',
+                        obscureText: false,
+                        prefixIcon: null,
+                      ),
+                      const SizedBox(height: 20),
+                      const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 25),
                         child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('Contact Number',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF333333)
-                         ),
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Contact Number',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF333333)),
+                          ),
                         ),
-                       ),
                       ),
                       MyTextField(
-                      controller: nameController,
-                      hintText: name,
-                      obscureText: false,
-                      prefixIcon: null,
-                    ),
-                const SizedBox(height: 35),
-                Container(
-                  width: 320,
-                  height: 54,
-                  decoration: BoxDecoration(
-                      color: const Color(0xFF5A8DEE),
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: const <BoxShadow>[
-                        BoxShadow(
-                            color: Color(0xFF333333),
-                            blurRadius: 4.0,
-                            offset: Offset(0.0, 0.55))
-                      ]),
-                  child: const Padding(
-                    padding: EdgeInsets.only(top: 15),
-                    child: Text(
-                      'Save',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 35),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushReplacement(context, 
-                    MaterialPageRoute(builder: (context)=> const EmergencyContact())
-                    );
-                  },
-                  child: Container(
-                    width: 320,
-                    height: 54,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(
-                            width: 2, color: const Color(0xFF5A8DEE)),
-                        boxShadow: const <BoxShadow>[
-                          BoxShadow(
-                              color: Color(0xFF333333),
-                              blurRadius: 4.0,
-                              offset: Offset(0.0, 0.55))
-                        ]),
-                    child: const Padding(
-                      padding: EdgeInsets.only(top: 15),
-                      child: Text(
-                        'Cancel',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF5A8DEE)),
+                        controller: contactNumberController,
+                        hintText: 'Contact Number',
+                        obscureText: false,
+                        prefixIcon: null,
                       ),
-                    ),
-                  ),
-                ),
+                      const SizedBox(height: 35),
+                      GestureDetector(
+                        onTap: updateUserProfile,
+                        child: Container(
+                          width: 320,
+                          height: 54,
+                          decoration: BoxDecoration(
+                              color: const Color(0xFF5A8DEE),
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: const <BoxShadow>[
+                                BoxShadow(
+                                    color: Color(0xFF333333),
+                                    blurRadius: 4.0,
+                                    offset: Offset(0.0, 0.55))
+                              ]),
+                          child: const Padding(
+                            padding: EdgeInsets.only(top: 15),
+                            child: Text(
+                              'Save',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 35),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const EmergencyContact()));
+                        },
+                        child: Container(
+                          width: 320,
+                          height: 54,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(
+                                  width: 2, color: const Color(0xFF5A8DEE)),
+                              boxShadow: const <BoxShadow>[
+                                BoxShadow(
+                                    color: Color(0xFF333333),
+                                    blurRadius: 4.0,
+                                    offset: Offset(0.0, 0.55))
+                              ]),
+                          child: const Padding(
+                            padding: EdgeInsets.only(top: 15),
+                            child: Text(
+                              'Cancel',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF5A8DEE)),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
-            ]
-          )
-        )
-      )
-    );
+            ]))));
   }
 }
