@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kineticare/components/initials_avatar.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
 import 'package:kineticare/roles/patient/medical_information.dart';
 import 'package:kineticare/roles/patient/personal_info.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/account/login_screen.dart';
+import 'package:kineticare/roles/patient/therapist_information.dart';
 
 
 class PatientProfile extends StatefulWidget {
@@ -84,14 +86,7 @@ class _PatientProfileState extends State<PatientProfile> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                Container(
-                  height: 109,
-                  width: 190,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF5A8DEE),
-                    shape: BoxShape.circle,
-                  ),
-                ),
+                InitialsAvatar(firstName: firstName, radius: 50),
                 const SizedBox(height: 15),
                 Text(
                   '$firstName $lastName',
@@ -142,7 +137,15 @@ class _PatientProfileState extends State<PatientProfile> {
                     child: profileOption(
                         AppImages.medicInfo, 'Medical Information')),
                 const SizedBox(height: 10),
-                profileOption(AppImages.ptInfo, 'Therapist Information'),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const TherapistInformation(therapist: {},)));
+                    },
+                    child:profileOption(AppImages.ptInfo, 'Therapist Information')),
                 const SizedBox(height: 10),
                 profileOption(AppImages.billing, 'Payment and Billing'),
                 const SizedBox(height: 10),

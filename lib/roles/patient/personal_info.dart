@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:kineticare/components/initials_avatar.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
 import 'package:kineticare/roles/patient/edit_personal_info.dart';
 import 'package:kineticare/roles/patient/emergency_contact.dart';
@@ -16,8 +18,12 @@ class PersonalInfo extends StatefulWidget {
 
 class _PersonalInfoState extends State<PersonalInfo> {
   late User user;
-  String name = '';
+  String firstName = '';
+  String lastName = '';
   String email = '';
+  String gender = '';
+  String phone = '';
+  String birthDate = '';
 
   @override
   void initState() {
@@ -35,14 +41,22 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
       if (documentSnapshot.exists) {
         setState(() {
-          name = documentSnapshot.get('name') ?? '';
+          firstName = documentSnapshot.get('firstName') ?? '';
+          lastName = documentSnapshot.get('lastName') ?? '';
           email = documentSnapshot.get('email') ?? '';
+          gender = documentSnapshot.get('gender') ?? '';
+          phone = documentSnapshot.get('phone') ?? '';
+          birthDate = documentSnapshot.get('birthDate') ?? '';
         });
       } else {
-        print('Document does not exist');
+        if (kDebugMode) {
+          print('Document does not exist');
+        }
       }
     } catch (e) {
-      print('Error fetching first name: $e');
+      if (kDebugMode) {
+        print('Error fetching first name: $e');
+      }
     }
   }
 
@@ -83,12 +97,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   ],
                 ),
                 const SizedBox(height: 25),
-                Container(
-                  height: 107.14,
-                  width: 109,
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle, color: Color(0xFF5A8DEE)),
-                ),
+                InitialsAvatar(firstName: firstName, radius: 60),
                 const SizedBox(height: 30),
                 const Align(
                     alignment: Alignment.centerLeft,
@@ -112,7 +121,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 15),
                     child: Text(
-                      name,
+                      '$firstName $lastName',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.normal,
@@ -143,7 +152,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 15),
                     child: Text(
-                      name,
+                      gender,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.normal,
@@ -174,7 +183,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 15),
                     child: Text(
-                      name,
+                      phone,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.normal,

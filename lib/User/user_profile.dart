@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/components/initials_avatar.dart';
@@ -39,10 +40,14 @@ class _UserProfileState extends State<UserProfile> {
           phone = documentSnapshot.get('phone') ?? ''; // Fetching phone number
         });
       } else {
-        print('Document does not exist');
+        if (kDebugMode) {
+          print('Document does not exist');
+        }
       }
     } catch (e) {
-      print('Error fetching name, email, and phone: $e');
+      if (kDebugMode) {
+        print('Error fetching name, email, and phone: $e');
+      }
     }
   }
 
@@ -50,7 +55,7 @@ class _UserProfileState extends State<UserProfile> {
     FirebaseAuth.instance.signOut();
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => LoginScreen()),
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
     );
   }
 
@@ -128,7 +133,7 @@ class _UserProfileState extends State<UserProfile> {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  phone, // Displaying phone number
+                  phone,
                   style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.normal,

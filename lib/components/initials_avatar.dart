@@ -6,7 +6,7 @@ class InitialsAvatar extends StatelessWidget {
   final Color backgroundColor;
   final Color textColor;
 
-  InitialsAvatar({
+  const InitialsAvatar({super.key, 
     required this.firstName,
     this.radius = 30,
     this.backgroundColor = const Color(0xFF5A8DEE),

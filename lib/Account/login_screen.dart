@@ -2,13 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kineticare/account/forgot_password.dart';
+import 'package:kineticare/components/my_text_field.dart';
 import 'package:kineticare/components/patient_components/patient_navbar.dart';
 import 'package:kineticare/components/pt_components/pt_navbar.dart';
 import 'package:kineticare/services/auth.dart';
 import 'package:kineticare/Widget/snackbar.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/components/my_button.dart';
-import 'package:kineticare/components/my_textfield.dart';
 import 'package:kineticare/components/my_label.dart';
 import 'package:kineticare/account/role_based.dart';
 

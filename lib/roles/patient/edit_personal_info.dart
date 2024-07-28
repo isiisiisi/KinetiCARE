@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kineticare/components/my_text_field.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
 import 'package:kineticare/roles/patient/personal_info.dart';
 import 'package:kineticare/components/app_images.dart';
-import 'package:kineticare/components/my_textfield.dart';
 
 class EditPersonalInfo extends StatefulWidget {
   const EditPersonalInfo({super.key});

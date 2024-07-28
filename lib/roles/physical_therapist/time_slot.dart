@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/components/my_backbutton.dart';
-import 'package:kineticare/components/my_textfield.dart';
+import 'package:kineticare/components/my_text_field.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
 import 'package:kineticare/components/pt_components/pt_navbar.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -106,7 +106,7 @@ class _TimeSlotState extends State<TimeSlot> {
       'startTime': startTime,
       'endTime': endTime,
       'date': DateFormat('yyyy-MM-dd').format(_selectedDay),
-      'therapistEmail': therapistEmail, // Add therapist email here
+      'therapistEmail': therapistEmail, 
     });
 
     Navigator.pushReplacement(

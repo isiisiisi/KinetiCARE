@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kineticare/components/app_images.dart';
+import 'package:kineticare/components/initials_avatar.dart';
+import 'package:kineticare/components/pt_components/pt_appbar.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PtHome extends StatefulWidget {
@@ -13,11 +16,34 @@ class PtHome extends StatefulWidget {
 
 class _PtHomeState extends State<PtHome> {
   late DateTime _selectedDay; 
+  late User user;
+  late String firstName = '';
 
   @override
   void initState() {
     super.initState();
     _selectedDay = DateTime.now();
+    user = FirebaseAuth.instance.currentUser!;
+    fetchFirstName();
+  }
+
+  void fetchFirstName() async {
+    try {
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+
+      if (documentSnapshot.exists) {
+        setState(() {
+          firstName = documentSnapshot.get('firstName') ?? '';
+        });
+      } else {
+        print('Document does not exist');
+      }
+    } catch (e) {
+      print('Error fetching first name: $e');
+    }
   }
 
   @override
@@ -26,44 +52,9 @@ class _PtHomeState extends State<PtHome> {
     //final String firestoreDateFormat = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(70),
-        child: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 5,
-          shadowColor: const Color(0xFF333333),
-          surfaceTintColor: Colors.white,
-          scrolledUnderElevation: 12,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10, left: 10),
-                child: Image.asset(
-                  AppImages.appName,
-                  fit: BoxFit.contain,
-                  height: 175,
-                  width: 175,
-                ),
-              ),
-              const SizedBox(width: 100),
-              Image.asset(
-                AppImages.bell,
-                fit: BoxFit.contain,
-                height: 35,
-                color: const Color(0xFF00BFA6),
-              ),
-              Container(
-                height: 40,
-                width: 40,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0xFF00BFA6),
-                ),
-              ),
-            ],
-          ),
-        ),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(70),
+        child: PtAppbar(),
       ),
       body: SingleChildScrollView(
         child: SafeArea(
@@ -79,9 +70,9 @@ class _PtHomeState extends State<PtHome> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Hello, Juan!',
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        Text(
+                          'Hello, $firstName!',
+                          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           'Today is $formattedDate',
@@ -93,14 +84,7 @@ class _PtHomeState extends State<PtHome> {
                         ),
                       ],
                     ),
-                    Container(
-                      height: 60,
-                      width: 60,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xFF00BFA6),
-                      ),
-                    ),
+                    InitialsAvatar(firstName: firstName, radius: 30),
                   ],
                 ),
                 const SizedBox(height: 55),

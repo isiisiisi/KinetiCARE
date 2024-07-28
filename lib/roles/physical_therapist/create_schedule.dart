@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kineticare/components/app_images.dart';
-import 'package:kineticare/components/my_textfield.dart';
+import 'package:kineticare/components/my_text_field.dart';
 //import 'package:kineticare/roles/physical_therapist/cancel_appointment.dart';
 
 void showCreateAppointmentDialog(BuildContext context,
