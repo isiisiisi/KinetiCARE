@@ -4,6 +4,7 @@ import 'package:kineticare/components/my_backbutton.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
 import 'package:kineticare/components/patient_components/patient_navbar.dart';
 
+
 class HelpCenter extends StatelessWidget {
   const HelpCenter({super.key});
 
@@ -118,5 +119,8 @@ class HelpCenter extends StatelessWidget {
         ),
       ),
     );
+
+    return const Placeholder();
+
   }
 }

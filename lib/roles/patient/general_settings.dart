@@ -4,6 +4,7 @@ import 'package:kineticare/components/my_backbutton.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
 import 'package:kineticare/components/patient_components/patient_navbar.dart';
 
+
 class GeneralSettings extends StatelessWidget {
   const GeneralSettings({super.key});
 
@@ -150,5 +151,7 @@ class GeneralSettings extends StatelessWidget {
         ),
       ),
     );
+    return const Placeholder();
+
   }
 }

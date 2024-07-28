@@ -13,12 +13,10 @@ class EmergencyContact extends StatefulWidget {
   @override
   State<EmergencyContact> createState() => _EmergencyContactState();
 }
-
 class _EmergencyContactState extends State<EmergencyContact> {
   late User user;
   String firstName = '';
-  String contactFirstName = '';
-  String contactLastName = '';
+  String contactFirstName = '', contactLastName = '', contactMiddleName = '';
   String contactPhone = '';
   String relationship = '';
 
@@ -41,6 +39,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
           firstName = documentSnapshot.get('firstName') ?? '';
           contactFirstName = documentSnapshot.get('contactFirstName') ?? '';
           contactLastName = documentSnapshot.get('contactLastName') ?? '';
+          contactMiddleName = documentSnapshot.get('contactMiddleName') ?? '';
           contactPhone = documentSnapshot.get('contactPhone') ?? '';
           relationship = documentSnapshot.get('relationship') ?? '';
         });
@@ -119,7 +118,12 @@ class _EmergencyContactState extends State<EmergencyContact> {
                   ],
                 ),
                 const SizedBox(height: 25),
-                InitialsAvatar(firstName: contactFirstName, radius: 60),
+                 InitialsAvatar(
+                  firstName: contactFirstName,
+                  radius: 30,
+                  backgroundColor: Colors.blue,
+                  textColor: Colors.white,
+                ),
                 const SizedBox(height: 30),
                 const Align(
                     alignment: Alignment.centerLeft,
@@ -143,7 +147,9 @@ class _EmergencyContactState extends State<EmergencyContact> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 15),
                     child: Text(
-                      '$contactFirstName $contactLastName',
+
+                      '$contactFirstName $contactLastName $contactMiddleName',
+
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.normal,
