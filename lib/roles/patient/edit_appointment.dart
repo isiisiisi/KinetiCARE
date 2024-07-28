@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kineticare/components/app_images.dart';
+import 'package:kineticare/components/my_text_field.dart';
 //import 'package:kineticare/components/my_dropdown.dart';
-import 'package:kineticare/components/my_textfield.dart';
 import 'package:kineticare/roles/patient/patient_appoint.dart';
 
 void showBookAppointmentDialog(BuildContext context,

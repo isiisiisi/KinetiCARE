@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kineticare/components/initials_avatar.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
@@ -28,6 +29,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
   String birthDay = '';
   String birthYear = '';
 
+
   @override
   void initState() {
     super.initState();
@@ -45,14 +47,15 @@ class _PersonalInfoState extends State<PersonalInfo> {
       if (documentSnapshot.exists) {
         setState(() {
           firstName = documentSnapshot.get('firstName') ?? '';
+          //lastName = documentSnapshot.get('lastName') ?? '';
           email = documentSnapshot.get('email') ?? '';
           gender = documentSnapshot.get('gender') ?? '';
           phone = documentSnapshot.get('phone') ?? '';
-          birthDate = documentSnapshot.get('birthDate') ?? '';
+         // birthDate = documentSnapshot.get('birthDate') ?? '';
+
           lastName = documentSnapshot.get('lastName') ?? '';
           middleName = documentSnapshot.get('middleName') ?? '';
-          
-          // Split the birthDate into month, day, and year
+         
           if (birthDate.isNotEmpty) {
             List<String> dateParts = birthDate.split('/');
             if (dateParts.length == 3) {
@@ -61,12 +64,17 @@ class _PersonalInfoState extends State<PersonalInfo> {
               birthYear = dateParts[2];
             }
           }
+
         });
       } else {
-        print('Document does not exist');
+        if (kDebugMode) {
+          print('Document does not exist');
+        }
       }
     } catch (e) {
-      print('Error fetching first name: $e');
+      if (kDebugMode) {
+        print('Error fetching first name: $e');
+      }
     }
   }
 
@@ -109,12 +117,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   ],
                 ),
                 const SizedBox(height: 25),
+
                 InitialsAvatar(
                   firstName: firstName,
                   radius: 30,
                   backgroundColor: Colors.blue,
                   textColor: Colors.white,
                 ),
+
                 const SizedBox(height: 30),
                 const Align(
                   alignment: Alignment.centerLeft,
@@ -141,7 +151,9 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                     child: Text(
+
                       '$firstName $middleName $lastName',
+
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.normal,

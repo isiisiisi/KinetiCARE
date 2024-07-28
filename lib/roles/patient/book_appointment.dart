@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/components/my_backbutton.dart';
-import 'package:kineticare/components/my_textfield.dart';
+import 'package:kineticare/components/my_text_field.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
 import 'package:kineticare/components/patient_components/patient_navbar.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -157,7 +157,6 @@ class _BookAppointmentState extends State<BookAppointment> {
       );
       return;
     }
-
     List<String> allTimeSlots = timeSlotsSnapshot.docs
         .map<String>((doc) => '${doc['startTime']} - ${doc['endTime']}')
         .toList();
@@ -169,7 +168,7 @@ class _BookAppointmentState extends State<BookAppointment> {
 
     List<String> bookedTimeSlots = bookedTimeSlotsSnapshot.docs
         .map<String>(
-            (doc) => doc['time_slot'] as String) // Explicit cast to String
+            (doc) => doc['time_slot'] as String)
         .toList();
 
     List<String> availableTimeSlots =

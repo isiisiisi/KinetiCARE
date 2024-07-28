@@ -3,10 +3,10 @@ import 'package:kineticare/account/role_based.dart';
 import 'package:kineticare/components/my_backbutton.dart';
 import 'package:kineticare/components/my_dropdown.dart';
 import 'package:kineticare/components/my_label.dart';
+import 'package:kineticare/components/my_text_field.dart';
 import 'package:kineticare/services/auth.dart';
 import 'package:kineticare/components/my_button.dart';
 import 'package:kineticare/Widget/snackbar.dart';
-import 'package:kineticare/components/my_textfield.dart';
 import 'package:kineticare/components/pt_components/pt_navbar.dart';
 
 class TherapistRegisterScreen extends StatefulWidget {

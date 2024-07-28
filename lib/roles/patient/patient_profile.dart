@@ -11,6 +11,7 @@ import 'package:kineticare/roles/patient/general_settings.dart';
 import 'package:kineticare/roles/patient/help_center.dart'; 
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/account/login_screen.dart';
+import 'package:kineticare/roles/patient/therapist_information.dart';
 
 class PatientProfile extends StatefulWidget {
   const PatientProfile({super.key});
@@ -88,12 +89,14 @@ class _PatientProfileState extends State<PatientProfile> {
                   ),
                 ),
                 const SizedBox(height: 15),
+
                 InitialsAvatar(
           firstName: firstName, // Display user's first name initials
           radius: 30, // Customize the radius of the avatar
           backgroundColor: Colors.blue, // Customize the background color
           textColor: Colors.white, // Customize the text color
         ),
+
                 const SizedBox(height: 15),
                 Text(
                   '$firstName $lastName',

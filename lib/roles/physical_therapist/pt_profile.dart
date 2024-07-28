@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kineticare/roles/patient/medical_information.dart';
 import 'package:kineticare/roles/patient/personal_info.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/account/login_screen.dart';
 import 'package:kineticare/components/pt_components/pt_appbar.dart';
+import 'package:kineticare/roles/physical_therapist/pt_general_settings.dart';
 
 class PtProfile extends StatefulWidget {
   const PtProfile({super.key});
@@ -43,10 +45,14 @@ class _PtProfileState extends State<PtProfile> {
           phone = documentSnapshot.get('phone') ?? '';
         });
       } else {
-        print('Document does not exist');
+        if (kDebugMode) {
+          print('Document does not exist');
+        }
       }
     } catch (e) {
-      print('Error fetching user details: $e');
+      if (kDebugMode) {
+        print('Error fetching user details: $e');
+      }
     }
   }
 
@@ -145,7 +151,12 @@ class _PtProfileState extends State<PtProfile> {
                 const SizedBox(height: 10),
                 profileOption(AppImages.billing, 'Payment and Billing'),
                 const SizedBox(height: 10),
-                profileOption(AppImages.settings, 'General Settings'),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.pushReplacement(context, 
+                    MaterialPageRoute(builder: (context) => const PtGeneralSettings()));
+                  },
+                child: profileOption(AppImages.settings, 'General Settings')),
                 const SizedBox(height: 10),
                 profileOption(AppImages.helpCenter, 'Help Center'),
                 const SizedBox(height: 10),

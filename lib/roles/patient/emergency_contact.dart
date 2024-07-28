@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kineticare/components/initials_avatar.dart';
 import 'package:kineticare/roles/patient/edit_emergency_contact.dart';
@@ -14,7 +15,8 @@ class EmergencyContact extends StatefulWidget {
 }
 class _EmergencyContactState extends State<EmergencyContact> {
   late User user;
-   String contactFirstName = '', contactLastName = '', contactMiddleName = '';
+  String firstName = '';
+  String contactFirstName = '', contactLastName = '', contactMiddleName = '';
   String contactPhone = '';
   String relationship = '';
 
@@ -34,6 +36,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
 
       if (documentSnapshot.exists) {
         setState(() {
+          firstName = documentSnapshot.get('firstName') ?? '';
           contactFirstName = documentSnapshot.get('contactFirstName') ?? '';
           contactLastName = documentSnapshot.get('contactLastName') ?? '';
           contactMiddleName = documentSnapshot.get('contactMiddleName') ?? '';
@@ -41,10 +44,14 @@ class _EmergencyContactState extends State<EmergencyContact> {
           relationship = documentSnapshot.get('relationship') ?? '';
         });
       } else {
-        print('Document does not exist');
+        if (kDebugMode) {
+          print('Document does not exist');
+        }
       }
     } catch (e) {
-      print('Error fetching first name: $e');
+      if (kDebugMode) {
+        print('Error fetching first name: $e');
+      }
     }
   }
 
@@ -77,12 +84,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
                   fit: BoxFit.contain,
                   height: 35,
                 ),
-                Container(
-                  height: 40,
-                  width: 40,
-                  decoration: const BoxDecoration(
-                      color: Color(0xFF5A8DEE), shape: BoxShape.circle),
-                )
+                InitialsAvatar(firstName: firstName, radius: 20),
               ],
             ),
           ),
@@ -145,7 +147,9 @@ class _EmergencyContactState extends State<EmergencyContact> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 15),
                     child: Text(
+
                       '$contactFirstName $contactLastName $contactMiddleName',
+
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.normal,

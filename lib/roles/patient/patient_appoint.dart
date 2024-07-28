@@ -75,15 +75,6 @@ class _UserAppointState extends State<UserAppoint> {
         .where('date', isEqualTo: DateFormat('yyyy-MM-dd').format(_selectedDay))
         .get();
 
-    // if (kDebugMode) {
-    //   print('Snapshot docs: ${snapshot.docs.length}');
-    // }
-    // for (var doc in snapshot.docs) {
-    //   if (kDebugMode) {
-    //     print('Appointment: ${doc.data()}');
-    //   }
-    // }
-
     setState(() {
       combinedAppointments = snapshot.docs;
     });
