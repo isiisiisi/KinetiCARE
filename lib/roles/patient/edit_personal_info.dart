@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kineticare/User/user_profile.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
-import 'package:kineticare/roles/patient/emergency_contact.dart';
 import 'package:kineticare/roles/patient/personal_info.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/components/my_textfield.dart';
