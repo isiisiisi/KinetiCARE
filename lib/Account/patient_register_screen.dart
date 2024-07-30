@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/components/my_datefield.dart';
+import 'package:kineticare/components/my_text_field.dart';
 import 'package:kineticare/services/auth.dart';
 import 'package:kineticare/widget/snackbar.dart';
 import 'package:kineticare/components/patient_components/patient_navbar.dart';
-import 'package:kineticare/components/my_textfield.dart';
 import 'package:kineticare/components/my_backbutton.dart';
 import 'package:kineticare/account/role_based.dart';
 import 'package:kineticare/components/my_label.dart';

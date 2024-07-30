@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kineticare/components/initials_avatar.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
@@ -28,6 +29,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
   String birthDay = '';
   String birthYear = '';
 
+
   @override
   void initState() {
     super.initState();
@@ -36,39 +38,42 @@ class _PersonalInfoState extends State<PersonalInfo> {
   }
 
   void fetchName() async {
-    try {
-      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .get();
+  try {
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
 
-      if (documentSnapshot.exists) {
-        setState(() {
-          firstName = documentSnapshot.get('firstName') ?? '';
-          email = documentSnapshot.get('email') ?? '';
-          gender = documentSnapshot.get('gender') ?? '';
-          phone = documentSnapshot.get('phone') ?? '';
-          birthDate = documentSnapshot.get('birthDate') ?? '';
-          lastName = documentSnapshot.get('lastName') ?? '';
-          middleName = documentSnapshot.get('middleName') ?? '';
-          
-          // Split the birthDate into month, day, and year
-          if (birthDate.isNotEmpty) {
-            List<String> dateParts = birthDate.split('/');
-            if (dateParts.length == 3) {
-              birthMonth = dateParts[0];
-              birthDay = dateParts[1];
-              birthYear = dateParts[2];
-            }
+    if (documentSnapshot.exists) {
+      setState(() {
+        firstName = documentSnapshot.get('firstName') ?? '';
+        email = documentSnapshot.get('email') ?? '';
+        gender = documentSnapshot.get('gender') ?? '';
+        phone = documentSnapshot.get('phone') ?? '';
+        lastName = documentSnapshot.get('lastName') ?? '';
+        middleName = documentSnapshot.get('middleName') ?? '';
+        birthDate = documentSnapshot.get('birthDate') ?? '';
+
+        if (birthDate.isNotEmpty) {
+          List<String> dateParts = birthDate.split('/');
+          if (dateParts.length == 3) {
+            birthMonth = dateParts[0];
+            birthDay = dateParts[1];
+            birthYear = dateParts[2];
           }
-        });
-      } else {
+        }
+      });
+    } else {
+      if (kDebugMode) {
         print('Document does not exist');
       }
-    } catch (e) {
-      print('Error fetching first name: $e');
+    }
+  } catch (e) {
+    if (kDebugMode) {
+      print('Error fetching data: $e');
     }
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -109,12 +114,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   ],
                 ),
                 const SizedBox(height: 25),
+
                 InitialsAvatar(
                   firstName: firstName,
-                  radius: 30,
-                  backgroundColor: Colors.blue,
+                  radius: 50,
+                  backgroundColor: const Color(0xFF5A8DEE),
                   textColor: Colors.white,
                 ),
+
                 const SizedBox(height: 30),
                 const Align(
                   alignment: Alignment.centerLeft,

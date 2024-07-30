@@ -21,8 +21,9 @@ class MyBackButtonRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          const SizedBox(width: 35),
           GestureDetector(
             onTap: onTap,
             child: Image.asset(

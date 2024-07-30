@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kineticare/components/app_images.dart';
+import 'package:kineticare/components/initials_avatar.dart';
 import 'package:kineticare/components/patient_components/bar_graph.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
 import 'package:kineticare/components/patient_components/pie_chart.dart';
@@ -40,10 +42,14 @@ class _PatientHomeState extends State<PatientHome> {
           firstName = documentSnapshot.get('firstName') ?? '';
         });
       } else {
-        print('Document does not exist');
+        if (kDebugMode) {
+          print('Document does not exist');
+        }
       }
     } catch (e) {
-      print('Error fetching first name: $e');
+      if (kDebugMode) {
+        print('Error fetching first name: $e');
+      }
     }
   }
 
@@ -80,12 +86,7 @@ class _PatientHomeState extends State<PatientHome> {
                           color: Color(0xFFA0A0A0))),
                         ],
                       ),
-                      Container(
-                        height: 60,
-                        width: 60,
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Color(0xFF5A8DEE)),
-                      )
+                      InitialsAvatar(firstName: firstName, radius: 35),
                     ],
                   ),
                   const SizedBox(height: 60),

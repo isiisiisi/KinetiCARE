@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:kineticare/components/my_text_field.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
 import 'package:kineticare/roles/patient/personal_info.dart';
 import 'package:kineticare/components/app_images.dart';
-import 'package:kineticare/components/my_textfield.dart';
 
 class EditPersonalInfo extends StatefulWidget {
   const EditPersonalInfo({super.key});
@@ -23,8 +24,17 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
   final birthMonthController = TextEditingController();
   final birthDayController = TextEditingController();
   final birthYearController = TextEditingController();
-
-  late User user;
+ late User user;
+  String firstName = '';
+  String middleName = '';
+  String lastName = '';
+  String email = '';
+  String gender = '';
+  String phone = '';
+  String birthDate = '';
+  String birthMonth = '';
+  String birthDay = '';
+  String birthYear = '';
 
   @override
   void initState() {
@@ -57,11 +67,15 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
           }
         });
       } else {
+
         print('Document does not exist');
       }
-    } catch (e) {
-      print('Error fetching name and email: $e');
     }
+  } catch (e) {
+    if (kDebugMode) {
+      print('Error fetching data: $e');
+    }
+  }
   }
 
  void updateUserProfile() async {
@@ -195,7 +209,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                       ),
                       MyTextField(
                         controller: firstNameController,
-                        hintText: 'First Name',
+                        hintText: firstName,
                         obscureText: false,
                         prefixIcon: null,
                       ),
@@ -213,7 +227,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                       ),
                       MyTextField(
                         controller: middleNameController,
-                        hintText: 'Middle Name',
+                        hintText: middleName,
                         obscureText: false,
                         prefixIcon: null,
                       ),
@@ -231,7 +245,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                       ),
                       MyTextField(
                         controller: lastNameController,
-                        hintText: 'Last Name',
+                        hintText: lastName,
                         obscureText: false,
                         prefixIcon: null,
                       ),
@@ -249,7 +263,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                       ),
                       MyTextField(
                         controller: genderController,
-                        hintText: 'Sex',
+                        hintText: gender,
                         obscureText: false,
                         prefixIcon: null,
                       ),
@@ -267,7 +281,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                       ),
                       MyTextField(
                         controller: contactController,
-                        hintText: 'Contact Number',
+                        hintText: phone,
                         obscureText: false,
                         prefixIcon: null,
                       ),
@@ -285,7 +299,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                       ),
                       MyTextField(
                         controller: emailController,
-                        hintText: 'Email',
+                        hintText: email,
                         obscureText: false,
                         prefixIcon: null,
                       ),
