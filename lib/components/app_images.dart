@@ -57,5 +57,13 @@ class AppImages {
   static const String image = "${assetsPath}Image.png";
   static const String mic = "${assetsPath}Mic.png";
   static const String emoji = "${assetsPath}Emoji.png";
-  
+  static const String upload = "${assetsPath}upload.png";
+  static const String file = "${assetsPath}file.png";
+  static const String downloadFile = "${assetsPath}download.png";
+  static const String deleteFile = "${assetsPath}deleteFile.png";
+  static const String editFile = "${assetsPath}editFile.png";
+  static const String uploadFile = "${assetsPath}uploadFile.png";
+  static const String payment = "${assetsPath}payment.png";
+  static const String bill = "${assetsPath}bill.png";
+  static const String transaction = "${assetsPath}transaction.png";
 }

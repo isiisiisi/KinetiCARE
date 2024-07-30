@@ -12,6 +12,7 @@ class MyTextField extends FormField<String> {
   final BorderSide? enabledBorderSide;
   final BorderSide? focusedBorderSide;
   final ImageProvider? suffixIcon;
+  final int? maxLines;
 
   MyTextField({
     super.key,
@@ -24,6 +25,7 @@ class MyTextField extends FormField<String> {
     this.contentPadding,
     this.fillColor,
     this.hintStyle,
+    this.maxLines,
     this.enabledBorderSide,
     this.focusedBorderSide,
     super.onSaved,
@@ -39,6 +41,7 @@ class MyTextField extends FormField<String> {
               child: TextField(
                 controller: controller,
                 obscureText: obscureText,
+                maxLines: maxLines ?? 1,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: fillColor ?? const Color(0xFFD8D8D8),

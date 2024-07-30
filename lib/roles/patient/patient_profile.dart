@@ -5,13 +5,14 @@ import 'package:kineticare/components/initials_avatar.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
 import 'package:kineticare/roles/patient/medical_information.dart';
 import 'package:kineticare/roles/patient/personal_info.dart';
-import 'package:kineticare/roles/patient/therapist_info.dart';  
-import 'package:kineticare/roles/patient/payment_and_billing.dart';  
-import 'package:kineticare/roles/patient/general_settings.dart';  
-import 'package:kineticare/roles/patient/help_center.dart'; 
+import 'package:kineticare/roles/patient/therapist_info.dart';
+import 'package:kineticare/roles/patient/payment_and_billing.dart';
+import 'package:kineticare/roles/patient/general_settings.dart';
+import 'package:kineticare/roles/patient/help_center.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/account/login_screen.dart';
-import 'package:kineticare/roles/patient/therapist_information.dart';
+//import 'package:kineticare/roles/patient/therapist_information.dart';
+//import 'package:kineticare/roles/patient/therapist_information.dart';
 
 class PatientProfile extends StatefulWidget {
   const PatientProfile({super.key});
@@ -89,14 +90,12 @@ class _PatientProfileState extends State<PatientProfile> {
                   ),
                 ),
                 const SizedBox(height: 15),
-
                 InitialsAvatar(
-          firstName: firstName, // Display user's first name initials
-          radius: 30, // Customize the radius of the avatar
-          backgroundColor: Colors.blue, // Customize the background color
-          textColor: Colors.white, // Customize the text color
-        ),
-
+                  firstName: firstName,
+                  radius: 30,
+                  backgroundColor: const Color(0xFF5A8DEE),
+                  textColor: Colors.white,
+                ),
                 const SizedBox(height: 15),
                 Text(
                   '$firstName $lastName',
@@ -126,17 +125,23 @@ class _PatientProfileState extends State<PatientProfile> {
                   ),
                 ),
                 const SizedBox(height: 25),
-                profileOption(AppImages.pinfo, 'Personal Information', isPersonalInfo: true),
+                profileOption(AppImages.pinfo, 'Personal Information',
+                    isPersonalInfo: true),
                 const SizedBox(height: 10),
-                profileOption(AppImages.medicInfo, 'Medical Information', isMedInfo: true),
+                profileOption(AppImages.medicInfo, 'Medical Information',
+                    isMedInfo: true),
                 const SizedBox(height: 10),
-                profileOption(AppImages.ptInfo, 'Therapist Information', isTherapistInfo: true),
+                profileOption(AppImages.ptInfo, 'Therapist Information',
+                    isTherapistInfo: true),
                 const SizedBox(height: 10),
-                profileOption(AppImages.billing, 'Payment and Billing', isPayAndBill: true),
+                profileOption(AppImages.billing, 'Payment and Billing',
+                    isPayAndBill: true),
                 const SizedBox(height: 10),
-                profileOption(AppImages.settings, 'General Settings', isGenSettings: true),
+                profileOption(AppImages.settings, 'General Settings',
+                    isGenSettings: true),
                 const SizedBox(height: 10),
-                profileOption(AppImages.helpCenter, 'Help Center', isHelpCenter: true),
+                profileOption(AppImages.helpCenter, 'Help Center',
+                    isHelpCenter: true),
                 const SizedBox(height: 10),
                 profileOption(AppImages.logout, 'Logout', isLogout: true),
               ],
@@ -148,8 +153,8 @@ class _PatientProfileState extends State<PatientProfile> {
   }
 
   Widget profileOption(String imagePath, String title,
-      {bool isLogout = false, 
-      bool isPersonalInfo = false, 
+      {bool isLogout = false,
+      bool isPersonalInfo = false,
       bool isMedInfo = false,
       bool isTherapistInfo = false,
       bool isPayAndBill = false,
@@ -203,7 +208,8 @@ class _PatientProfileState extends State<PatientProfile> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const TherapistInfo()),  // Replace with the actual widget for Therapist Info
+                          builder: (context) =>
+                              const TherapistInfo()), 
                     );
                   },
                   icon: Image.asset(AppImages.forArrow),
@@ -214,7 +220,8 @@ class _PatientProfileState extends State<PatientProfile> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const PaymentAndBilling()),  // Replace with the actual widget for Payment and Billing
+                          builder: (context) =>
+                              const PaymentAndBilling()), 
                     );
                   },
                   icon: Image.asset(AppImages.forArrow),
@@ -225,7 +232,8 @@ class _PatientProfileState extends State<PatientProfile> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const GeneralSettings()),  // Replace with the actual widget for General Settings
+                          builder: (context) =>
+                              const GeneralSettings()), 
                     );
                   },
                   icon: Image.asset(AppImages.forArrow),
@@ -236,12 +244,23 @@ class _PatientProfileState extends State<PatientProfile> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const HelpCenter()),  // Replace with the actual widget for Help Center
+                          builder: (context) => const HelpCenter()),
                     );
                   },
                   icon: Image.asset(AppImages.forArrow),
                 ),
-              if (!isLogout && !isPersonalInfo && !isMedInfo && !isTherapistInfo && !isPayAndBill && !isGenSettings && !isHelpCenter)
+              if (isLogout)
+                IconButton(
+                  onPressed: signUserOut,
+                  icon: Image.asset(AppImages.forArrow),
+                ),
+              if (!isLogout &&
+                  !isPersonalInfo &&
+                  !isMedInfo &&
+                  !isTherapistInfo &&
+                  !isPayAndBill &&
+                  !isGenSettings &&
+                  !isHelpCenter)
                 IconButton(
                   onPressed: () {},
                   icon: Image.asset(AppImages.forArrow),

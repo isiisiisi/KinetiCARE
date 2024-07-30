@@ -120,7 +120,6 @@ class _TherapistInformationState extends State<TherapistInformation> {
       ),
     );
   } else if (requestStatus == 'Pending') {
-    // Handle pending status
   } else if (requestStatus == 'Accepted') {
     setState(() {
       requestStatus = 'Change Physical Therapist';

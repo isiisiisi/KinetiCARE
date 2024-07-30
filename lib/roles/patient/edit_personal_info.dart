@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kineticare/components/my_text_field.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
@@ -14,37 +15,70 @@ class EditPersonalInfo extends StatefulWidget {
 }
 
 class _EditPersonalInfoState extends State<EditPersonalInfo> {
-final nameController = TextEditingController();
+final firstNameController = TextEditingController();
+final lastNameController = TextEditingController();
+final middleNameController = TextEditingController();
 final emailController = TextEditingController();
+final genderController = TextEditingController();
+final phoneController = TextEditingController();
+final birthMonthController = TextEditingController();
+final birthDayController = TextEditingController();
+final birthYearController = TextEditingController();
  late User user;
-  String name = '';
+  String firstName = '';
+  String middleName = '';
+  String lastName = '';
   String email = '';
+  String gender = '';
+  String phone = '';
+  String birthDate = '';
+  String birthMonth = '';
+  String birthDay = '';
+  String birthYear = '';
 
   @override
   void initState() {
     super.initState();
     user = FirebaseAuth.instance.currentUser!;
-    fetchNameandEmail();
+    fetchDetails();
   }
 
-  void fetchNameandEmail() async {
+  void fetchDetails() async {
     try {
       DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
           .get();
 
-      if (documentSnapshot.exists) {
-        setState(() {
-          name = documentSnapshot.get('name') ?? '';
-          email = documentSnapshot.get('email') ?? '';
-        });
-      } else {
+     if (documentSnapshot.exists) {
+      setState(() {
+        firstName = documentSnapshot.get('firstName') ?? '';
+        email = documentSnapshot.get('email') ?? '';
+        gender = documentSnapshot.get('gender') ?? '';
+        phone = documentSnapshot.get('phone') ?? '';
+        lastName = documentSnapshot.get('lastName') ?? '';
+        middleName = documentSnapshot.get('middleName') ?? '';
+        birthDate = documentSnapshot.get('birthDate') ?? '';
+
+        if (birthDate.isNotEmpty) {
+          List<String> dateParts = birthDate.split('/');
+          if (dateParts.length == 3) {
+            birthMonth = dateParts[0];
+            birthDay = dateParts[1];
+            birthYear = dateParts[2];
+          }
+        }
+      });
+    } else {
+      if (kDebugMode) {
         print('Document does not exist');
       }
-    } catch (e) {
-      print('Error fetching name and email: $e');
     }
+  } catch (e) {
+    if (kDebugMode) {
+      print('Error fetching data: $e');
+    }
+  }
   }
 
   @override
@@ -137,8 +171,8 @@ final emailController = TextEditingController();
                        ),
                       ),
                       MyTextField(
-                      controller: nameController,
-                      hintText: name,
+                      controller: firstNameController,
+                      hintText: firstName,
                       obscureText: false,
                       prefixIcon: null,
                     ),
@@ -157,8 +191,8 @@ final emailController = TextEditingController();
                        ),
                       ),
                       MyTextField(
-                      controller: nameController,
-                      hintText: name,
+                      controller: middleNameController,
+                      hintText: middleName,
                       obscureText: false,
                       prefixIcon: null,
                     ),
@@ -177,8 +211,8 @@ final emailController = TextEditingController();
                        ),
                       ),
                       MyTextField(
-                      controller: nameController,
-                      hintText: name,
+                      controller: lastNameController,
+                      hintText: lastName,
                       obscureText: false,
                       prefixIcon: null,
                     ),
@@ -197,8 +231,8 @@ final emailController = TextEditingController();
                        ),
                       ),
                       MyTextField(
-                      controller: nameController,
-                      hintText: name,
+                      controller: genderController,
+                      hintText: gender,
                       obscureText: false,
                       prefixIcon: null,
                     ),
@@ -217,8 +251,8 @@ final emailController = TextEditingController();
                        ),
                       ),
                       MyTextField(
-                      controller: nameController,
-                      hintText: name,
+                      controller: phoneController,
+                      hintText: phone,
                       obscureText: false,
                       prefixIcon: null,
                     ),
@@ -285,9 +319,10 @@ final emailController = TextEditingController();
                             ),
                             child: TextField(
                               textAlign: TextAlign.center,
-                              controller: nameController, 
+                              controller: birthMonthController, 
                               obscureText: false,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
+                                hintText: birthMonth,
                                 border: InputBorder.none
                               ),
                             ),  
@@ -316,9 +351,10 @@ final emailController = TextEditingController();
                             ),
                             child: TextField(
                               textAlign: TextAlign.center,
-                              controller: nameController, 
+                              controller: birthDayController, 
                               obscureText: false,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
+                                hintText: birthDay,
                                 border: InputBorder.none
                               ),
                             ),  
@@ -347,9 +383,10 @@ final emailController = TextEditingController();
                             ),
                             child: TextField(
                               textAlign: TextAlign.center,
-                              controller: nameController, 
+                              controller: birthYearController, 
                               obscureText: false,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
+                                hintText: birthYear,
                                 border: InputBorder.none
                               ),
                             ),  

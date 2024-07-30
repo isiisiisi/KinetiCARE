@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kineticare/components/my_text_field.dart';
+import 'package:kineticare/components/patient_components/patient_appbar.dart';
 import 'package:kineticare/roles/patient/emergency_contact.dart';
 import 'package:kineticare/components/app_images.dart';
 
@@ -13,20 +15,26 @@ class EditEmergencyContact extends StatefulWidget {
 }
 
 class _EditEmergencyContactState extends State<EditEmergencyContact> {
-final nameController = TextEditingController();
-final emailController = TextEditingController();
+final firstNameController = TextEditingController();
+final middleNameController = TextEditingController();
+final lastNameController = TextEditingController();
+final relationshipController = TextEditingController();
+final contactController = TextEditingController();
  late User user;
-  String name = '';
-  String email = '';
+ String firstName = '';
+  String contactFirstName = '', contactLastName = '', contactMiddleName = '';
+  String contactPhone = '';
+  String relationship = '';
+
 
   @override
   void initState() {
     super.initState();
     user = FirebaseAuth.instance.currentUser!;
-    fetchNameandEmail();
+    fetchDetails();
   }
 
-  void fetchNameandEmail() async {
+  void fetchDetails() async {
     try {
       DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
           .collection('users')
@@ -35,14 +43,22 @@ final emailController = TextEditingController();
 
       if (documentSnapshot.exists) {
         setState(() {
-          name = documentSnapshot.get('name') ?? '';
-          email = documentSnapshot.get('email') ?? '';
+          firstName = documentSnapshot.get('firstName') ?? '';
+          contactFirstName = documentSnapshot.get('contactFirstName') ?? '';
+          contactLastName = documentSnapshot.get('contactLastName') ?? '';
+          contactMiddleName = documentSnapshot.get('contactMiddleName') ?? '';
+          contactPhone = documentSnapshot.get('contactPhone') ?? '';
+          relationship = documentSnapshot.get('relationship') ?? '';
         });
       } else {
-        print('Document does not exist');
+        if (kDebugMode) {
+          print('Document does not exist');
+        }
       }
     } catch (e) {
-      print('Error fetching name and email: $e');
+      if (kDebugMode) {
+        print('Error fetching first name: $e');
+      }
     }
   }
 
@@ -50,41 +66,9 @@ final emailController = TextEditingController();
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xFF5A8DEE),
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(70),
-          child: AppBar(
-            backgroundColor: Colors.white,
-            elevation: 5,
-            shadowColor: const Color(0xFF333333),
-            surfaceTintColor: Colors.white,
-            scrolledUnderElevation: 12,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 10),
-                  child: Image.asset(
-                    AppImages.appName,
-                    fit: BoxFit.contain,
-                    height: 175,
-                    width: 175,
-                  ),
-                ),
-                const SizedBox(width: 100),
-                Image.asset(
-                  AppImages.bell,
-                  fit: BoxFit.contain,
-                  height: 35,
-                ),
-                Container(
-                  height: 40,
-                  width: 40,
-                  decoration: const BoxDecoration(
-                      color: Color(0xFF5A8DEE), shape: BoxShape.circle),
-                )
-              ],
-            ),
-          ),
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(70),
+          child: PatientAppbar()
         ),
         body: SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -147,7 +131,7 @@ final emailController = TextEditingController();
                   child: Column(
                     children: [
                       const Text(
-                        'Personal Information',
+                        'Emergency Contact',
                         style: TextStyle(
                             color: Color(0xFF333333),
                             fontSize: 24,
@@ -168,8 +152,8 @@ final emailController = TextEditingController();
                        ),
                       ),
                       MyTextField(
-                      controller: nameController,
-                      hintText: name,
+                      controller: firstNameController,
+                      hintText: contactFirstName,
                       obscureText: false,
                       prefixIcon: null,
                     ),
@@ -188,8 +172,8 @@ final emailController = TextEditingController();
                        ),
                       ),
                       MyTextField(
-                      controller: nameController,
-                      hintText: name,
+                      controller: middleNameController,
+                      hintText: contactMiddleName,
                       obscureText: false,
                       prefixIcon: null,
                     ),
@@ -208,8 +192,8 @@ final emailController = TextEditingController();
                        ),
                       ),
                       MyTextField(
-                      controller: nameController,
-                      hintText: name,
+                      controller: lastNameController,
+                      hintText: contactLastName,
                       obscureText: false,
                       prefixIcon: null,
                     ),
@@ -228,8 +212,8 @@ final emailController = TextEditingController();
                        ),
                       ),
                       MyTextField(
-                      controller: nameController,
-                      hintText: name,
+                      controller: relationshipController,
+                      hintText: relationship,
                       obscureText: false,
                       prefixIcon: null,
                     ),
@@ -248,8 +232,8 @@ final emailController = TextEditingController();
                        ),
                       ),
                       MyTextField(
-                      controller: nameController,
-                      hintText: name,
+                      controller: contactController,
+                      hintText: contactPhone,
                       obscureText: false,
                       prefixIcon: null,
                     ),

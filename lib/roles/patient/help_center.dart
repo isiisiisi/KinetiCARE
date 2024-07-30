@@ -28,9 +28,12 @@ class HelpCenter extends StatelessWidget {
                   MaterialPageRoute(
                   builder: (context) => const PatientNavBar()));
               },
-              space: 40,
+              space: 60,
+              color: const Color(0xFF707070),
             ),
+            const SizedBox(height: 100),
             Container(
+              padding: const EdgeInsets.all(20),
               width: 295,
               height: 87,
               decoration: BoxDecoration(
@@ -48,7 +51,7 @@ class HelpCenter extends StatelessWidget {
                 children: [
                   Image.asset(AppImages.rate),
                   const SizedBox(width: 15),
-                  const Text('Rate you Physical Therapist',
+                  const Text('Rate your Therapist',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
@@ -58,7 +61,9 @@ class HelpCenter extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(height: 50),
             Container(
+              padding: const EdgeInsets.all(20),
               width: 295,
               height: 87,
               decoration: BoxDecoration(
@@ -86,7 +91,9 @@ class HelpCenter extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(height: 50),
             Container(
+              padding: const EdgeInsets.all(20),
               width: 295,
               height: 87,
               decoration: BoxDecoration(
@@ -119,8 +126,7 @@ class HelpCenter extends StatelessWidget {
         ),
       ),
     );
-
-    return const Placeholder();
+    //return const Placeholder();
 
   }
 }
