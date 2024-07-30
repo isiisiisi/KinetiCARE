@@ -1,18 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kineticare/components/initials_avatar.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
 import 'package:kineticare/roles/patient/medical_information.dart';
 import 'package:kineticare/roles/patient/personal_info.dart';
-import 'package:kineticare/roles/patient/therapist_info.dart';
 import 'package:kineticare/roles/patient/payment_and_billing.dart';
 import 'package:kineticare/roles/patient/general_settings.dart';
 import 'package:kineticare/roles/patient/help_center.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/account/login_screen.dart';
-//import 'package:kineticare/roles/patient/therapist_information.dart';
-//import 'package:kineticare/roles/patient/therapist_information.dart';
+import 'package:kineticare/roles/patient/therapist_information.dart';
 
 class PatientProfile extends StatefulWidget {
   const PatientProfile({super.key});
@@ -22,24 +21,26 @@ class PatientProfile extends StatefulWidget {
 }
 
 class _PatientProfileState extends State<PatientProfile> {
-  late User users;
+  late User user;
   String firstName = '';
   String lastName = '';
   String email = '';
   String phone = '';
+  Map<String, dynamic>? acceptedTherapist;
 
   @override
   void initState() {
     super.initState();
-    users = FirebaseAuth.instance.currentUser!;
+    user = FirebaseAuth.instance.currentUser!;
     fetchUserDetails();
+    fetchAcceptedTherapist();
   }
 
   void fetchUserDetails() async {
     try {
       DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
           .collection('users')
-          .doc(users.uid)
+          .doc(user.uid)
           .get();
 
       if (documentSnapshot.exists) {
@@ -50,10 +51,46 @@ class _PatientProfileState extends State<PatientProfile> {
           phone = documentSnapshot.get('phone') ?? '';
         });
       } else {
-        print('Document does not exist');
+        if (kDebugMode) {
+          print('Document does not exist');
+        }
       }
     } catch (e) {
-      print('Error fetching user details: $e');
+      if (kDebugMode) {
+        print('Error fetching user details: $e');
+      }
+    }
+  }
+
+  void fetchAcceptedTherapist() async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('patientRequests')
+        .where('status', isEqualTo: 'Accepted')
+        .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        DocumentSnapshot acceptedRequest = querySnapshot.docs.first;
+        String therapistId = acceptedRequest.get('therapistId');
+
+        DocumentSnapshot therapistSnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(therapistId)
+            .get();
+
+        if (therapistSnapshot.exists) {
+          setState(() {
+            acceptedTherapist = therapistSnapshot.data() as Map<String, dynamic>;
+            acceptedTherapist!['id'] = therapistSnapshot.id;
+          });
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error fetching accepted therapist: $e');
+      }
     }
   }
 
@@ -197,7 +234,8 @@ class _PatientProfileState extends State<PatientProfile> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const MedicalInformation()),
+                          builder: (context) =>
+                              const MedicalInformation()), 
                     );
                   },
                   icon: Image.asset(AppImages.forArrow),
@@ -205,12 +243,22 @@ class _PatientProfileState extends State<PatientProfile> {
               if (isTherapistInfo)
                 IconButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const TherapistInfo()), 
-                    );
+                    if (acceptedTherapist != null) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TherapistInformation(
+                            therapist: acceptedTherapist!,
+                          ),
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('No accepted therapist found.'),
+                        ),
+                      );
+                    }
                   },
                   icon: Image.asset(AppImages.forArrow),
                 ),
@@ -244,7 +292,8 @@ class _PatientProfileState extends State<PatientProfile> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const HelpCenter()),
+                          builder: (context) =>
+                              const HelpCenter()), 
                     );
                   },
                   icon: Image.asset(AppImages.forArrow),
@@ -252,17 +301,6 @@ class _PatientProfileState extends State<PatientProfile> {
               if (isLogout)
                 IconButton(
                   onPressed: signUserOut,
-                  icon: Image.asset(AppImages.forArrow),
-                ),
-              if (!isLogout &&
-                  !isPersonalInfo &&
-                  !isMedInfo &&
-                  !isTherapistInfo &&
-                  !isPayAndBill &&
-                  !isGenSettings &&
-                  !isHelpCenter)
-                IconButton(
-                  onPressed: () {},
                   icon: Image.asset(AppImages.forArrow),
                 ),
             ],
