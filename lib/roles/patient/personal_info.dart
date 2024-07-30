@@ -38,45 +38,42 @@ class _PersonalInfoState extends State<PersonalInfo> {
   }
 
   void fetchName() async {
-    try {
-      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .get();
+  try {
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
 
-      if (documentSnapshot.exists) {
-        setState(() {
-          firstName = documentSnapshot.get('firstName') ?? '';
-          //lastName = documentSnapshot.get('lastName') ?? '';
-          email = documentSnapshot.get('email') ?? '';
-          gender = documentSnapshot.get('gender') ?? '';
-          phone = documentSnapshot.get('phone') ?? '';
-         // birthDate = documentSnapshot.get('birthDate') ?? '';
+    if (documentSnapshot.exists) {
+      setState(() {
+        firstName = documentSnapshot.get('firstName') ?? '';
+        email = documentSnapshot.get('email') ?? '';
+        gender = documentSnapshot.get('gender') ?? '';
+        phone = documentSnapshot.get('phone') ?? '';
+        lastName = documentSnapshot.get('lastName') ?? '';
+        middleName = documentSnapshot.get('middleName') ?? '';
+        birthDate = documentSnapshot.get('birthDate') ?? '';
 
-          lastName = documentSnapshot.get('lastName') ?? '';
-          middleName = documentSnapshot.get('middleName') ?? '';
-         
-          if (birthDate.isNotEmpty) {
-            List<String> dateParts = birthDate.split('/');
-            if (dateParts.length == 3) {
-              birthMonth = dateParts[0];
-              birthDay = dateParts[1];
-              birthYear = dateParts[2];
-            }
+        if (birthDate.isNotEmpty) {
+          List<String> dateParts = birthDate.split('/');
+          if (dateParts.length == 3) {
+            birthMonth = dateParts[0];
+            birthDay = dateParts[1];
+            birthYear = dateParts[2];
           }
-
-        });
-      } else {
-        if (kDebugMode) {
-          print('Document does not exist');
         }
-      }
-    } catch (e) {
+      });
+    } else {
       if (kDebugMode) {
-        print('Error fetching first name: $e');
+        print('Document does not exist');
       }
     }
+  } catch (e) {
+    if (kDebugMode) {
+      print('Error fetching data: $e');
+    }
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -120,8 +117,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
                 InitialsAvatar(
                   firstName: firstName,
-                  radius: 30,
-                  backgroundColor: Colors.blue,
+                  radius: 50,
+                  backgroundColor: const Color(0xFF5A8DEE),
                   textColor: Colors.white,
                 ),
 
@@ -151,9 +148,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                     child: Text(
-
                       '$firstName $middleName $lastName',
-
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.normal,

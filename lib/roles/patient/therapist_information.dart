@@ -7,6 +7,7 @@ import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/components/initials_avatar.dart';
 import 'package:kineticare/components/my_button.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
+import 'package:kineticare/components/patient_components/patient_navbar.dart';
 
 class TherapistInformation extends StatefulWidget {
   final Map<String, dynamic> therapist;
@@ -68,73 +69,72 @@ class _TherapistInformationState extends State<TherapistInformation> {
   }
 
   Future<void> sendRequest(String fileUrl) async {
-  final user = FirebaseAuth.instance.currentUser;
-  if (user != null) {
-    final requestRef = FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .collection('patientRequests')
-        .doc(widget.therapist['id']);
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final requestRef = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('patientRequests')
+          .doc(widget.therapist['id']);
 
-    try {
-      await requestRef.set({
-        'status': 'Pending',
-        'therapistId': widget.therapist['id'],
-        'therapistName': '${widget.therapist['firstName']} ${widget.therapist['lastName']}',
-        'timestamp': FieldValue.serverTimestamp(),
-        'fileUrl': fileUrl, 
-      });
-      setState(() {
-        requestStatus = 'Pending';
-      });
-      if (kDebugMode) {
-        print('Request successfully sent');
+      try {
+        await requestRef.set({
+          'status': 'Pending',
+          'therapistId': widget.therapist['id'],
+          'therapistName':
+              '${widget.therapist['firstName']} ${widget.therapist['lastName']}',
+          'timestamp': FieldValue.serverTimestamp(),
+          'fileUrl': fileUrl,
+        });
+        setState(() {
+          requestStatus = 'Pending';
+        });
+        if (kDebugMode) {
+          print('Request successfully sent');
+        }
+      } catch (e) {
+        if (kDebugMode) {
+          print('Error sending request: $e');
+        }
       }
-    } catch (e) {
+    } else {
       if (kDebugMode) {
-        print('Error sending request: $e');
+        print('User is not authenticated');
       }
-    }
-  } else {
-    if (kDebugMode) {
-      print('User is not authenticated');
     }
   }
-}
 
- void handleButtonTap() {
-  if (requestStatus == 'Send Request') {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => OnboardingScreens(
-          onFileUploaded: (String? url) async {
-            if (url != null) {
-              await sendRequest(url);
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.popUntil(context, ModalRoute.withName('/TherapistInformation'));
-              });
-            }
-          },
+  void handleButtonTap() {
+    if (requestStatus == 'Send Request') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => OnboardingScreens(
+            onFileUploaded: (String? url) async {
+              if (url != null) {
+                await sendRequest(url);
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  Navigator.popUntil(
+                      context, ModalRoute.withName('/TherapistInformation'));
+                });
+              }
+            },
+          ),
         ),
-      ),
-    );
-  } else if (requestStatus == 'Pending') {
-    // Handle pending status
-  } else if (requestStatus == 'Accepted') {
-    setState(() {
-      requestStatus = 'Change Physical Therapist';
-    });
+      );
+    } else if (requestStatus == 'Pending') {
+    } else if (requestStatus == 'Accepted') {
+      setState(() {
+        requestStatus = 'Change Physical Therapist';
+      });
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(70),
-        child: PatientAppbar()
-      ),
+          preferredSize: Size.fromHeight(70), child: PatientAppbar()),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: SafeArea(
@@ -146,7 +146,12 @@ class _TherapistInformationState extends State<TherapistInformation> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.pop(context);
+                        if (Navigator.canPop(context)) {
+                          Navigator.pop(context);
+                        } else {
+                          Navigator.pushReplacement(context, 
+                            MaterialPageRoute(builder: (context) => const PatientNavBar()));
+                        }
                       },
                       child: Image.asset(AppImages.backArrow),
                     ),
@@ -300,7 +305,8 @@ class _TherapistInformationState extends State<TherapistInformation> {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 15),
                     child: Text(
                       requestStatus,
                       style: const TextStyle(

@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kineticare/components/initials_avatar.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
 import 'package:kineticare/roles/patient/medical_information.dart';
 import 'package:kineticare/roles/patient/personal_info.dart';
-import 'package:kineticare/roles/patient/therapist_info.dart';  
-import 'package:kineticare/roles/patient/payment_and_billing.dart';  
-import 'package:kineticare/roles/patient/general_settings.dart';  
-import 'package:kineticare/roles/patient/help_center.dart'; 
+import 'package:kineticare/roles/patient/payment_and_billing.dart';
+import 'package:kineticare/roles/patient/general_settings.dart';
+import 'package:kineticare/roles/patient/help_center.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/account/login_screen.dart';
 import 'package:kineticare/roles/patient/therapist_information.dart';
@@ -21,24 +21,26 @@ class PatientProfile extends StatefulWidget {
 }
 
 class _PatientProfileState extends State<PatientProfile> {
-  late User users;
+  late User user;
   String firstName = '';
   String lastName = '';
   String email = '';
   String phone = '';
+  Map<String, dynamic>? acceptedTherapist;
 
   @override
   void initState() {
     super.initState();
-    users = FirebaseAuth.instance.currentUser!;
+    user = FirebaseAuth.instance.currentUser!;
     fetchUserDetails();
+    fetchAcceptedTherapist();
   }
 
   void fetchUserDetails() async {
     try {
       DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
           .collection('users')
-          .doc(users.uid)
+          .doc(user.uid)
           .get();
 
       if (documentSnapshot.exists) {
@@ -49,10 +51,46 @@ class _PatientProfileState extends State<PatientProfile> {
           phone = documentSnapshot.get('phone') ?? '';
         });
       } else {
-        print('Document does not exist');
+        if (kDebugMode) {
+          print('Document does not exist');
+        }
       }
     } catch (e) {
-      print('Error fetching user details: $e');
+      if (kDebugMode) {
+        print('Error fetching user details: $e');
+      }
+    }
+  }
+
+  void fetchAcceptedTherapist() async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('patientRequests')
+        .where('status', isEqualTo: 'Accepted')
+        .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        DocumentSnapshot acceptedRequest = querySnapshot.docs.first;
+        String therapistId = acceptedRequest.get('therapistId');
+
+        DocumentSnapshot therapistSnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(therapistId)
+            .get();
+
+        if (therapistSnapshot.exists) {
+          setState(() {
+            acceptedTherapist = therapistSnapshot.data() as Map<String, dynamic>;
+            acceptedTherapist!['id'] = therapistSnapshot.id;
+          });
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error fetching accepted therapist: $e');
+      }
     }
   }
 
@@ -89,14 +127,12 @@ class _PatientProfileState extends State<PatientProfile> {
                   ),
                 ),
                 const SizedBox(height: 15),
-
                 InitialsAvatar(
-          firstName: firstName, // Display user's first name initials
-          radius: 30, // Customize the radius of the avatar
-          backgroundColor: Colors.blue, // Customize the background color
-          textColor: Colors.white, // Customize the text color
-        ),
-
+                  firstName: firstName,
+                  radius: 30,
+                  backgroundColor: const Color(0xFF5A8DEE),
+                  textColor: Colors.white,
+                ),
                 const SizedBox(height: 15),
                 Text(
                   '$firstName $lastName',
@@ -126,17 +162,23 @@ class _PatientProfileState extends State<PatientProfile> {
                   ),
                 ),
                 const SizedBox(height: 25),
-                profileOption(AppImages.pinfo, 'Personal Information', isPersonalInfo: true),
+                profileOption(AppImages.pinfo, 'Personal Information',
+                    isPersonalInfo: true),
                 const SizedBox(height: 10),
-                profileOption(AppImages.medicInfo, 'Medical Information', isMedInfo: true),
+                profileOption(AppImages.medicInfo, 'Medical Information',
+                    isMedInfo: true),
                 const SizedBox(height: 10),
-                profileOption(AppImages.ptInfo, 'Therapist Information', isTherapistInfo: true),
+                profileOption(AppImages.ptInfo, 'Therapist Information',
+                    isTherapistInfo: true),
                 const SizedBox(height: 10),
-                profileOption(AppImages.billing, 'Payment and Billing', isPayAndBill: true),
+                profileOption(AppImages.billing, 'Payment and Billing',
+                    isPayAndBill: true),
                 const SizedBox(height: 10),
-                profileOption(AppImages.settings, 'General Settings', isGenSettings: true),
+                profileOption(AppImages.settings, 'General Settings',
+                    isGenSettings: true),
                 const SizedBox(height: 10),
-                profileOption(AppImages.helpCenter, 'Help Center', isHelpCenter: true),
+                profileOption(AppImages.helpCenter, 'Help Center',
+                    isHelpCenter: true),
                 const SizedBox(height: 10),
                 profileOption(AppImages.logout, 'Logout', isLogout: true),
               ],
@@ -148,8 +190,8 @@ class _PatientProfileState extends State<PatientProfile> {
   }
 
   Widget profileOption(String imagePath, String title,
-      {bool isLogout = false, 
-      bool isPersonalInfo = false, 
+      {bool isLogout = false,
+      bool isPersonalInfo = false,
       bool isMedInfo = false,
       bool isTherapistInfo = false,
       bool isPayAndBill = false,
@@ -192,7 +234,8 @@ class _PatientProfileState extends State<PatientProfile> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const MedicalInformation()),
+                          builder: (context) =>
+                              const MedicalInformation()), 
                     );
                   },
                   icon: Image.asset(AppImages.forArrow),
@@ -200,11 +243,22 @@ class _PatientProfileState extends State<PatientProfile> {
               if (isTherapistInfo)
                 IconButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const TherapistInfo()),  // Replace with the actual widget for Therapist Info
-                    );
+                    if (acceptedTherapist != null) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TherapistInformation(
+                            therapist: acceptedTherapist!,
+                          ),
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('No accepted therapist found.'),
+                        ),
+                      );
+                    }
                   },
                   icon: Image.asset(AppImages.forArrow),
                 ),
@@ -214,7 +268,8 @@ class _PatientProfileState extends State<PatientProfile> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const PaymentAndBilling()),  // Replace with the actual widget for Payment and Billing
+                          builder: (context) =>
+                              const PaymentAndBilling()), 
                     );
                   },
                   icon: Image.asset(AppImages.forArrow),
@@ -225,7 +280,8 @@ class _PatientProfileState extends State<PatientProfile> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const GeneralSettings()),  // Replace with the actual widget for General Settings
+                          builder: (context) =>
+                              const GeneralSettings()), 
                     );
                   },
                   icon: Image.asset(AppImages.forArrow),
@@ -236,14 +292,15 @@ class _PatientProfileState extends State<PatientProfile> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const HelpCenter()),  // Replace with the actual widget for Help Center
+                          builder: (context) =>
+                              const HelpCenter()), 
                     );
                   },
                   icon: Image.asset(AppImages.forArrow),
                 ),
-              if (!isLogout && !isPersonalInfo && !isMedInfo && !isTherapistInfo && !isPayAndBill && !isGenSettings && !isHelpCenter)
+              if (isLogout)
                 IconButton(
-                  onPressed: () {},
+                  onPressed: signUserOut,
                   icon: Image.asset(AppImages.forArrow),
                 ),
             ],

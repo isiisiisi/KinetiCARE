@@ -550,7 +550,7 @@ class _BookAppointmentState extends State<BookAppointment> {
                             builder: (context) => const PatientNavBar()),
                       );
                     },
-                    space: 50,
+                    space: 30,
                   ),
                   const SizedBox(height: 30),
                   const Text(

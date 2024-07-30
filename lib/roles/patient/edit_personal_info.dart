@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kineticare/components/my_text_field.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
@@ -23,8 +24,17 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
   final birthMonthController = TextEditingController();
   final birthDayController = TextEditingController();
   final birthYearController = TextEditingController();
-
   late User user;
+  String firstName = '';
+  String middleName = '';
+  String lastName = '';
+  String email = '';
+  String gender = '';
+  String phone = '';
+  String birthDate = '';
+  String birthMonth = '';
+  String birthDay = '';
+  String birthYear = '';
 
   @override
   void initState() {
@@ -60,51 +70,57 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
         print('Document does not exist');
       }
     } catch (e) {
-      print('Error fetching name and email: $e');
+      if (kDebugMode) {
+        print('Error fetching data: $e');
+      }
     }
   }
 
- void updateUserProfile() async {
-  try {
-    String birthDate = '${birthMonthController.text}/${birthDayController.text}/${birthYearController.text}';
-    await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
-      'firstName': firstNameController.text,
-      'middleName': middleNameController.text,
-      'lastName': lastNameController.text,
-      'gender': genderController.text,
-      'phone': contactController.text,
-      'email': emailController.text,
-      'birthDate': birthDate,
-    });
+  void updateUserProfile() async {
+    try {
+      String birthDate =
+          '${birthMonthController.text}/${birthDayController.text}/${birthYearController.text}';
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .update({
+        'firstName': firstNameController.text,
+        'middleName': middleNameController.text,
+        'lastName': lastNameController.text,
+        'gender': genderController.text,
+        'phone': contactController.text,
+        'email': emailController.text,
+        'birthDate': birthDate,
+      });
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('User profile updated successfully'),
-        backgroundColor: Colors.green,
-        duration: const Duration(seconds: 3),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('User profile updated successfully'),
+          backgroundColor: Colors.green,
+          duration: const Duration(seconds: 3),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
-      ),
-    );
+      );
 
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const PersonalInfo()));
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Error updating user profile: $e'),
-        backgroundColor: Colors.red,
-        duration: const Duration(seconds: 3),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const PersonalInfo()));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error updating user profile: $e'),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 3),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -195,7 +211,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                       ),
                       MyTextField(
                         controller: firstNameController,
-                        hintText: 'First Name',
+                        hintText: firstName,
                         obscureText: false,
                         prefixIcon: null,
                       ),
@@ -213,7 +229,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                       ),
                       MyTextField(
                         controller: middleNameController,
-                        hintText: 'Middle Name',
+                        hintText: middleName,
                         obscureText: false,
                         prefixIcon: null,
                       ),
@@ -231,7 +247,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                       ),
                       MyTextField(
                         controller: lastNameController,
-                        hintText: 'Last Name',
+                        hintText: lastName,
                         obscureText: false,
                         prefixIcon: null,
                       ),
@@ -249,7 +265,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                       ),
                       MyTextField(
                         controller: genderController,
-                        hintText: 'Sex',
+                        hintText: gender,
                         obscureText: false,
                         prefixIcon: null,
                       ),
@@ -267,7 +283,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                       ),
                       MyTextField(
                         controller: contactController,
-                        hintText: 'Contact Number',
+                        hintText: phone,
                         obscureText: false,
                         prefixIcon: null,
                       ),
@@ -285,7 +301,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                       ),
                       MyTextField(
                         controller: emailController,
-                        hintText: 'Email',
+                        hintText: email,
                         obscureText: false,
                         prefixIcon: null,
                       ),
@@ -308,7 +324,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                             borderRadius: BorderRadius.circular(15),
                             color: const Color(0xFFD8D8D8)),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Column(
                               children: [
@@ -332,13 +348,14 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                                     textAlign: TextAlign.center,
                                     controller: birthMonthController,
                                     obscureText: false,
-                                    decoration: const InputDecoration(
+                                    decoration: InputDecoration(
+                                        hintText: birthMonth,
                                         border: InputBorder.none),
                                   ),
                                 )
                               ],
                             ),
-                            const SizedBox(width: 25),
+                            const SizedBox(width: 15),
                             Column(
                               children: [
                                 const Padding(
@@ -361,13 +378,14 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                                     textAlign: TextAlign.center,
                                     controller: birthDayController,
                                     obscureText: false,
-                                    decoration: const InputDecoration(
+                                    decoration: InputDecoration(
+                                        hintText: birthDay,
                                         border: InputBorder.none),
                                   ),
                                 )
                               ],
                             ),
-                            const SizedBox(width: 25),
+                            const SizedBox(width: 15),
                             Column(
                               children: [
                                 const Padding(
@@ -390,7 +408,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                                     textAlign: TextAlign.center,
                                     controller: birthYearController,
                                     obscureText: false,
-                                    decoration: const InputDecoration(
+                                    decoration: InputDecoration(
+                                        hintText: birthYear,
                                         border: InputBorder.none),
                                   ),
                                 ),

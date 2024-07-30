@@ -7,6 +7,7 @@ class MyButton extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
   final Color? color;
+  final BoxShadow? boxShadow;
 
   const MyButton({
     super.key,
@@ -15,6 +16,7 @@ class MyButton extends StatelessWidget {
     this.padding,
     this.margin,
     this.color,
+    this.boxShadow
   });
 
   @override
@@ -30,6 +32,13 @@ class MyButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: color ?? const Color(0xFF333333), 
           borderRadius: BorderRadius.circular(20),
+          boxShadow:  <BoxShadow>[
+                boxShadow ?? const BoxShadow(
+                  color: Color(0xFF333333),
+                  blurRadius: 4.0,
+                  offset: Offset(0.0, 0.55),
+                ),
+              ], 
         ),
         child: Center(
           child: Text(

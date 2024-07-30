@@ -120,7 +120,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
                 const SizedBox(height: 25),
                  InitialsAvatar(
                   firstName: contactFirstName,
-                  radius: 30,
+                  radius: 50,
                   backgroundColor: Colors.blue,
                   textColor: Colors.white,
                 ),
@@ -148,7 +148,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
                         horizontal: 15, vertical: 15),
                     child: Text(
 
-                      '$contactFirstName $contactLastName $contactMiddleName',
+                      '$contactFirstName $contactMiddleName $contactLastName',
 
                       style: const TextStyle(
                         fontSize: 16,
