@@ -85,15 +85,17 @@ class _PtGeneralSettingsState extends State<PtGeneralSettings> {
                     ),
                   );
                 },
-                space: 55,
+                space: 45,
+                color: const Color(0xFF707070),
               ),
               const SizedBox(height: 85),
               Container(
+                padding: const EdgeInsets.all(15),
                 width: 295,
                 height: 87,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: const Color(0xFF5A8DEE),
+                  color: const Color(0xFF00BFA6),
                   boxShadow: const <BoxShadow>[
                     BoxShadow(
                       color: Color(0xFF333333),
@@ -105,7 +107,7 @@ class _PtGeneralSettingsState extends State<PtGeneralSettings> {
                 child: Row(
                   children: [
                     Image.asset(AppImages.setInfo),
-                    const SizedBox(width: 15),
+                    const SizedBox(width: 10),
                     const Text(
                       'Email and Password',
                       style: TextStyle(
@@ -117,13 +119,14 @@ class _PtGeneralSettingsState extends State<PtGeneralSettings> {
                   ],
                 ),
               ),
-              const SizedBox(height: 25),
+              const SizedBox(height: 30),
               Container(
+                padding: const EdgeInsets.all(15),
                 width: 295,
                 height: 87,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: const Color(0xFF5A8DEE),
+                  color: const Color(0xFF00BFA6),
                   boxShadow: const <BoxShadow>[
                     BoxShadow(
                       color: Color(0xFF333333),
@@ -135,7 +138,7 @@ class _PtGeneralSettingsState extends State<PtGeneralSettings> {
                 child: Row(
                   children: [
                     Image.asset(AppImages.notif),
-                    const SizedBox(width: 15),
+                    const SizedBox(width: 10),
                     const Text(
                       'Notification Preferences',
                       style: TextStyle(
@@ -147,13 +150,14 @@ class _PtGeneralSettingsState extends State<PtGeneralSettings> {
                   ],
                 ),
               ),
-              const SizedBox(height: 25),
-              Container(
+              const SizedBox(height: 30),
+              Container(  
+                padding: const EdgeInsets.all(15),
                 width: 295,
                 height: 87,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: const Color(0xFF5A8DEE),
+                  color: const Color(0xFF00BFA6),
                   boxShadow: const <BoxShadow>[
                     BoxShadow(
                       color: Color(0xFF333333),
@@ -165,7 +169,7 @@ class _PtGeneralSettingsState extends State<PtGeneralSettings> {
                 child: Row(
                   children: [
                     Image.asset(AppImages.privacy),
-                    const SizedBox(width: 15),
+                    const SizedBox(width: 10),
                     const Text(
                       'Privacy Settings',
                       style: TextStyle(
@@ -177,15 +181,16 @@ class _PtGeneralSettingsState extends State<PtGeneralSettings> {
                   ],
                 ),
               ),
-              const SizedBox(height: 25),
+              const SizedBox(height: 30),
               GestureDetector(
                 onTap: _showDeleteConfirmationDialog,
                 child: Container(
+                  padding: const EdgeInsets.all(15),
                   width: 295,
                   height: 87,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    color: const Color(0xFF5A8DEE),
+                    color: const Color(0xFF00BFA6),
                     boxShadow: const <BoxShadow>[
                       BoxShadow(
                         color: Color(0xFF333333),
@@ -197,7 +202,7 @@ class _PtGeneralSettingsState extends State<PtGeneralSettings> {
                   child: Row(
                     children: [
                       Image.asset(AppImages.trash),
-                      const SizedBox(width: 15),
+                      const SizedBox(width: 10),
                       const Text(
                         'Delete Account',
                         style: TextStyle(

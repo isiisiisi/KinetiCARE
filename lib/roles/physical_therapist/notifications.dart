@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kineticare/components/my_backbutton.dart';
 import 'package:kineticare/components/pt_components/pt_appbar.dart';
 import 'package:kineticare/components/pt_components/pt_navbar.dart';
+import 'package:rxdart/rxdart.dart';
 
 class TherapistNotifications extends StatefulWidget {
   const TherapistNotifications({super.key});
@@ -14,7 +15,7 @@ class TherapistNotifications extends StatefulWidget {
 }
 
 class _TherapistNotificationsState extends State<TherapistNotifications> {
-  Stream<QuerySnapshot>? _requestsStream;
+  Stream<List<QuerySnapshot>>? _requestsStream;
   late User user;
 
   @override
@@ -32,16 +33,20 @@ class _TherapistNotificationsState extends State<TherapistNotifications> {
           .get();
 
       if (patientsSnapshot.docs.isNotEmpty) {
+        List<Stream<QuerySnapshot>> requestStreams = [];
+
         for (var patient in patientsSnapshot.docs) {
-          setState(() {
-            _requestsStream = FirebaseFirestore.instance
-                .collection('users')
-                .doc(patient.id)
-                .collection('patientRequests')
-                .orderBy('timestamp', descending: true)
-                .snapshots();
-          });
+          requestStreams.add(FirebaseFirestore.instance
+              .collection('users')
+              .doc(patient.id)
+              .collection('patientRequests')
+              .orderBy('timestamp', descending: true)
+              .snapshots());
         }
+
+        setState(() {
+          _requestsStream = CombineLatestStream.list(requestStreams);
+        });
       } else {
         if (kDebugMode) {
           print('No patient documents found.');
@@ -80,7 +85,7 @@ class _TherapistNotificationsState extends State<TherapistNotifications> {
             Expanded(
               child: _requestsStream == null
                   ? const Center(child: Text('No user is authenticated.'))
-                  : StreamBuilder<QuerySnapshot>(
+                  : StreamBuilder<List<QuerySnapshot>>(
                       stream: _requestsStream,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -93,12 +98,17 @@ class _TherapistNotificationsState extends State<TherapistNotifications> {
                           );
                         }
 
-                        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                        if (!snapshot.hasData || snapshot.data!.isEmpty) {
                           return const Center(child: Text('No notifications.'));
                         }
 
+                        List<DocumentSnapshot> allDocs = [];
+                        for (var snap in snapshot.data!) {
+                          allDocs.addAll(snap.docs);
+                        }
+
                         return ListView(
-                          children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                          children: allDocs.map((DocumentSnapshot document) {
                             final data = document.data() as Map<String, dynamic>;
                             return ListTile(
                               title: Text(data['therapistName'] ?? 'No Name'),
