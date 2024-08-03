@@ -129,7 +129,7 @@ class _PatientProfileState extends State<PatientProfile> {
                 const SizedBox(height: 15),
                 InitialsAvatar(
                   firstName: firstName,
-                  radius: 30,
+                  radius: 50,
                   backgroundColor: const Color(0xFF5A8DEE),
                   textColor: Colors.white,
                 ),
