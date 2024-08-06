@@ -3,6 +3,8 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:kineticare/ChatSystem/CallAudioToTherapist/phonecall_screen.dart';
+import 'package:kineticare/ChatSystem/CallAudioToTherapist/videocall_screen.dart';
 import 'package:kineticare/components/app_images.dart';
 import 'package:kineticare/components/patient_components/patient_appbar.dart';
 
@@ -28,7 +30,7 @@ class _RequestScreenState extends State<RequestScreen> {
     _fetchTherapistDetails();
   }
 
-   Future<void> _fetchTherapistDetails() async {
+  Future<void> _fetchTherapistDetails() async {
     final therapistDoc =
         await _firestore.collection('users').doc(widget.therapistId).get();
     final therapistData = therapistDoc.data();
@@ -91,6 +93,7 @@ class _RequestScreenState extends State<RequestScreen> {
       'authorId': newMessage.author.id,
       'createdAt': Timestamp.now(),
       'text': newMessage.text,
+      'therapistInitials': _getInitials(_therapistName),
     };
 
     await _firestore
@@ -106,7 +109,6 @@ class _RequestScreenState extends State<RequestScreen> {
       'therapistName': _therapistName,
     }, SetOptions(merge: true));
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,7 +119,7 @@ class _RequestScreenState extends State<RequestScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            _buildCustomAppBar(),
+            _buildCustomAppBar(context),
             Expanded(
               child: Chat(
                 messages: _messages,
@@ -133,45 +135,69 @@ class _RequestScreenState extends State<RequestScreen> {
     );
   }
 
-  Widget _buildCustomAppBar() {
-    return Container(
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: Color(0xFFE6E6E6), width: 2),
+  PreferredSizeWidget _buildCustomAppBar(BuildContext context) {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(70),
+      child: Container(
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: Color(0xFFE6E6E6), width: 2),
+          ),
         ),
-      ),
-      child: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF707070)),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Row(
-          children: [
-            Expanded(
-              child: Text(
-                _therapistName,
-                style: const TextStyle(color: Color(0xFF333333), fontSize: 20),
-                overflow: TextOverflow.ellipsis,
+        child: AppBar(
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Color(0xFF707070)),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: Row(
+            children: [
+              CircleAvatar(
+                backgroundColor: Colors.blueAccent,
+                child: Text(
+                  _getInitials(_therapistName),
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
-            ),
-            Image.asset(AppImages.phone),
-            const SizedBox(width: 15),
-            Image.asset(AppImages.video),
-            const SizedBox(width: 8),
-          ],
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  _therapistName,
+                  style: const TextStyle(color: Color(0xFF333333), fontSize: 20),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  print('Phone button tapped');
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => PhonecallScreen()));
+                },
+                child: Image.asset(AppImages.phone),
+              ),
+              const SizedBox(width: 15),
+              InkWell(
+                onTap: () {
+                  // Add your video button functionality here
+                  print('Video button tapped');
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => VideocallScreen()));
+                },
+                child: Image.asset(AppImages.video),
+              ),
+              const SizedBox(width: 8),
+            ],
+          ),
+          centerTitle: true,
         ),
-        centerTitle: true,
       ),
     );
   }
 
   Widget _buildCustomInput() {
-  TextEditingController controller = TextEditingController();
+    TextEditingController controller = TextEditingController();
 
-  return Container(
+    return Container(
       width: 560,
       height: 92,
       decoration: BoxDecoration(
@@ -185,71 +211,96 @@ class _RequestScreenState extends State<RequestScreen> {
           ),
         ],
       ),
-      child:Container(
-    padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
-    color: Colors.white,
-    child: Row(
-      children: [
-        Image.asset(AppImages.mic),
-        const SizedBox(width: 8),
-        Image.asset(AppImages.image),
-        const SizedBox(width: 8),
-        Image.asset(AppImages.emoji),
-        const SizedBox(width: 8),
-        Expanded(
-          child: TextField(
-            controller: controller,
-            decoration: InputDecoration(
-              hintText: 'Message...',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide.none,
-              ),
-              filled: true,
-              fillColor: Colors.grey[200],
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.send, color: Color(0xFF5A8DEE)),
-                onPressed: () {
-                  if (controller.text.isNotEmpty) {
-                    _sendMessage(types.PartialText(text: controller.text));
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        color: Colors.white,
+        child: Row(
+          children: [
+            Image.asset(AppImages.mic),
+            const SizedBox(width: 8),
+            Image.asset(AppImages.image),
+            const SizedBox(width: 8),
+            Image.asset(AppImages.emoji),
+            const SizedBox(width: 8),
+            Expanded(
+              child: TextField(
+                controller: controller,
+                decoration: InputDecoration(
+                  hintText: 'Message...',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide.none,
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.send, color: Color(0xFF5A8DEE)),
+                    onPressed: () {
+                      if (controller.text.isNotEmpty) {
+                        _sendMessage(types.PartialText(text: controller.text));
+                        controller.clear(); 
+                      }
+                    },
+                  ),
+                ),
+                onSubmitted: (text) {
+                  if (text.isNotEmpty) {
+                    _sendMessage(types.PartialText(text: text));
                     controller.clear(); 
                   }
                 },
               ),
             ),
-            onSubmitted: (text) {
-              if (text.isNotEmpty) {
-                _sendMessage(types.PartialText(text: text));
-                controller.clear(); 
-                }
-              },
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCustomMessage(types.Message message, {required int messageWidth}) {
+    final bool isUserMessage = message.author.id == _auth.currentUser!.uid;
+    final bool isTherapistMessage = message.author.id == widget.therapistId;
+    
+    return Align(
+      alignment: isUserMessage ? Alignment.centerRight : Alignment.centerLeft,
+      child: Row(
+        mainAxisAlignment: isUserMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
+        children: [
+          if (isTherapistMessage)
+            CircleAvatar(
+              backgroundColor: Colors.grey,
+              child: Text(
+                _getInitials(_therapistName),
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          const SizedBox(width: 8), 
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: isUserMessage ? const Color(0xFF5A8DEE) : const Color(0xFFE9E9EB),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              (message as types.TextMessage).text,
+              style: TextStyle(
+                color: isUserMessage ? Colors.white : const Color(0xFF333333),
+              ),
             ),
           ),
         ],
       ),
-    ),
-  );
-}
-
- Widget _buildCustomMessage(types.Message message, {required int messageWidth}) {
-    final bool isUserMessage = message.author.id == _auth.currentUser!.uid;
-
-    return Align(
-      alignment: isUserMessage ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 4),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: isUserMessage ? const Color(0xFF5A8DEE) : const Color(0xFFE9E9EB),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Text(
-          (message as types.TextMessage).text,
-          style: TextStyle(
-            color: isUserMessage ? Colors.white : const Color(0xFF333333),
-          ),
-        ),
-      ),
     );
+  }
+
+  String _getInitials(String name) {
+    List<String> nameParts = name.split(' ');
+    if (nameParts.length >= 2) {
+      return nameParts[0][0] + nameParts[1][0];
+    } else if (nameParts.length == 1) {
+      return nameParts[0][0];
+    }
+    return '';
   }
 }
